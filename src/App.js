@@ -90,6 +90,7 @@ const World = () => {
 
   const getCountryColor = (country) => {
     if (country === hoverD) {
+      console.log(`Hover color applied to: ${country.properties.NAME || country.properties.ADMIN}`);
       return 'steelblue';
     }
 
@@ -99,7 +100,6 @@ const World = () => {
     }
 
     const color = colorScale(gdpPerCapita);
-    console.log(`Color for ${country.properties.NAME || country.properties.ADMIN}: GDP per capita = ${gdpPerCapita}, Color = ${color}`);
     return color;
   };
 

@@ -13,32 +13,6 @@ const World = () => {
       .then(res => res.json())
       .then(data => {
         console.log('GeoJSON loaded. Features count:', data.features.length);
-
-        // Detailed logging to see what properties are available
-        const firstCountry = data.features[0];
-        console.log('First country full object:', firstCountry);
-        console.log('First country properties:', firstCountry.properties);
-        console.log('All property keys:', Object.keys(firstCountry.properties));
-
-        // Check specific properties we need
-        console.log('GDP_MD_EST:', firstCountry.properties.GDP_MD_EST);
-        console.log('POP_EST:', firstCountry.properties.POP_EST);
-        console.log('GDP_MD:', firstCountry.properties.GDP_MD);
-        console.log('NAME:', firstCountry.properties.NAME);
-        console.log('ADMIN:', firstCountry.properties.ADMIN);
-
-        // Check multiple countries to see data patterns
-        data.features.slice(0, 5).forEach((country, index) => {
-          console.log(`Country ${index + 1}:`, {
-            name: country.properties.NAME || country.properties.ADMIN,
-            gdp_md_est: country.properties.GDP_MD_EST,
-            gdp_md: country.properties.GDP_MD,
-            pop_est: country.properties.POP_EST,
-            gdp_year: country.properties.GDP_YEAR,
-            economy: country.properties.ECONOMY
-          });
-        });
-
         setCountries(data);
       })
       .catch(error => {
@@ -47,19 +21,14 @@ const World = () => {
   }, []);
 
   const getVal = (feat) => {
-    const gdpMdEst = feat.properties.GDP_MD_EST;
-    const gdpMd = feat.properties.GDP_MD;
-    const popEst = feat.properties.POP_EST;
+    const gdp = feat.properties.GDP_MD_EST;
+    const pop = feat.properties.POP_EST;
 
-    // Try different GDP property names
-    const gdp = gdpMdEst || gdpMd;
-
-    // Handle missing or invalid data
-    if (!gdp || !popEst || gdp <= 0 || popEst <= 0) {
+    if (!gdp || !pop || gdp <= 0 || pop <= 0) {
       return 0;
     }
 
-    const gdpPerCapita = gdp / Math.max(1e5, popEst);
+    const gdpPerCapita = gdp / Math.max(1e5, pop);
     return gdpPerCapita;
   };
 
@@ -72,16 +41,10 @@ const World = () => {
       .map(getVal)
       .filter(val => val > 0 && !isNaN(val));
 
-    console.log('Valid GDP values found:', validValues.length, 'out of', countries.features.length);
-
-    if (validValues.length === 0) {
-      console.log('No valid GDP data found - using fallback');
-      return 1;
-    }
+    if (validValues.length === 0) return 1;
 
     const max = Math.max(...validValues);
     console.log('Max GDP per capita:', max);
-    console.log('Sample values:', validValues.slice(0, 10));
 
     return max;
   }, [countries]);
@@ -90,7 +53,6 @@ const World = () => {
 
   const getCountryColor = (country) => {
     if (country === hoverD) {
-      console.log(`Hover color applied to: ${country.properties.NAME || country.properties.ADMIN}`);
       return 'steelblue';
     }
 
@@ -105,8 +67,6 @@ const World = () => {
 
   const filteredCountries = countries.features.filter(d => d.properties.ISO_A2 !== 'AQ');
 
-  console.log('Rendering globe with', filteredCountries.length, 'countries');
-
   return (
     <Globe
       globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg"
@@ -119,8 +79,7 @@ const World = () => {
       polygonStrokeColor={() => '#111'}
       polygonLabel={({ properties: d }) => {
         const gdpMdEst = d.GDP_MD_EST;
-        const gdpMd = d.GDP_MD;
-        const gdp = gdpMdEst || gdpMd;
+        const gdp = gdpMdEst;
 
         return (
           <div style={{

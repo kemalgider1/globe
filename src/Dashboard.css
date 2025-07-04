@@ -1,0 +1,415 @@
+.dashboard-glass {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 380px;
+  max-height: calc(100vh - 40px);
+  background: rgba(20, 20, 35, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 24px;
+  color: #e0e0ff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  z-index: 1000;
+  animation: dashboardFadeIn 0.6s ease-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-glass:hover {
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 20px rgba(0, 255, 231, 0.1);
+  transform: translateY(-2px);
+}
+
+@keyframes dashboardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.dashboard-glass h2 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+  to { text-shadow: 0 0 20px rgba(0, 255, 231, 0.5); }
+}
+
+.dashboard-back {
+  background: rgba(0, 255, 231, 0.1);
+  border: 1px solid rgba(0, 255, 231, 0.3);
+  color: #00ffe7;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.dashboard-back:hover {
+  background: rgba(0, 255, 231, 0.2);
+  border-color: rgba(0, 255, 231, 0.5);
+  box-shadow: 
+    0 0 15px rgba(0, 255, 231, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.dashboard-back:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(0, 255, 231, 0.2);
+}
+
+.dashboard-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+  animation: metricsSlideIn 0.8s ease-out 0.2s both;
+}
+
+@keyframes metricsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metric {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.metric:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 255, 231, 0.2);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(0, 255, 231, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.metric:hover::before {
+  left: 100%;
+}
+
+.metric-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b0b0d0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.metric:hover .metric-label {
+  color: #00ffe7;
+}
+
+.metric-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.metric:hover .metric-value {
+  color: #00ffe7;
+  text-shadow: 0 0 12px rgba(0, 255, 231, 0.4);
+}
+
+.dashboard-charts {
+  display: grid;
+  gap: 20px;
+  animation: chartsFadeIn 1s ease-out 0.4s both;
+}
+
+@keyframes chartsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-block {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-block::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 231, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.chart-block:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 255, 231, 0.15);
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 255, 231, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px) scale(1.01);
+}
+
+.chart-block:hover::after {
+  opacity: 1;
+}
+
+.chart-block h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d0d0f0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+
+.chart-block:hover h4 {
+  color: #00ffe7;
+}
+
+.heatmap-legend-block {
+  grid-column: 1 / -1;
+}
+
+.heatmap-legend {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.heatmap-legend-color {
+  flex: 1;
+  height: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.heatmap-legend-color:hover {
+  transform: scaleY(1.2);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.heatmap-legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #a0a0c0;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.heatmap-legend-labels span {
+  transition: color 0.3s ease;
+}
+
+.heatmap-legend-labels span:hover {
+  color: #00ffe7;
+}
+
+/* Custom scrollbar for dashboard */
+.dashboard-glass::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard-glass::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.dashboard-glass::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 231, 0.3);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.dashboard-glass::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 231, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dashboard-glass {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-height: none;
+    margin: 20px;
+    border-radius: 12px;
+  }
+  
+  .dashboard-metrics {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .metric {
+    padding: 12px;
+  }
+  
+  .metric-value {
+    font-size: 16px;
+  }
+}
+
+/* Animation for state transitions */
+.dashboard-glass.global-view {
+  animation: slideInFromRight 0.5s ease-out;
+}
+
+.dashboard-glass.country-view {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Enhanced chart hover effects */
+.chart-block canvas {
+  transition: all 0.3s ease;
+}
+
+.chart-block:hover canvas {
+  filter: brightness(1.1) contrast(1.05);
+}
+
+/* Loading state for charts */
+.chart-block.loading {
+  position: relative;
+}
+
+.chart-block.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(0, 255, 231, 0.3);
+  border-top: 2px solid #00ffe7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pulse animation for important metrics */
+.metric.important .metric-value {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Glow effect for trend indicators */
+.metric-value span[style*="color: #00ffe7"] {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 4px #00ffe7); }
+  to { filter: drop-shadow(0 0 8px #00ffe7) drop-shadow(0 0 12px #00ffe7); }
+} 

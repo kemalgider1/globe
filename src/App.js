@@ -1,169 +1,148 @@
-"use client"
+import React, { useState, useEffect, useMemo } from 'react';
+import Globe from 'react-globe.gl';
+import { scaleThreshold } from 'd3-scale';
+import Dashboard from './Dashboard';
+import './App.css';
 
-import { useState, useEffect, useMemo, useCallback } from "react"
-import Globe from "react-globe.gl"
-import { scaleSequentialSqrt } from "d3-scale"
-import { interpolateYlOrRd } from "d3-scale-chromatic"
-import { useSalesData, getCountryValue, createTooltipContent } from "./dataProcessor"
-import "./App.css"
+const World = () => {
+  const [countries, setCountries] = useState({ features: []});
+  const [hoverD, setHoverD] = useState();
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
-function App() {
-  const [countries, setCountries] = useState({ features: [] })
-  const [hoverD, setHoverD] = useState()
-
-  // Load sales data
-  const { salesData, loading, error } = useSalesData("./datasets/data.csv")
-
-  // Load GeoJSON data
   useEffect(() => {
-    fetch("./datasets/ne_110m_admin_0_countries.geojson")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("🌍 GeoJSON loaded. Features count:", data.features.length)
-        setCountries(data)
+    fetch('./datasets/ne_110m_admin_0_countries_with_sales.geojson')
+      .then(res => res.json())
+      .then(data => {
+        setCountries(data);
       })
-      .catch((error) => {
-        console.error("❌ Error loading GeoJSON:", error)
-      })
-  }, [])
+      .catch(error => {
+        console.error('Error loading GeoJSON:', error);
+      });
+  }, []);
 
-  // Get country value for visualization (now using PMI percentage)
-  const getVal = useCallback(
-    (feat) => {
-      return getCountryValue(feat.properties, salesData, "pmiPercentage")
-    },
-    [salesData],
-  )
+  // Get the value for coloring: PMI percentage
+  const getVal = (feat) => {
+    const pmiPercentage = feat.properties.pmi_percentage;
+    if (pmiPercentage === undefined || isNaN(pmiPercentage)) return 0;
+    return pmiPercentage;
+  };
 
-  const colorScale = scaleSequentialSqrt(interpolateYlOrRd)
-
-  const maxVal = useMemo(() => {
-    if (!countries.features || countries.features.length === 0 || Object.keys(salesData).length === 0) {
-      return 100 // Max percentage is 100%
+  // Calculate average PMI percentage and create color scale
+  const { colorScale, avgPmi, globalData } = useMemo(() => {
+    if (!countries.features || countries.features.length === 0) {
+      return { colorScale: () => '#666666', avgPmi: 0, globalData: {} };
     }
 
-    const validValues = countries.features.map(getVal).filter((val) => val > 0 && !isNaN(val))
+    const validValues = countries.features
+      .map(getVal)
+      .filter(val => val > 0 && !isNaN(val));
 
-    if (validValues.length === 0) return 100
+    if (validValues.length === 0) {
+      return { colorScale: () => '#666666', avgPmi: 0, globalData: {} };
+    }
 
-    const max = Math.max(...validValues)
-    console.log("📊 Max PMI percentage:", max.toFixed(2) + "%")
-    console.log("🌍 Countries with sales data:", validValues.length)
+    const avgPmi = validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
+    const total2024 = countries.features.reduce((sum, f) => sum + (Number(f.properties.volume_2024) || 0), 0);
+    const total2023 = countries.features.reduce((sum, f) => sum + (Number(f.properties.volume_2023) || 0), 0);
+    const countriesWithData = validValues.length;
+    const top5 = countries.features
+      .map(f => ({
+        name: f.properties.ADMIN || f.properties.NAME,
+        volume: Number(f.properties.volume_2024) || 0
+      }))
+      .filter(c => c.volume > 0)
+      .sort((a, b) => b.volume - a.volume)
+      .slice(0, 5);
+    const aboveAvg = countries.features.filter(f => getVal(f) > avgPmi).length;
+    const belowAvg = countries.features.filter(f => getVal(f) > 0 && getVal(f) <= avgPmi).length;
 
-    return Math.min(max, 100) // Cap at 100%
-  }, [countries, salesData, getVal])
+    // Create thresholds every 7% around the average
+    const thresholds = [];
+    const range = 35; // ±35% from average (5 steps of 7%)
+    for (let i = -range; i <= range; i += 7) {
+      thresholds.push(avgPmi + i);
+    }
+    const colors = [
+      '#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'
+    ];
+    const colorScale = scaleThreshold().domain(thresholds).range(colors);
 
-  colorScale.domain([0, maxVal])
+    return {
+      colorScale,
+      avgPmi,
+      globalData: {
+        total2024,
+        total2023,
+        avgPmi,
+        countriesWithData,
+        top5,
+        aboveAvg,
+        belowAvg
+      }
+    };
+  }, [countries]);
 
   const getCountryColor = (country) => {
     if (country === hoverD) {
-      console.log("🎯 Hovered country:", country.properties.ADMIN || country.properties.NAME)
-      return "steelblue"
+      return 'steelblue';
     }
-
-    const value = getVal(country)
-    if (value <= 0) {
-      return "#e0e0e0" // Light gray for no sales data
+    const pmiPercentage = getVal(country);
+    if (pmiPercentage <= 0) {
+      return '#666666'; // Gray for missing data
     }
+    return colorScale(pmiPercentage);
+  };
 
-    return colorScale(value)
-  }
-
-  const filteredCountries = countries.features.filter((d) => d.properties.ISO_A2 !== "AQ")
-
-  if (loading) {
-    return (
-      <div
-        className="App"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          background: "#000",
-          color: "white",
-          fontSize: "18px",
-        }}
-      >
-        Loading sales data...
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div
-        className="App"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          background: "#000",
-          color: "red",
-          fontSize: "18px",
-        }}
-      >
-        Error loading data: {error.message}
-      </div>
-    )
-  }
+  const filteredCountries = countries.features.filter(d => d.properties.ISO_A2 !== 'AQ');
 
   return (
-    <div className="App" style={{ position: "relative", width: "100vw", height: "100vh", background: "#000" }}>
-      {/* Info Panel */}
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          zIndex: 1000,
-          background: "rgba(0, 0, 0, 0.8)",
-          color: "white",
-          padding: "12px",
-          borderRadius: "8px",
-          fontSize: "12px",
-          border: "1px solid rgba(255,255,255,0.2)",
-        }}
-      >
-        <h3 style={{ margin: "0 0 8px 0", color: "#4CAF50" }}>🌍 Global PMI Market Share</h3>
-        <div style={{ marginBottom: "4px" }}>📊 Countries colored by PMI volume percentage</div>
-        <div style={{ marginBottom: "4px" }}>🎯 PMI % = PMI Volume / Total Market Volume</div>
-        <div style={{ marginBottom: "4px" }}>📈 Max PMI %: {maxVal.toFixed(2)}%</div>
-        <div style={{ fontSize: "11px", opacity: 0.8 }}>💡 Hover over countries for detailed metrics</div>
-      </div>
-
-      {/* Globe */}
+    <>
       <Globe
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-        backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+        globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg"
+        backgroundImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png"
+        lineHoverPrecision={0}
         polygonsData={filteredCountries}
-        polygonAltitude={0.01}
+        polygonAltitude={d => d === hoverD ? 0.12 : 0.06}
         polygonCapColor={getCountryColor}
-        polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
-        polygonStrokeColor={() => "#111"}
-        polygonLabel={({ properties }) => createTooltipContent(properties, salesData)}
+        polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
+        polygonStrokeColor={() => '#111'}
+        polygonLabel={({ properties: d }) => {
+          return (
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.8)',
+              color: 'white',
+              padding: '8px',
+              borderRadius: '4px',
+              fontSize: '12px'
+            }}>
+              <div><b>{d.ADMIN || d.NAME} ({d.ISO_A2}):</b></div>
+              <div>2024 Volume: <i>{Number(d.volume_2024).toLocaleString(undefined, {maximumFractionDigits: 2})}</i></div>
+              <div>2023 Volume: <i>{Number(d.volume_2023).toLocaleString(undefined, {maximumFractionDigits: 2})}</i></div>
+              <div>2024 PMI Volume: <i>{Number(d.pmi_volume_2024).toLocaleString(undefined, {maximumFractionDigits: 2})}</i></div>
+              <div>PMI % of 2024: <i>{d.pmi_percentage ? d.pmi_percentage.toFixed(2) : '0.00'}%</i></div>
+              <div>Avg PMI: <i>{avgPmi.toFixed(2)}%</i></div>
+            </div>
+          );
+        }}
         onPolygonHover={setHoverD}
+        onPolygonClick={setSelectedCountry}
         polygonsTransitionDuration={300}
-        width={window.innerWidth}
-        height={window.innerHeight}
       />
+      <Dashboard
+        data={globalData}
+        selectedCountry={selectedCountry}
+        onBackToGlobal={() => setSelectedCountry(null)}
+      />
+    </>
+  );
+};
 
-      {/* Tooltip */}
-      {hoverD && (
-        <div
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            zIndex: 1000,
-          }}
-        >
-          {createTooltipContent(hoverD.properties, salesData)}
-        </div>
-      )}
+function App() {
+  return (
+    <div className="App">
+      <World />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

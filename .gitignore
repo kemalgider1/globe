@@ -45,3 +45,12 @@ logs/
 # Temporary files
 tmp/
 temp/
+
+# Large data files
+public/datasets/sales_data.csv
+public/datasets/*.csv
+public/datasets/*.xlsx
+public/datasets/*_with_airports.geojson
+
+# Large data files
+public/datasets/sales_data.csv

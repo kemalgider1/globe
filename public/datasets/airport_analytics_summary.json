@@ -1,0 +1,154 @@
+{
+  "total_airports": 633,
+  "enhanced_analytics_airports": 633,
+  "avg_completeness_score": 0.9198420221169036,
+  "size_distribution": {
+    "tiny": 306,
+    "small": 207,
+    "medium": 111,
+    "large": 9
+  },
+  "performance_distribution": {
+    "excellent": 398,
+    "good": 96,
+    "average": 15,
+    "below_average": 6,
+    "no_data": 118
+  },
+  "top_10_by_pax": [
+    {
+      "iata_code": "HND",
+      "airport_name": "Haneda Airport",
+      "pax": 271215.22,
+      "pmi_profit_pct": 94.04739343
+    },
+    {
+      "iata_code": "LHR",
+      "airport_name": "Heathrow Airport",
+      "pax": 260431.676,
+      "pmi_profit_pct": 89.11175301
+    },
+    {
+      "iata_code": "DXB",
+      "airport_name": "Dubai Intl Airport",
+      "pax": 237814.461,
+      "pmi_profit_pct": 88.90709736
+    },
+    {
+      "iata_code": "GRU",
+      "airport_name": "Sao Paulo-Guarulhos Intl Airport",
+      "pax": 211626.351,
+      "pmi_profit_pct": 99.26461709
+    },
+    {
+      "iata_code": "CDG",
+      "airport_name": "Charles de Gaulle Airport (Roissy Airport)",
+      "pax": 211615.691,
+      "pmi_profit_pct": 77.12890401
+    },
+    {
+      "iata_code": "DEL",
+      "airport_name": "Indira Gandhi Intl Airport",
+      "pax": 210571.717,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "MEX",
+      "airport_name": "Mexico City Intl Airport",
+      "pax": 207844.799,
+      "pmi_profit_pct": 99.58098827
+    },
+    {
+      "iata_code": "CAN",
+      "airport_name": "Guangzhou Baiyun Intl Airport",
+      "pax": 204557.743,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "BOG",
+      "airport_name": "El Dorado Intl Airport",
+      "pax": 201435.155,
+      "pmi_profit_pct": 95.84672065999999
+    },
+    {
+      "iata_code": "YYZ",
+      "airport_name": "Toronto Pearson Intl Airport",
+      "pax": 197997.851,
+      "pmi_profit_pct": 0.0
+    }
+  ],
+  "top_10_by_pmi": [
+    {
+      "iata_code": "DEL",
+      "airport_name": "Indira Gandhi Intl Airport",
+      "pax": 210571.717,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "CAN",
+      "airport_name": "Guangzhou Baiyun Intl Airport",
+      "pax": 204557.743,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "SIN",
+      "airport_name": "Singapore Changi Airport",
+      "pax": 188996.159,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "PVG",
+      "airport_name": "Shanghai Pudong Intl Airport",
+      "pax": 186545.925,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "PEK",
+      "airport_name": "Beijing Capital Intl Airport",
+      "pax": 175523.745,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "SZX",
+      "airport_name": "Shenzhen Bao'an Intl Airport",
+      "pax": 169069.131,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "BOM",
+      "airport_name": "Chhatrapati Shivaji Intl Airport",
+      "pax": 150843.636,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "HKG",
+      "airport_name": "Hong Kong Intl Airport (Chek Lap Kok Airport)",
+      "pax": 142384.381,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "CKG",
+      "airport_name": "Chongqing Jiangbei Intl Airport",
+      "pax": 133148.114,
+      "pmi_profit_pct": 100.0
+    },
+    {
+      "iata_code": "SHA",
+      "airport_name": "Shanghai Hongqiao Intl Airport",
+      "pax": 132058.081,
+      "pmi_profit_pct": 100.0
+    }
+  ],
+  "geographic_distribution": {
+    "China": 49,
+    "Russian Fed.": 37,
+    "Japan": 32,
+    "Spain": 27,
+    "United Kingdom": 25,
+    "Germany": 22,
+    "India": 18,
+    "Italy": 18,
+    "Turkey": 17,
+    "Mexico": 14
+  }
+}

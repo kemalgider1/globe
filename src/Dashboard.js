@@ -1,465 +1,320 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaArrowLeft } from 'react-icons/fa';
 import './Dashboard.css';
-import { Bar, Pie, Doughnut, Line } from 'react-chartjs-2';
-import { FaArrowUp, FaArrowDown, FaEquals, FaGlobe, FaChartLine, FaPercentage } from 'react-icons/fa';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend
-} from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Tooltip, Legend);
+const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isExpanded, setIsExpanded] = useState(true);
 
-const chartFont = {
-  family: 'Inter, Segoe UI, Arial, sans-serif',
-  size: 13,
-  weight: 500,
-  color: '#e0e0ff'
-};
+  // Always show the dashboard - it will show global or country-specific content
+  const isGlobalView = !selectedCountry;
+  const countryName = selectedCountry ? 
+    (selectedCountry.properties.ADMIN || selectedCountry.properties.NAME) : 
+    'Global View';
 
-const barOptions = {
-  responsive: true,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: 'rgba(30,30,40,0.95)',
-      borderColor: '#fff',
-      borderWidth: 1,
-      titleFont: { ...chartFont, size: 14, weight: 700 },
-      bodyFont: chartFont,
-      padding: 10,
-      caretSize: 6,
-      cornerRadius: 6
-    }
-  },
-  animation: {
-    duration: 900,
-    easing: 'easeOutQuart'
-  },
-  scales: {
-    x: {
-      grid: { display: false },
-      ticks: { ...chartFont, color: '#b0b0d0', maxRotation: 0, minRotation: 0 }
-    },
-    y: {
-      grid: { color: 'rgba(200,200,255,0.08)' },
-      ticks: { ...chartFont, color: '#b0b0d0', stepSize: 500000 }
-    }
-  },
-  borderRadius: 8,
-  hover: { mode: 'index', intersect: false }
-};
+  // Circular progress chart component
+  const CircularProgress = ({ percentage, title, color = '#00ffe7' }) => (
+    <div className="circular-progress">
+      <div className="progress-circle">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle
+            cx="40"
+            cy="40"
+            r="32"
+            fill="none"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="6"
+          />
+          <circle
+            cx="40"
+            cy="40"
+            r="32"
+            fill="none"
+            stroke={color}
+            strokeWidth="6"
+            strokeDasharray={`${2 * Math.PI * 32}`}
+            strokeDashoffset={`${2 * Math.PI * 32 * (1 - percentage / 100)}`}
+            transform="rotate(-90 40 40)"
+            className="progress-arc"
+          />
+        </svg>
+        <div className="progress-text">
+          <span className="progress-percentage">{percentage.toFixed(1)}%</span>
+        </div>
+      </div>
+      <div className="progress-title">{title}</div>
+    </div>
+  );
 
-const pieOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
-      labels: { ...chartFont, color: '#e0e0ff', boxWidth: 18, borderRadius: 8 }
-    },
-    tooltip: {
-      backgroundColor: 'rgba(30,30,40,0.95)',
-      borderColor: '#fff',
-      borderWidth: 1,
-      titleFont: { ...chartFont, size: 14, weight: 700 },
-      bodyFont: chartFont,
-      padding: 10,
-      caretSize: 6,
-      cornerRadius: 6
-    }
-  },
-  animation: {
-    animateRotate: true,
-    animateScale: true,
-    duration: 900,
-    easing: 'easeOutQuart'
-  }
-};
+  // Global Overview Section
+  const GlobalOverview = () => (
+    <div className="global-overview">
+      <h4>Global Performance Overview</h4>
+      <div className="overview-metrics">
+        <div className="overview-metric">
+          <span className="metric-label">Total Countries</span>
+          <span className="metric-value">{data?.countriesWithData || 0}</span>
+        </div>
+        <div className="overview-metric">
+          <span className="metric-label">Global 2024 Volume</span>
+          <span className="metric-value">{(data?.total2024 || 0).toLocaleString()}</span>
+        </div>
+        <div className="overview-metric">
+          <span className="metric-label">Global 2023 Volume</span>
+          <span className="metric-value">{(data?.total2023 || 0).toLocaleString()}</span>
+        </div>
+        <div className="overview-metric">
+          <span className="metric-label">Average PMI %</span>
+          <span className="metric-value">{(data?.avgPmi || 0).toFixed(1)}%</span>
+        </div>
+      </div>
+      <div className="progress-charts">
+        <CircularProgress 
+          percentage={data?.avgPmi || 0} 
+          title="Global PMI Average"
+          color="#4CAF50"
+        />
+        <CircularProgress 
+          percentage={
+            (data?.aboveAvg && data?.belowAvg) 
+              ? ((data.aboveAvg / (data.aboveAvg + data.belowAvg)) * 100) 
+              : 0
+          } 
+          title="Countries Above Average"
+          color="#2196F3"
+        />
+      </div>
+    </div>
+  );
 
-const donutOptions = {
-  responsive: true,
-  cutout: '70%',
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: 'rgba(30,30,40,0.95)',
-      borderColor: '#fff',
-      borderWidth: 1,
-      titleFont: { ...chartFont, size: 14, weight: 700 },
-      bodyFont: chartFont,
-      padding: 10,
-      caretSize: 6,
-      cornerRadius: 6
-    }
-  },
-  animation: {
-    animateRotate: true,
-    animateScale: true,
-    duration: 900,
-    easing: 'easeOutQuart'
-  }
-};
-
-const lineOptions = {
-  responsive: true,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: 'rgba(30,30,40,0.95)',
-      borderColor: '#fff',
-      borderWidth: 1,
-      titleFont: { ...chartFont, size: 14, weight: 700 },
-      bodyFont: chartFont,
-      padding: 10,
-      caretSize: 6,
-      cornerRadius: 6
-    }
-  },
-  animation: {
-    duration: 900,
-    easing: 'easeOutQuart'
-  },
-  scales: {
-    x: {
-      grid: { color: 'rgba(200,200,255,0.08)' },
-      ticks: { ...chartFont, color: '#b0b0d0' }
-    },
-    y: {
-      grid: { color: 'rgba(200,200,255,0.08)' },
-      ticks: { ...chartFont, color: '#b0b0d0' }
-    }
-  },
-  elements: {
-    point: {
-      radius: 4,
-      hoverRadius: 6,
-      backgroundColor: '#00ffe7',
-      borderColor: '#fff',
-      borderWidth: 2
-    },
-    line: {
-      borderWidth: 3,
-      borderColor: '#00ffe7',
-      backgroundColor: 'rgba(0,255,231,0.1)',
-      tension: 0.4
-    }
-  }
-};
-
-function getTrendIcon(growth) {
-  if (growth > 0.5) return <FaArrowUp style={{ color: '#00ffe7', marginLeft: 6, fontSize: 16, verticalAlign: 'middle', filter: 'drop-shadow(0 0 4px #00ffe7)' }} title="Growth" />;
-  if (growth < -0.5) return <FaArrowDown style={{ color: '#ff3b3b', marginLeft: 6, fontSize: 16, verticalAlign: 'middle', filter: 'drop-shadow(0 0 4px #ff3b3b)' }} title="Decline" />;
-  return <FaEquals style={{ color: '#ffe700', marginLeft: 6, fontSize: 16, verticalAlign: 'middle', filter: 'drop-shadow(0 0 4px #ffe700)' }} title="Stable" />;
-}
-
-function Dashboard({
-  data,
-  selectedCountry,
-  onBackToGlobal
-}) {
-  if (!data) return null;
-
-  // Global metrics
-  const total2024 = data.total2024 || 0;
-  const total2023 = data.total2023 || 0;
-  const avgPmi = data.avgPmi || 0;
-  const countriesWithData = data.countriesWithData || 0;
-  const top5 = data.top5 || [];
-  const aboveAvg = data.aboveAvg || 0;
-  const belowAvg = data.belowAvg || 0;
-
-  // Growth rate and trend
-  const growth = total2023 > 0 ? ((total2024 - total2023) / total2023) * 100 : 0;
-  const growthIcon = getTrendIcon(growth);
-  const growthColor = growth > 0.5 ? '#00ffe7' : (growth < -0.5 ? '#ff3b3b' : '#ffe700');
-
-  // Volatility (std dev of PMI %)
-  const volatility = data.pmiStdDev ? data.pmiStdDev.toFixed(2) : '—';
-
-  // Market share donut (top 5 vs rest)
-  const top5Sum = top5.reduce((sum, c) => sum + c.volume, 0);
-  const restSum = total2024 - top5Sum;
-  const donutData = {
-    labels: ['Top 5', 'Rest'],
-    datasets: [
-      {
-        data: [top5Sum, restSum],
-        backgroundColor: [
-          'rgba(0,255,231,0.85)',
-          'rgba(60,60,80,0.45)'
-        ],
-        borderWidth: 2,
-        borderColor: 'rgba(255,255,255,0.12)',
-        hoverOffset: 8
-      }
-    ]
-  };
-
-  // Bar chart for top 5 countries
-  const barData = {
-    labels: top5.map(c => c.name),
-    datasets: [
-      {
-        label: '2024 Volume',
-        data: top5.map(c => c.volume),
-        backgroundColor: [
-          'rgba(102, 189, 99, 0.85)',
-          'rgba(102, 189, 99, 0.75)',
-          'rgba(102, 189, 99, 0.65)',
-          'rgba(102, 189, 99, 0.55)',
-          'rgba(102, 189, 99, 0.45)'
-        ],
-        borderRadius: 8,
-        borderSkipped: false,
-        hoverBackgroundColor: 'rgba(102, 189, 99, 1)'
-      }
-    ]
-  };
-
-  // Pie chart for above/below average
-  const pieData = {
-    labels: ['Above Avg PMI', 'Below Avg PMI'],
-    datasets: [
-      {
-        data: [aboveAvg, belowAvg],
-        backgroundColor: [
-          'rgba(102, 189, 99, 0.85)',
-          'rgba(215, 48, 39, 0.75)'
-        ],
-        borderWidth: 2,
-        borderColor: 'rgba(255,255,255,0.12)',
-        hoverOffset: 8
-      }
-    ]
-  };
-
-  // Heatmap legend for PMI %
-  const heatmapColors = [
-    '#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'
-  ];
-  const heatmapLabels = ['< Avg -21%', '-14%', '-7%', 'Avg', '+7%', '+14%', '+21%', '> Avg +28%'];
-
-  // Country-specific data
-  if (selectedCountry) {
-    const countryName = selectedCountry.properties.ADMIN || selectedCountry.properties.NAME;
-    const volume2024 = Number(selectedCountry.properties.volume_2024) || 0;
-    const volume2023 = Number(selectedCountry.properties.volume_2023) || 0;
-    const pmiPercentage = selectedCountry.properties.pmi_percentage || 0;
-    const pmiVolume2024 = Number(selectedCountry.properties.pmi_volume_2024) || 0;
-    const pmiVolume2023 = Number(selectedCountry.properties.pmi_volume_2023) || 0;
-
-    // Country growth calculations
-    const countryGrowth = volume2023 > 0 ? ((volume2024 - volume2023) / volume2023) * 100 : 0;
-    const countryGrowthIcon = getTrendIcon(countryGrowth);
-    const countryGrowthColor = countryGrowth > 0.5 ? '#00ffe7' : (countryGrowth < -0.5 ? '#ff3b3b' : '#ffe700');
-
-    // PMI growth
-    const pmiGrowth = pmiVolume2023 > 0 ? ((pmiVolume2024 - pmiVolume2023) / pmiVolume2023) * 100 : 0;
-    const pmiGrowthIcon = getTrendIcon(pmiGrowth);
-    const pmiGrowthColor = pmiGrowth > 0.5 ? '#00ffe7' : (pmiGrowth < -0.5 ? '#ff3b3b' : '#ffe700');
-
-    // Market share calculation
-    const marketShare = total2024 > 0 ? (volume2024 / total2024) * 100 : 0;
-    const marketShareRank = top5.findIndex(c => c.name === countryName) + 1;
-
-    // PMI vs Global Average
-    const pmiVsGlobal = pmiPercentage - avgPmi;
-    const pmiVsGlobalIcon = pmiVsGlobal > 0 ? 
-      <FaArrowUp style={{ color: '#00ffe7', marginLeft: 6, fontSize: 16, verticalAlign: 'middle', filter: 'drop-shadow(0 0 4px #00ffe7)' }} title="Above Global Avg" /> :
-      <FaArrowDown style={{ color: '#ff3b3b', marginLeft: 6, fontSize: 16, verticalAlign: 'middle', filter: 'drop-shadow(0 0 4px #ff3b3b)' }} title="Below Global Avg" />;
-
-    // Volume trend line chart (2023-2024)
-    const volumeTrendData = {
-      labels: ['2023', '2024'],
-      datasets: [
-        {
-          label: 'Total Volume',
-          data: [volume2023, volume2024],
-          borderColor: '#00ffe7',
-          backgroundColor: 'rgba(0,255,231,0.1)',
-          tension: 0.4
-        },
-        {
-          label: 'PMI Volume',
-          data: [pmiVolume2023, pmiVolume2024],
-          borderColor: '#66bd63',
-          backgroundColor: 'rgba(102,189,99,0.1)',
-          tension: 0.4
-        }
-      ]
-    };
-
-    // PMI composition pie chart
-    const pmiCompositionData = {
-      labels: ['PMI Volume', 'Non-PMI Volume'],
-      datasets: [
-        {
-          data: [pmiVolume2024, volume2024 - pmiVolume2024],
-          backgroundColor: [
-            'rgba(102, 189, 99, 0.85)',
-            'rgba(60, 60, 80, 0.45)'
-          ],
-          borderWidth: 2,
-          borderColor: 'rgba(255,255,255,0.12)',
-          hoverOffset: 8
-        }
-      ]
-    };
-
-    // Regional comparison (simulated data)
-    const regionalComparisonData = {
-      labels: [countryName, 'Regional Avg', 'Global Avg'],
-      datasets: [
-        {
-          label: 'PMI %',
-          data: [pmiPercentage, avgPmi * 0.9, avgPmi],
-          backgroundColor: [
-            'rgba(0,255,231,0.85)',
-            'rgba(255,235,0,0.75)',
-            'rgba(60,60,80,0.45)'
-          ],
-          borderRadius: 8,
-          borderSkipped: false
-        }
-      ]
-    };
+  // Country-Specific Overview Section
+  const CountryOverview = () => {
+    const volume2024 = Number(selectedCountry?.properties?.volume_2024) || 0;
+    const volume2023 = Number(selectedCountry?.properties?.volume_2023) || 0;
+    const pmiPercentage = selectedCountry?.properties?.pmi_percentage || 0;
+    const growth = volume2023 > 0 ? ((volume2024 - volume2023) / volume2023) * 100 : 0;
 
     return (
-      <div className="dashboard-glass country-view">
-        <button className="dashboard-back" onClick={onBackToGlobal}>
-          <FaGlobe style={{ marginRight: 8 }} />
-          Back to Global
-        </button>
-        <h2>{countryName}</h2>
-        
-        <div className="dashboard-metrics">
-          <div className="metric">
-            <span className="metric-label">2024 Volume</span>
-            <span className="metric-value">
-              {volume2024.toLocaleString()}
-              <span style={{ marginLeft: 8, color: countryGrowthColor, fontWeight: 700 }}>
-                {countryGrowthIcon}
-                <span style={{ fontSize: 13, marginLeft: 2 }}>{Math.abs(countryGrowth).toFixed(1)}%</span>
-              </span>
-            </span>
-          </div>
-          <div className="metric">
+      <div className="country-overview">
+        <h4>{countryName} Performance</h4>
+        <div className="overview-metrics">
+          <div className="overview-metric">
+                <span className="metric-label">2024 Volume</span>
+            <span className="metric-value">{volume2024.toLocaleString()}</span>
+              </div>
+          <div className="overview-metric">
             <span className="metric-label">2023 Volume</span>
             <span className="metric-value">{volume2023.toLocaleString()}</span>
           </div>
-          <div className="metric">
-            <span className="metric-label">PMI % (2024)</span>
-            <span className="metric-value">
-              {pmiPercentage.toFixed(2)}%
-              {pmiVsGlobalIcon}
-              <span style={{ fontSize: 13, marginLeft: 2, color: pmiVsGlobal > 0 ? '#00ffe7' : '#ff3b3b' }}>
-                {Math.abs(pmiVsGlobal).toFixed(2)}%
-              </span>
-            </span>
+          <div className="overview-metric">
+            <span className="metric-label">PMI Performance</span>
+            <span className="metric-value">{pmiPercentage.toFixed(1)}%</span>
           </div>
-          <div className="metric">
-            <span className="metric-label">PMI Volume (2024)</span>
-            <span className="metric-value">
-              {pmiVolume2024.toLocaleString()}
-              <span style={{ marginLeft: 8, color: pmiGrowthColor, fontWeight: 700 }}>
-                {pmiGrowthIcon}
-                <span style={{ fontSize: 13, marginLeft: 2 }}>{Math.abs(pmiGrowth).toFixed(1)}%</span>
-              </span>
-            </span>
-          </div>
-          <div className="metric">
-            <span className="metric-label">Market Share</span>
-            <span className="metric-value">
-              {marketShare.toFixed(2)}%
-              {marketShareRank > 0 && <span style={{ fontSize: 13, marginLeft: 4, color: '#00ffe7' }}>#{marketShareRank}</span>}
-            </span>
+          <div className="overview-metric">
+            <span className="metric-label">Growth Rate</span>
+            <span className="metric-value">{growth.toFixed(1)}%</span>
           </div>
         </div>
-
-        <div className="dashboard-charts">
-          <div className="chart-block">
-            <h4><FaChartLine style={{ marginRight: 8 }} />Volume Trend (2023-2024)</h4>
-            <Line data={volumeTrendData} options={lineOptions} height={120} />
-          </div>
-          <div className="chart-block">
-            <h4><FaPercentage style={{ marginRight: 8 }} />PMI Composition</h4>
-            <Pie data={pmiCompositionData} options={pieOptions} />
-          </div>
-          <div className="chart-block">
-            <h4>Regional PMI Comparison</h4>
-            <Bar data={regionalComparisonData} options={barOptions} height={120} />
-          </div>
-        </div>
+        <div className="progress-charts">
+          <CircularProgress 
+            percentage={pmiPercentage} 
+            title="PMI Performance"
+            color="#4CAF50"
+          />
+          <CircularProgress 
+            percentage={Math.max(0, Math.min(100, growth + 50))} 
+            title="Growth Index"
+            color="#2196F3"
+          />
+            </div>
       </div>
     );
-  }
+  };
 
-  return (
-    <div className="dashboard-glass global-view">
-      <h2>🌐 Global Insights</h2>
-      <div className="dashboard-metrics">
-        <div className="metric">
-          <span className="metric-label">Total 2024 Volume</span>
-          <span className="metric-value">
-            {total2024.toLocaleString()}
-            <span style={{ marginLeft: 8, color: growthColor, fontWeight: 700 }}>
-              {growthIcon}
-              <span style={{ fontSize: 13, marginLeft: 2 }}>{Math.abs(growth).toFixed(1)}%</span>
-            </span>
-          </span>
-        </div>
-        <div className="metric">
-          <span className="metric-label">Total 2023 Volume</span>
-          <span className="metric-value">{total2023.toLocaleString()}</span>
-        </div>
-        <div className="metric">
-          <span className="metric-label">Avg PMI %</span>
-          <span className="metric-value">{avgPmi.toFixed(2)}%</span>
-        </div>
-        <div className="metric">
-          <span className="metric-label">Countries with Data</span>
-          <span className="metric-value">{countriesWithData}</span>
-        </div>
-        <div className="metric">
-          <span className="metric-label">PMI Volatility</span>
-          <span className="metric-value">{volatility}</span>
-        </div>
-      </div>
-      <div className="dashboard-charts">
-        <div className="chart-block">
-          <h4>Market Share (Top 5 vs Rest)</h4>
-          <Doughnut data={donutData} options={donutOptions} height={120} />
-        </div>
-        <div className="chart-block">
-          <h4>Top 5 Countries by 2024 Volume</h4>
-          <Bar data={barData} options={barOptions} height={120} />
-        </div>
-        <div className="chart-block">
-          <h4>PMI % Distribution</h4>
-          <Pie data={pieData} options={pieOptions} />
-        </div>
-        <div className="chart-block heatmap-legend-block">
-          <h4>PMI % Heatmap Legend</h4>
-          <div className="heatmap-legend">
-            {heatmapColors.map((color, i) => (
-              <div key={i} className="heatmap-legend-color" style={{ background: color }} title={heatmapLabels[i]}></div>
-            ))}
+  // Top Countries Table
+  const TopCountriesTable = () => (
+    <div className="top-countries-table">
+      <h4>Top 5 Countries by Volume</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Country</th>
+            <th>Volume 2024</th>
+            <th>PMI %</th>
+          </tr>
+        </thead>
+        <tbody>
+          {(data?.top5 || []).map((country, index) => (
+            <tr key={country?.name || index}>
+              <td>{index + 1}</td>
+              <td>{country?.name || 'Unknown'}</td>
+              <td>{(country?.volume || 0).toLocaleString()}</td>
+              <td>{(country?.pmi || 0).toFixed(1)}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  // Market Analysis Section
+  const MarketAnalysis = () => (
+    <div className="market-analysis">
+      <div className="analysis-grid">
+        <div className="analysis-card">
+          <h5>Market Distribution</h5>
+          <div className="analysis-stats">
+            <div className="analysis-item">
+              <span className="analysis-label">Above Average PMI</span>
+              <span className="analysis-value">{data?.aboveAvg || 0} countries</span>
+            </div>
+            <div className="analysis-item">
+              <span className="analysis-label">Below Average PMI</span>
+              <span className="analysis-value">{data?.belowAvg || 0} countries</span>
+            </div>
+            <div className="analysis-item">
+              <span className="analysis-label">Total Coverage</span>
+              <span className="analysis-value">{data?.countriesWithData || 0} countries</span>
+            </div>
           </div>
-          <div className="heatmap-legend-labels">
-            {heatmapLabels.map((label, i) => (
-              <span key={i}>{label}</span>
-            ))}
-          </div>
+        </div>
+        
+        <div className="analysis-card">
+          <h5>Volume Insights</h5>
+          <div className="analysis-stats">
+            <div className="analysis-item">
+              <span className="analysis-label">2024 Total Volume</span>
+              <span className="analysis-value">{(data?.total2024 || 0).toLocaleString()}</span>
+            </div>
+            <div className="analysis-item">
+              <span className="analysis-label">2023 Total Volume</span>
+              <span className="analysis-value">{(data?.total2023 || 0).toLocaleString()}</span>
+        </div>
+                           <div className="analysis-item">
+                 <span className="analysis-label">Year-over-Year Growth</span>
+                 <span className="analysis-value">
+                   {(data?.total2023 && data?.total2024) ? 
+                     (((data.total2024 - data.total2023) / data.total2023) * 100).toFixed(1) + '%' : 
+                     '0.0%'
+                   }
+                 </span>
+        </div>
+        </div>
         </div>
       </div>
     </div>
   );
-}
+
+  // Tab content renderer
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'overview':
+        return (
+          <div className="tab-content">
+            {isGlobalView ? <GlobalOverview /> : <CountryOverview />}
+            {isGlobalView && <TopCountriesTable />}
+          </div>
+        );
+      case 'details':
+        return (
+          <div className="tab-content">
+            <div className="details-section">
+              <h4>{isGlobalView ? 'Global' : countryName} Details</h4>
+              <div className="details-grid">
+                <div className="detail-item">
+                  <span className="detail-label">View Type</span>
+                  <span className="detail-value">{isGlobalView ? 'Global Analysis' : 'Country Analysis'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Data Points</span>
+                  <span className="detail-value">{data?.countriesWithData || 0}</span>
+                </div>
+                                 <div className="detail-item">
+                   <span className="detail-label">PMI Coverage</span>
+                   <span className="detail-value">{((data?.aboveAvg || 0) + (data?.belowAvg || 0))} countries</span>
+        </div>
+                <div className="detail-item">
+                  <span className="detail-label">Volume Range</span>
+                  <span className="detail-value">2023-2024</span>
+        </div>
+        </div>
+            </div>
+          </div>
+        );
+      case 'analytics':
+        return (
+          <div className="tab-content">
+            <MarketAnalysis />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className={`dashboard ${isExpanded ? 'expanded' : 'collapsed'}`}>
+      {isExpanded ? (
+        <>
+          <div className="panel-header">
+            <h3>
+              <FaGlobe />
+              {isGlobalView ? 'Global Dashboard' : `${countryName} Dashboard`}
+            </h3>
+            <div className="panel-controls">
+              {!isGlobalView && (
+                <button 
+                  className="back-button"
+                  onClick={onBackToGlobal}
+                  title="Back to Global View"
+                >
+                  <FaArrowLeft />
+                </button>
+              )}
+              <button 
+                className="collapse-button"
+                onClick={() => setIsExpanded(false)}
+                title="Collapse Panel"
+              >
+                <FaChevronUp />
+              </button>
+            </div>
+          </div>
+          
+          <div className="panel-tabs">
+            <button 
+              className={activeTab === 'overview' ? 'active' : ''} 
+              onClick={() => setActiveTab('overview')}
+            >
+              <FaGlobe /> Overview
+            </button>
+            <button 
+              className={activeTab === 'details' ? 'active' : ''} 
+              onClick={() => setActiveTab('details')}
+            >
+              <FaTable /> Details
+            </button>
+            <button 
+              className={activeTab === 'analytics' ? 'active' : ''} 
+              onClick={() => setActiveTab('analytics')}
+            >
+              <FaChartBar /> Analytics
+            </button>
+          </div>
+
+          <div className="panel-content">
+            {renderTabContent()}
+          </div>
+        </>
+      ) : (
+        <div className="collapsed-panel" onClick={() => setIsExpanded(true)}>
+          <FaChevronDown />
+          <span>{isGlobalView ? 'Global' : countryName.substring(0, 8)}</span>
+        </div>
+    )}
+    </div>
+  );
+};
 
 export default Dashboard; 

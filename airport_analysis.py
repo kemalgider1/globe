@@ -5,14 +5,14 @@ import numpy as np
 
 def create_final_airport_files():
     """
-    Create final airport files with all coordinates fixed for the 5 missing high-value airports
+    Create final airport files compatible with the existing React Globe setup
     """
 
     data_directory = "/Users/kemalgider/Desktop/globe/react-globe-app/public/datasets"
     df_macase_file = f"{data_directory}/df_macase.csv"
     geo_file = f"{data_directory}/GEO_DIM_TOUCH_POINT.csv"
 
-    print("CREATING FINAL AIRPORT FILES WITH FIXED COORDINATES")
+    print("CREATING FINAL AIRPORT FILES - REACT GLOBE COMPATIBLE")
     print("=" * 60)
 
     # Load datasets
@@ -87,10 +87,10 @@ def create_final_airport_files():
     merged_data.to_csv(csv_output, index=False)
     print(f"\n✓ Enhanced CSV saved: {csv_output}")
 
-    # Create GeoJSON for visualization
-    print("Creating GeoJSON for React Globe...")
+    # Create GeoJSON compatible with React Globe points layer
+    print("Creating GeoJSON for React Globe points layer...")
 
-    # Filter to airports with coordinates and PMI data
+    # Filter to airports with coordinates
     viz_data = merged_data[
         (merged_data['GEO_COORD_LATITUDE'].notna()) &
         (merged_data['GEO_COORD_LONGITUDE'].notna())
@@ -98,117 +98,178 @@ def create_final_airport_files():
 
     print(f"✓ Airports for visualization: {len(viz_data):,}")
 
-    # Create GeoJSON structure
+    # Create points data structure compatible with react-globe.gl
+    points_data = []
+
+    for idx, row in viz_data.iterrows():
+        # Clean and validate data
+        pax = float(row['PAX']) if pd.notna(row['PAX']) else 0
+        spend_per_pax = float(row['$/PAX tob. spend - PMI']) if pd.notna(row['$/PAX tob. spend - PMI']) else 0
+        pmi_profit = float(row['PMI profit%']) if pd.notna(row['PMI profit%']) else 0
+        prevalence = float(row['% Prevalence']) if pd.notna(row['% Prevalence']) else 0
+
+        # Determine size category for visualization
+        if pax > 200000:
+            size = 0.8
+            size_category = "large"
+        elif pax > 50000:
+            size = 0.6
+            size_category = "medium"
+        elif pax > 10000:
+            size = 0.4
+            size_category = "small"
+        else:
+            size = 0.2
+            size_category = "tiny"
+
+        # Color based on PMI performance
+        if pmi_profit > 0.5:
+            color = '#ff4444'  # High PMI performance - red
+        elif pmi_profit > 0.1:
+            color = '#ff8844'  # Medium PMI performance - orange
+        elif pmi_profit > 0:
+            color = '#ffdd44'  # Low PMI performance - yellow
+        else:
+            color = '#888888'  # No PMI data - gray
+
+        # Check if nationality mismatch (hub airport)
+        is_hub = row['COUNTRY_NAME'] != row['NATIONALITY'] if pd.notna(row['NATIONALITY']) else False
+
+        point = {
+            "lat": float(row['GEO_COORD_LATITUDE']),
+            "lng": float(row['GEO_COORD_LONGITUDE']),
+            "size": size,
+            "color": color,
+            "iata_code": str(row['IATA_CODE']),
+            "airport_name": str(row['AIRPORT_NAME']),
+            "country": str(row['COUNTRY_NAME']),
+            "nationality": str(row['NATIONALITY']) if pd.notna(row['NATIONALITY']) else 'Unknown',
+            "pax": pax,
+            "spend_per_pax": spend_per_pax,
+            "pmi_profit_pct": pmi_profit * 100,  # Convert to percentage
+            "prevalence_pct": prevalence * 100,  # Convert to percentage
+            "size_category": size_category,
+            "is_hub_airport": is_hub,
+            "altitude": 0.01 + (size * 0.02)  # Altitude based on size
+        }
+        points_data.append(point)
+
+    # Save points data as JSON (compatible with react-globe.gl pointsData)
+    points_output = f"{data_directory}/airports_points.json"
+    with open(points_output, 'w') as f:
+        json.dump(points_data, f, indent=2)
+
+    print(f"✓ Points JSON saved: {points_output}")
+
+    # Also create traditional GeoJSON for compatibility
     geojson = {
         "type": "FeatureCollection",
-        "properties": {
-            "name": "PMI Airport Analysis",
-            "description": "Airport analysis with passenger volumes and PMI metrics",
-            "total_airports": len(viz_data),
-            "total_pax": float(viz_data['PAX'].sum()),
-            "airports_with_pmi_data": len(viz_data[viz_data['PMI profit%'] > 0])
-        },
         "features": []
     }
 
-    # Add features for each airport
-    for idx, row in viz_data.iterrows():
-        # Determine airport size category for visualization
-        pax = row['PAX']
-        if pax > 200000:
-            size_category = "large"
-        elif pax > 50000:
-            size_category = "medium"
-        elif pax > 10000:
-            size_category = "small"
-        else:
-            size_category = "tiny"
-
-        # Determine PMI performance category
-        pmi_profit = row['PMI profit%']
-        if pmi_profit > 0.5:
-            pmi_category = "high"
-        elif pmi_profit > 0.1:
-            pmi_category = "medium"
-        elif pmi_profit > 0:
-            pmi_category = "low"
-        else:
-            pmi_category = "none"
-
-        # Check if nationality mismatch (hub airport)
-        is_hub = row['COUNTRY_NAME'] != row['NATIONALITY']
-
+    for point in points_data:
         feature = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [float(row['GEO_COORD_LONGITUDE']), float(row['GEO_COORD_LATITUDE'])]
+                "coordinates": [point["lng"], point["lat"]]
             },
             "properties": {
-                "iata_code": row['IATA_CODE'],
-                "airport_name": row['AIRPORT_NAME'],
-                "country": row['COUNTRY_NAME'],
-                "nationality": row['NATIONALITY'],
-                "df_location": row['DF_LOCATION'],
-                "pax": float(row['PAX']) if pd.notna(row['PAX']) else 0,
-                "spend_per_pax": float(row['$/PAX tob. spend - PMI']) if pd.notna(row['$/PAX tob. spend - PMI']) else 0,
-                "pmi_profit_pct": float(row['PMI profit%']) if pd.notna(row['PMI profit%']) else 0,
-                "cot_cc_pct": float(row['% of COT, CC']) if pd.notna(row['% of COT, CC']) else 0,
-                "prevalence_pct": float(row['% Prevalence']) if pd.notna(row['% Prevalence']) else 0,
-                "pmi_sob_pct": float(row['PMI SoB %']) if pd.notna(row['PMI SoB %']) else 0,
-                "nat_pct_ct": float(row['Nat. % of CT']) if pd.notna(row['Nat. % of CT']) else 0,
-                "size_category": size_category,
-                "pmi_category": pmi_category,
-                "is_hub_airport": is_hub
+                k: v for k, v in point.items() if k not in ["lat", "lng"]
             }
         }
         geojson["features"].append(feature)
 
-    # Save GeoJSON
-    geojson_output = f"{data_directory}/airports_pmi_analysis.geojson"
+    # Save traditional GeoJSON
+    geojson_output = f"{data_directory}/airports_analysis.geojson"
     with open(geojson_output, 'w') as f:
         json.dump(geojson, f, indent=2)
 
     print(f"✓ GeoJSON saved: {geojson_output}")
 
+    # Create React component code snippet for integration
+    react_code = '''
+// Add this to your App.js imports
+import airportsData from './datasets/airports_points.json';
+
+// Add this to your Globe component props (inside the <Globe> tag):
+pointsData={airportsData}
+pointLat={d => d.lat}
+pointLng={d => d.lng}
+pointAltitude={d => d.altitude}
+pointRadius={d => d.size}
+pointColor={d => d.color}
+pointLabel={d => `
+  <div style="background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 4px;">
+    <div><b>${d.airport_name} (${d.iata_code})</b></div>
+    <div>Country: ${d.country}</div>
+    <div>Nationality: ${d.nationality}</div>
+    <div>PAX: ${d.pax.toLocaleString()}</div>
+    <div>PMI Spend/PAX: ${d.spend_per_pax.toFixed(2)}</div>
+    <div>PMI Profit: ${d.pmi_profit_pct.toFixed(1)}%</div>
+    ${d.is_hub_airport ? '<div style="color: #ffdd44;">🌐 Hub Airport</div>' : ''}
+  </div>
+`}
+onPointClick={d => {
+  console.log('Airport clicked:', d);
+  // Add your click handler here
+}}
+'''
+
+    # Save React integration code
+    react_output = f"{data_directory}/react_integration.txt"
+    with open(react_output, 'w') as f:
+        f.write(react_code)
+
+    print(f"✓ React integration code: {react_output}")
+
     # Create summary statistics
     print(f"\n" + "=" * 60)
-    print("FINAL DATASET SUMMARY")
+    print("FINAL DATASET SUMMARY - REACT GLOBE READY")
     print("=" * 60)
 
     # Overall stats
-    total_pax = viz_data['PAX'].sum()
-    airports_with_pmi = len(viz_data[viz_data['PMI profit%'] > 0])
-    avg_pmi_spend = viz_data[viz_data['$/PAX tob. spend - PMI'] > 0]['$/PAX tob. spend - PMI'].mean()
+    total_pax = sum(p['pax'] for p in points_data)
+    airports_with_pmi = len([p for p in points_data if p['pmi_profit_pct'] > 0])
+    avg_pmi_spend = np.mean([p['spend_per_pax'] for p in points_data if p['spend_per_pax'] > 0])
+    hub_airports = len([p for p in points_data if p['is_hub_airport']])
 
-    print(f"Total airports with coordinates: {len(viz_data):,}")
+    print(f"Total airports with coordinates: {len(points_data):,}")
     print(f"Total PAX volume: {total_pax:,.0f}")
-    print(f"Airports with PMI data: {airports_with_pmi:,} ({airports_with_pmi / len(viz_data) * 100:.1f}%)")
+    print(f"Airports with PMI data: {airports_with_pmi:,} ({airports_with_pmi / len(points_data) * 100:.1f}%)")
     print(f"Average PMI spend/PAX: ${avg_pmi_spend:.2f}")
+    print(f"Hub airports: {hub_airports:,} ({hub_airports / len(points_data) * 100:.1f}%)")
+
+    # Size distribution
+    size_dist = {}
+    for point in points_data:
+        cat = point['size_category']
+        size_dist[cat] = size_dist.get(cat, 0) + 1
+
+    print(f"\nAirport size distribution:")
+    for size_cat, count in sorted(size_dist.items()):
+        print(f"  {size_cat.title()}: {count:,}")
 
     # Top performers
     print(f"\nTop 5 airports by PAX volume:")
-    top_pax = viz_data.nlargest(5, 'PAX')
-    for idx, row in top_pax.iterrows():
-        print(f"  {row['IATA_CODE']}: {row['AIRPORT_NAME']} - {row['PAX']:,.0f} PAX")
+    top_pax = sorted(points_data, key=lambda x: x['pax'], reverse=True)[:5]
+    for i, airport in enumerate(top_pax, 1):
+        print(f"  {i}. {airport['iata_code']}: {airport['airport_name']} - {airport['pax']:,.0f} PAX")
 
     print(f"\nTop 5 airports by PMI spend/PAX:")
-    top_pmi = viz_data[viz_data['$/PAX tob. spend - PMI'] > 0].nlargest(5, '$/PAX tob. spend - PMI')
-    for idx, row in top_pmi.iterrows():
-        print(f"  {row['IATA_CODE']}: {row['AIRPORT_NAME']} - ${row['$/PAX tob. spend - PMI']:,.2f}/PAX")
+    top_pmi = sorted([p for p in points_data if p['spend_per_pax'] > 0],
+                     key=lambda x: x['spend_per_pax'], reverse=True)[:5]
+    for i, airport in enumerate(top_pmi, 1):
+        print(f"  {i}. {airport['iata_code']}: {airport['airport_name']} - ${airport['spend_per_pax']:,.2f}/PAX")
 
-    # Hub airports
-    hub_airports = viz_data[viz_data['COUNTRY_NAME'] != viz_data['NATIONALITY']]
-    print(f"\nHub airports (nationality ≠ country): {len(hub_airports):,}")
-    for idx, row in hub_airports.head(5).iterrows():
-        print(f"  {row['IATA_CODE']}: {row['AIRPORT_NAME']} ({row['COUNTRY_NAME']}) → {row['NATIONALITY']} passengers")
-
-    print(f"\n✅ FILES READY FOR REACT GLOBE VISUALIZATION")
+    print(f"\n✅ FILES READY FOR REACT GLOBE")
     print(f"📁 CSV: airport_analysis_final.csv")
-    print(f"🌍 GeoJSON: airports_pmi_analysis.geojson")
+    print(f"🎯 Points JSON: airports_points.json (use this in React)")
+    print(f"🌍 GeoJSON: airports_analysis.geojson (backup format)")
+    print(f"⚛️  Integration code: react_integration.txt")
 
-    return merged_data, geojson
+    return merged_data, points_data, geojson
 
 
 if __name__ == "__main__":
-    merged_data, geojson_data = create_final_airport_files()
+    merged_data, points_data, geojson_data = create_final_airport_files()

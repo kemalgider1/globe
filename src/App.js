@@ -8,8 +8,11 @@ const World = () => {
   const [countries, setCountries] = useState({ features: []});
   const [hoverD, setHoverD] = useState();
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [airports, setAirports] = useState([]);
+  const [visibleAirports, setVisibleAirports] = useState([]);
 
   useEffect(() => {
+    // Load countries data
     fetch('./datasets/ne_110m_admin_0_countries_with_sales.geojson')
       .then(res => res.json())
       .then(data => {
@@ -17,6 +20,17 @@ const World = () => {
       })
       .catch(error => {
         console.error('Error loading GeoJSON:', error);
+      });
+
+    // Load airports data
+    fetch('./datasets/airports_points.json')
+      .then(res => res.json())
+      .then(airportData => {
+        setAirports(airportData);
+        console.log(`Loaded ${airportData.length} airports from JSON`);
+      })
+      .catch(error => {
+        console.error('Error loading airports JSON:', error);
       });
   }, []);
 
@@ -82,9 +96,26 @@ const World = () => {
     };
   }, [countries]);
 
+  // Filter airports for selected country
+  useEffect(() => {
+    if (selectedCountry && airports.length > 0) {
+      const countryName = selectedCountry.properties.ADMIN || selectedCountry.properties.NAME;
+      const countryAirports = airports.filter(airport => 
+        airport.country === countryName
+      );
+      setVisibleAirports(countryAirports);
+      console.log(`Showing ${countryAirports.length} airports for ${countryName}`);
+    } else {
+      setVisibleAirports([]);
+    }
+  }, [selectedCountry, airports]);
+
   const getCountryColor = (country) => {
     if (country === hoverD) {
       return 'steelblue';
+    }
+    if (country === selectedCountry) {
+      return '#00ffe7'; // Highlight selected country
     }
     const pmiPercentage = getVal(country);
     if (pmiPercentage <= 0) {
@@ -127,11 +158,33 @@ const World = () => {
         onPolygonHover={setHoverD}
         onPolygonClick={setSelectedCountry}
         polygonsTransitionDuration={300}
+        // Airport points layer
+        pointsData={visibleAirports}
+        pointLat={d => d.lat}
+        pointLng={d => d.lng}
+        pointAltitude={0.15}
+        pointRadius={d => d.size}
+        pointColor={d => d.color}
+        pointLabel={d => `
+          <div style="background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 4px; font-size: 12px;">
+            <div><b>${d.airport_name} (${d.iata_code})</b></div>
+            <div>Country: ${d.country}</div>
+            <div>PAX: ${d.pax.toLocaleString()}</div>
+            <div>PMI Spend/PAX: $${d.spend_per_pax.toFixed(2)}</div>
+            <div>PMI Profit: ${d.pmi_profit_pct.toFixed(1)}%</div>
+            ${d.is_hub_airport ? '<div style="color: #ffdd44;">🌐 Hub Airport</div>' : ''}
+          </div>
+        `}
+        onPointClick={d => {
+          console.log('Airport clicked:', d);
+        }}
+        pointsMerge={false}
       />
       <Dashboard
         data={globalData}
         selectedCountry={selectedCountry}
         onBackToGlobal={() => setSelectedCountry(null)}
+        airports={visibleAirports}
       />
     </>
   );

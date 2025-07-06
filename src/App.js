@@ -12,6 +12,13 @@ const World = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedAirport, setSelectedAirport] = useState(null);
 
+  // Utility function to convert ISO country code to flag emoji
+  const getCountryFlag = (countryCode) => {
+    if (!countryCode) return '🏳️';
+    const code = countryCode.toUpperCase();
+    return code.replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
+  };
+
   useEffect(() => {
     fetch('./datasets/ne_110m_admin_0_countries_with_sales.geojson')
       .then(res => res.json())
@@ -152,6 +159,30 @@ const World = () => {
     return [...countryPolygons, ...selectedCountryAirports];
   }, [countries.features, selectedCountryAirports]);
 
+  // Prepare airport labels data for displaying airport codes
+  const airportLabels = useMemo(() => {
+    if (!selectedCountry || !selectedCountryAirports.length) return [];
+    
+    return selectedCountryAirports.map(airportPolygon => {
+      const airport = airportPolygon.properties.airport_data;
+      
+      // Check if the parent country is being hovered (same logic as airport polygons)
+      const parentCountry = airportPolygon.properties.parent_country;
+      const isParentCountryHovered = parentCountry === hoverD;
+      
+      return {
+        lat: airport.lat + 0.3, // Offset slightly north to avoid collision with airport point
+        lng: airport.lng + 0.3, // Offset slightly east to avoid collision with airport point
+        text: airport.iata_code || airport.airport_code || 'N/A',
+        color: '#ffffff', // White text for better visibility
+        size: 0.18, // 30% of original size (0.6 * 0.3 = 0.18)
+        altitude: isParentCountryHovered ? 0.135 : 0.075, // Rise with airports: elevated when parent country hovered
+        airport: airport, // Store airport data for reference
+        airportPolygon: airportPolygon // Store reference to the polygon for hover detection
+      };
+    });
+  }, [selectedCountry, selectedCountryAirports, hoverD]);
+
   // Get the value for coloring: PMI percentage
   const getVal = (feat) => {
     const pmiPercentage = feat.properties.pmi_percentage;
@@ -269,8 +300,9 @@ const World = () => {
         console.log('Airport selected:', airportData?.iata_code, airportData?.airport_name);
       }
     } else {
-      // Countries are only clickable when not already selected
-      if (polygon !== selectedCountry) {
+      // Countries are only clickable when not already selected AND have data
+      const hasData = getVal(polygon) > 0;
+      if (polygon !== selectedCountry && hasData) {
         setSelectedCountry(polygon);
         setSelectedAirport(null); // Clear airport selection when country changes
         console.log('Selected country:', polygon.properties.ADMIN || polygon.properties.NAME);
@@ -291,9 +323,12 @@ const World = () => {
       if (parentCountry) {
         setHoverD(parentCountry);
       }
-    } else {
-      // When hovering over a country or nothing, set hover normally
+    } else if (polygon && getVal(polygon) > 0) {
+      // When hovering over a country with data, set hover normally
       setHoverD(polygon);
+    } else {
+      // When hovering over a country without data or nothing, clear hover
+      setHoverD(null);
     }
   };
 
@@ -310,6 +345,7 @@ const World = () => {
         polygonCapColor={getPolygonColor}
         polygonSideColor={getPolygonSideColor} // Transparent sides for airports
         polygonStrokeColor={() => '#111'}
+        polygonStrokeWidth={1.3} // 30% thicker borders
         polygonLabel={(polygon) => {
           const { properties: d } = polygon;
           
@@ -337,32 +373,44 @@ const World = () => {
             );
           }
           
-          // Country label
-          const airportCount = selectedCountryAirports.length;
+          // Country label - simplified to just flag and name
+          const countryName = d.ADMIN || d.NAME;
+          const countryISO = d.ISO_A2;
+          const flagEmoji = getCountryFlag(countryISO);
+          
           return (
             <div style={{
               background: 'rgba(0, 0, 0, 0.8)',
               color: 'white',
-              padding: '8px',
-              borderRadius: '4px',
-              fontSize: '12px'
+              padding: '12px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              minWidth: '120px'
             }}>
-              <div><b>{d.ADMIN || d.NAME} ({d.ISO_A2}):</b></div>
-              <div>2024 Volume: <i>{Number(d.volume_2024).toLocaleString(undefined, {maximumFractionDigits: 2})}</i></div>
-              <div>2023 Volume: <i>{Number(d.volume_2023).toLocaleString(undefined, {maximumFractionDigits: 2})}</i></div>
-              <div>PMI %: <i>{d.pmi_percentage ? d.pmi_percentage.toFixed(2) : '0.00'}%</i></div>
-              {selectedCountry === null && <div style={{marginTop: '4px', fontSize: '10px', color: '#ccc'}}>Click to see airports</div>}
-              {selectedCountry === polygon && airportCount > 0 && (
-                <div style={{marginTop: '4px', fontSize: '10px', color: '#00ffe7'}}>
-                  ✈️ {airportCount} airports shown
-                </div>
-              )}
+              <span style={{ fontSize: '20px' }}>{flagEmoji}</span>
+              <span style={{ fontWeight: 'bold' }}>{countryName}</span>
             </div>
           );
         }}
         onPolygonHover={handlePolygonHover}
         onPolygonClick={handlePolygonClick}
         polygonsTransitionDuration={300}
+
+        // Airport code labels with collision detection
+        labelsData={airportLabels}
+        labelLat={d => d.lat}
+        labelLng={d => d.lng}
+        labelAltitude={d => d.altitude}
+        labelSize={d => d.size}
+        labelText={d => d.text}
+        labelColor={d => d.color}
+        labelResolution={2} // Higher resolution for better text quality
+        labelIncludeDot={false} // Don't show dots, just text
+        labelDotRadius={0} // No dots at all
+        labelsTransitionDuration={300}
       />
       
       <AnalyticsPanel

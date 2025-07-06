@@ -236,6 +236,9 @@
   font-size: 13px;
   font-weight: 600;
   color: #00ffe7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .nationality-rank {

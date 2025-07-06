@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaArrowLeft } from 'react-icons/fa';
+import { CircleFlag } from 'react-circle-flags';
 import './Dashboard.css';
 
 const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isExpanded, setIsExpanded] = useState(true);
 
+  // Utility function to get ISO code for flags
+  const getCountryISO = (country) => {
+    if (!country || !country.properties) return null;
+    const iso = country.properties.ISO_A2;
+    return iso ? iso.toLowerCase() : null;
+  };
+
   // Always show the dashboard - it will show global or country-specific content
   const isGlobalView = !selectedCountry;
   const countryName = selectedCountry ? 
     (selectedCountry.properties.ADMIN || selectedCountry.properties.NAME) : 
     'Global View';
+  const countryISO = getCountryISO(selectedCountry);
 
   // Circular progress chart component
   const CircularProgress = ({ percentage, title, color = '#00ffe7' }) => (
@@ -259,7 +268,13 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
         <>
           <div className="panel-header">
             <h3>
-              <FaGlobe />
+              {isGlobalView ? (
+                <FaGlobe />
+              ) : countryISO ? (
+                <CircleFlag countryCode={countryISO} height="24" />
+              ) : (
+                <FaGlobe />
+              )}
               {isGlobalView ? 'Global Dashboard' : `${countryName} Dashboard`}
             </h3>
             <div className="panel-controls">
@@ -309,8 +324,16 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
         </>
       ) : (
         <div className="collapsed-panel" onClick={() => setIsExpanded(true)}>
-          <FaChevronDown />
-          <span>{isGlobalView ? 'Global' : countryName.substring(0, 8)}</span>
+          <div className="collapsed-content">
+            {isGlobalView ? (
+              <span>Global</span>
+            ) : countryISO ? (
+              <CircleFlag countryCode={countryISO} height="32" />
+            ) : (
+              <span>{countryName.substring(0, 8)}</span>
+            )}
+            <FaChevronDown />
+          </div>
         </div>
     )}
     </div>

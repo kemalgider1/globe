@@ -61,6 +61,16 @@
   letter-spacing: 0.5px;
 }
 
+.dashboard.collapsed .collapsed-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
 /* Panel Header */
 .panel-header {
   display: flex;

@@ -1,10 +1,80 @@
 import React, { useState, useMemo } from 'react';
 import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { CircleFlag } from 'react-circle-flags';
 import './AnalyticsPanel.css';
 
 const AnalyticsPanel = ({ airports, selectedAirport }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isExpanded, setIsExpanded] = useState(true);
+
+  // Utility function to get ISO code for flags from airport country data
+  const getCountryISO = (airport) => {
+    if (!airport || !airport.country) return null;
+    // For airports, we'll need to map country names to ISO codes
+    // This is a simplified mapping - in production, you'd want a complete mapping
+    const countryISOMap = {
+      'United States': 'us',
+      'Canada': 'ca',
+      'United Kingdom': 'gb',
+      'Germany': 'de',
+      'France': 'fr',
+      'Italy': 'it',
+      'Spain': 'es',
+      'Netherlands': 'nl',
+      'Belgium': 'be',
+      'Switzerland': 'ch',
+      'Austria': 'at',
+      'Denmark': 'dk',
+      'Sweden': 'se',
+      'Norway': 'no',
+      'Finland': 'fi',
+      'Russia': 'ru',
+      'China': 'cn',
+      'Japan': 'jp',
+      'South Korea': 'kr',
+      'India': 'in',
+      'Australia': 'au',
+      'New Zealand': 'nz',
+      'Brazil': 'br',
+      'Argentina': 'ar',
+      'Chile': 'cl',
+      'Mexico': 'mx',
+      'Turkey': 'tr',
+      'Greece': 'gr',
+      'Portugal': 'pt',
+      'Ireland': 'ie',
+      'Czech Republic': 'cz',
+      'Poland': 'pl',
+      'Hungary': 'hu',
+      'Slovakia': 'sk',
+      'Slovenia': 'si',
+      'Croatia': 'hr',
+      'Serbia': 'rs',
+      'Bulgaria': 'bg',
+      'Romania': 'ro',
+      'Estonia': 'ee',
+      'Latvia': 'lv',
+      'Lithuania': 'lt',
+      'Ukraine': 'ua',
+      'Belarus': 'by',
+      'Moldova': 'md',
+      'Albania': 'al',
+      'Bosnia and Herzegovina': 'ba',
+      'Montenegro': 'me',
+      'North Macedonia': 'mk',
+      'Kosovo': 'xk',
+      'Iceland': 'is',
+      'Malta': 'mt',
+      'Cyprus': 'cy',
+      'Luxembourg': 'lu',
+      'Liechtenstein': 'li',
+      'Monaco': 'mc',
+      'San Marino': 'sm',
+      'Vatican City': 'va',
+      'Andorra': 'ad'
+    };
+    return countryISOMap[airport.country] || null;
+  };
 
   // Calculate airport-specific analytics data
   const analyticsData = useMemo(() => {
@@ -128,7 +198,12 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
       <h4>Top 9 Nationalities</h4>
       <div className="airport-nationality-highlight">
         <span className="selected-airport">
-          Selected: {analyticsData.airport.airport_name} ({analyticsData.airportNationality})
+          {getCountryISO(analyticsData.airport) ? (
+            <CircleFlag countryCode={getCountryISO(analyticsData.airport)} height="20" />
+          ) : (
+            <span>Selected:</span>
+          )}
+          {analyticsData.airport.airport_name} ({analyticsData.airportNationality})
         </span>
         <span className="nationality-rank">
           Rank #{analyticsData.nationalityRank} of {analyticsData.totalNationalityAirports} {analyticsData.airportNationality} airports

@@ -58,40 +58,33 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
   // Global Overview Section
   const GlobalOverview = () => (
     <div className="global-overview">
-      <h4>Global Performance Overview</h4>
+      <h4>Geographic Overview</h4>
       <div className="overview-metrics">
         <div className="overview-metric">
           <span className="metric-label">Total Countries</span>
-          <span className="metric-value">{data?.countriesWithData || 0}</span>
+          <span className="metric-value">{data?.totalCountries || 0}</span>
         </div>
         <div className="overview-metric">
-          <span className="metric-label">Global 2024 Volume</span>
-          <span className="metric-value">{(data?.total2024 || 0).toLocaleString()}</span>
+          <span className="metric-label">Data Type</span>
+          <span className="metric-value">{data?.dataType || 'Geographic'}</span>
         </div>
         <div className="overview-metric">
-          <span className="metric-label">Global 2023 Volume</span>
-          <span className="metric-value">{(data?.total2023 || 0).toLocaleString()}</span>
+          <span className="metric-label">Airport Data</span>
+          <span className="metric-value">{data?.airportDataAvailable ? 'Available' : 'N/A'}</span>
         </div>
         <div className="overview-metric">
-          <span className="metric-label">Average PMI %</span>
-          <span className="metric-value">{(data?.avgPmi || 0).toFixed(1)}%</span>
+          <span className="metric-label">Sales Data</span>
+          <span className="metric-value">{data?.salesDataRemoved ? 'Removed' : 'Present'}</span>
         </div>
       </div>
-      <div className="progress-charts">
-        <CircularProgress 
-          percentage={data?.avgPmi || 0} 
-          title="Global PMI Average"
-          color="#4CAF50"
-        />
-        <CircularProgress 
-          percentage={
-            (data?.aboveAvg && data?.belowAvg) 
-              ? ((data.aboveAvg / (data.aboveAvg + data.belowAvg)) * 100) 
-              : 0
-          } 
-          title="Countries Above Average"
-          color="#2196F3"
-        />
+      <div className="data-info">
+        <h5>📍 Geographic Display Mode</h5>
+        <div className="info-content">
+          <p>• Countries display in neutral colors</p>
+          <p>• No sales/PMI data on country level</p>
+          <p>• Airport-specific DF-MACASE data available</p>
+          <p>• Click countries to view airport analytics</p>
+        </div>
       </div>
     </div>
   );
@@ -140,30 +133,28 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
     );
   };
 
-  // Top Countries Table
-  const TopCountriesTable = () => (
-    <div className="top-countries-table">
-      <h4>Top 5 Countries by Volume</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Country</th>
-            <th>Volume 2024</th>
-            <th>PMI %</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(data?.top5 || []).map((country, index) => (
-            <tr key={country?.name || index}>
-              <td>{index + 1}</td>
-              <td>{country?.name || 'Unknown'}</td>
-              <td>{(country?.volume || 0).toLocaleString()}</td>
-              <td>{(country?.pmi || 0).toFixed(1)}%</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  // Geographic Information
+  const GeographicInfo = () => (
+    <div className="geographic-info">
+      <h4>📍 Available Geographic Data</h4>
+      <div className="info-grid">
+        <div className="info-item">
+          <span className="info-label">Countries</span>
+          <span className="info-value">{data?.totalCountries || 0}</span>
+        </div>
+        <div className="info-item">
+          <span className="info-label">Display Mode</span>
+          <span className="info-value">Neutral Colors</span>
+        </div>
+        <div className="info-item">
+          <span className="info-label">Interaction</span>
+          <span className="info-value">Click for Airport Data</span>
+        </div>
+        <div className="info-item">
+          <span className="info-label">Focus</span>
+          <span className="info-value">DF-MACASE Analytics</span>
+        </div>
+      </div>
     </div>
   );
 
@@ -222,7 +213,7 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
         return (
           <div className="tab-content">
             {isGlobalView ? <GlobalOverview /> : <CountryOverview />}
-            {isGlobalView && <TopCountriesTable />}
+            {isGlobalView && <GeographicInfo />}
           </div>
         );
       case 'details':

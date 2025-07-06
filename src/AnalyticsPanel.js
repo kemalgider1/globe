@@ -10,12 +10,18 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
   // Utility function to get ISO code for flags from airport country data
   const getCountryISO = (airport) => {
     if (!airport || !airport.country) return null;
-    // For airports, we'll need to map country names to ISO codes
-    // This is a simplified mapping - in production, you'd want a complete mapping
+    
+    // Comprehensive country name to ISO code mapping
     const countryISOMap = {
+      // Major Countries
       'United States': 'us',
+      'United States of America': 'us',
+      'USA': 'us',
       'Canada': 'ca',
       'United Kingdom': 'gb',
+      'UK': 'gb',
+      'Britain': 'gb',
+      'England': 'gb',
       'Germany': 'de',
       'France': 'fr',
       'Italy': 'it',
@@ -29,9 +35,12 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
       'Norway': 'no',
       'Finland': 'fi',
       'Russia': 'ru',
+      'Russian Federation': 'ru',
       'China': 'cn',
       'Japan': 'jp',
       'South Korea': 'kr',
+      'Republic of Korea': 'kr',
+      'Korea': 'kr',
       'India': 'in',
       'Australia': 'au',
       'New Zealand': 'nz',
@@ -40,10 +49,12 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
       'Chile': 'cl',
       'Mexico': 'mx',
       'Turkey': 'tr',
+      'Türkiye': 'tr',
       'Greece': 'gr',
       'Portugal': 'pt',
       'Ireland': 'ie',
       'Czech Republic': 'cz',
+      'Czechia': 'cz',
       'Poland': 'pl',
       'Hungary': 'hu',
       'Slovakia': 'sk',
@@ -71,9 +82,114 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
       'Monaco': 'mc',
       'San Marino': 'sm',
       'Vatican City': 'va',
-      'Andorra': 'ad'
+      'Andorra': 'ad',
+      // Middle East & Africa
+      'Egypt': 'eg',
+      'Saudi Arabia': 'sa',
+      'United Arab Emirates': 'ae',
+      'UAE': 'ae',
+      'Israel': 'il',
+      'Iran': 'ir',
+      'Iran (Islamic Republic of)': 'ir',
+      'Iraq': 'iq',
+      'Jordan': 'jo',
+      'Kuwait': 'kw',
+      'Lebanon': 'lb',
+      'Qatar': 'qa',
+      'Bahrain': 'bh',
+      'Oman': 'om',
+      'Yemen': 'ye',
+      'South Africa': 'za',
+      'Nigeria': 'ng',
+      'Kenya': 'ke',
+      'Ethiopia': 'et',
+      'Morocco': 'ma',
+      'Algeria': 'dz',
+      'Tunisia': 'tn',
+      'Libya': 'ly',
+      'Ghana': 'gh',
+      'Senegal': 'sn',
+      'Ivory Coast': 'ci',
+      'Cameroon': 'cm',
+      'Uganda': 'ug',
+      'Tanzania': 'tz',
+      'Zimbabwe': 'zw',
+      'Botswana': 'bw',
+      'Namibia': 'na',
+      'Zambia': 'zm',
+      'Malawi': 'mw',
+      'Mozambique': 'mz',
+      'Madagascar': 'mg',
+      'Mauritius': 'mu',
+      'Seychelles': 'sc',
+      // Asia-Pacific
+      'Thailand': 'th',
+      'Singapore': 'sg',
+      'Malaysia': 'my',
+      'Indonesia': 'id',
+      'Philippines': 'ph',
+      'Vietnam': 'vn',
+      'Cambodia': 'kh',
+      'Laos': 'la',
+      'Myanmar': 'mm',
+      'Bangladesh': 'bd',
+      'Sri Lanka': 'lk',
+      'Nepal': 'np',
+      'Bhutan': 'bt',
+      'Maldives': 'mv',
+      'Pakistan': 'pk',
+      'Afghanistan': 'af',
+      'Kazakhstan': 'kz',
+      'Uzbekistan': 'uz',
+      'Kyrgyzstan': 'kg',
+      'Tajikistan': 'tj',
+      'Turkmenistan': 'tm',
+      'Mongolia': 'mn',
+      'North Korea': 'kp',
+      'Taiwan': 'tw',
+      'Hong Kong': 'hk',
+      'Macau': 'mo',
+      // Americas
+      'Colombia': 'co',
+      'Peru': 'pe',
+      'Venezuela': 've',
+      'Ecuador': 'ec',
+      'Bolivia': 'bo',
+      'Paraguay': 'py',
+      'Uruguay': 'uy',
+      'Guyana': 'gy',
+      'Suriname': 'sr',
+      'French Guiana': 'gf',
+      'Cuba': 'cu',
+      'Jamaica': 'jm',
+      'Haiti': 'ht',
+      'Dominican Republic': 'do',
+      'Puerto Rico': 'pr',
+      'Trinidad and Tobago': 'tt',
+      'Barbados': 'bb',
+      'Bahamas': 'bs',
+      'Belize': 'bz',
+      'Costa Rica': 'cr',
+      'Panama': 'pa',
+      'Nicaragua': 'ni',
+      'Honduras': 'hn',
+      'El Salvador': 'sv',
+      'Guatemala': 'gt'
     };
-    return countryISOMap[airport.country] || null;
+    
+    // First try exact match
+    const exactMatch = countryISOMap[airport.country];
+    if (exactMatch) return exactMatch;
+    
+    // If no exact match, try partial matching
+    const countryLower = airport.country.toLowerCase();
+    for (const [key, value] of Object.entries(countryISOMap)) {
+      if (key.toLowerCase().includes(countryLower) || countryLower.includes(key.toLowerCase())) {
+        return value;
+      }
+    }
+    
+    return null;
   };
 
   // Calculate airport-specific analytics data

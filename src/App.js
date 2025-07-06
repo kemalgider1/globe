@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Globe from 'react-globe.gl';
-import { scaleThreshold } from 'd3-scale';
 import Dashboard from './Dashboard';
 import AnalyticsPanel from './AnalyticsPanel';
 import './App.css';
@@ -20,7 +19,7 @@ const World = () => {
   };
 
   useEffect(() => {
-    fetch('./datasets/ne_110m_admin_0_countries_with_sales.geojson')
+    fetch('./datasets/ne_110m_admin_0_countries_clean.geojson')
       .then(res => res.json())
       .then(data => {
         setCountries(data);
@@ -153,7 +152,12 @@ const World = () => {
 
   // Combine countries and airport polygons for rendering
   const allPolygons = useMemo(() => {
-    const countryPolygons = countries.features?.filter(d => d.properties.ISO_A2 !== 'AQ') || [];
+    // Filter out only Antarctica - show all countries since sales data is removed
+    const countryPolygons = countries.features?.filter(d => 
+      d.properties.ISO_A2 !== 'AQ'
+    ) || [];
+    
+    console.log(`🌍 Displaying ${countryPolygons.length} countries (all countries visible - sales data removed)`);
     
     // Add airport polygons to the list
     return [...countryPolygons, ...selectedCountryAirports];
@@ -190,56 +194,31 @@ const World = () => {
     return pmiPercentage;
   };
 
-  // Calculate average PMI percentage and create color scale
+  // Simple color scale for geography-only display
   const { colorScale, globalData } = useMemo(() => {
     if (!countries.features || countries.features.length === 0) {
-      return { colorScale: () => '#666666', globalData: {} };
+      return { 
+        colorScale: () => '#666666', 
+        globalData: {}
+      };
     }
 
-    const validValues = countries.features
-      .map(getVal)
-      .filter(val => val > 0 && !isNaN(val));
+    // Log the analysis - now purely geographic
+    console.log('🌍 GEOGRAPHIC DATA ANALYSIS:');
+    console.log(`📊 Total countries loaded: ${countries.features.length}`);
+    console.log(`🗺️  Sales data removed - countries display in neutral colors`);
+    console.log(`✈️ Airport-specific DF-MACASE data available through country selection`);
 
-    if (validValues.length === 0) {
-      return { colorScale: () => '#666666', globalData: {} };
-    }
-
-    const avgPmi = validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
-    const total2024 = countries.features.reduce((sum, f) => sum + (Number(f.properties.volume_2024) || 0), 0);
-    const total2023 = countries.features.reduce((sum, f) => sum + (Number(f.properties.volume_2023) || 0), 0);
-    const countriesWithData = validValues.length;
-    const top5 = countries.features
-      .map(f => ({
-        name: f.properties.ADMIN || f.properties.NAME,
-        volume: Number(f.properties.volume_2024) || 0
-      }))
-      .filter(c => c.volume > 0)
-      .sort((a, b) => b.volume - a.volume)
-      .slice(0, 5);
-    const aboveAvg = countries.features.filter(f => getVal(f) > avgPmi).length;
-    const belowAvg = countries.features.filter(f => getVal(f) > 0 && getVal(f) <= avgPmi).length;
-
-    // Create thresholds every 7% around the average
-    const thresholds = [];
-    const range = 35;
-    for (let i = -range; i <= range; i += 7) {
-      thresholds.push(avgPmi + i);
-    }
-    const colors = [
-      '#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'
-    ];
-    const colorScale = scaleThreshold().domain(thresholds).range(colors);
+    // Simple neutral color for all countries
+    const colorScale = () => '#4a5568'; // Neutral dark grey
 
     return {
       colorScale,
       globalData: {
-        total2024,
-        total2023,
-        avgPmi,
-        countriesWithData,
-        top5,
-        aboveAvg,
-        belowAvg
+        totalCountries: countries.features.length,
+        dataType: 'Geographic Only',
+        salesDataRemoved: true,
+        airportDataAvailable: true
       }
     };
   }, [countries]);
@@ -300,9 +279,8 @@ const World = () => {
         console.log('Airport selected:', airportData?.iata_code, airportData?.airport_name);
       }
     } else {
-      // Countries are only clickable when not already selected AND have data
-      const hasData = getVal(polygon) > 0;
-      if (polygon !== selectedCountry && hasData) {
+      // Countries are clickable when not already selected (no PMI data requirement)
+      if (polygon !== selectedCountry) {
         setSelectedCountry(polygon);
         setSelectedAirport(null); // Clear airport selection when country changes
         console.log('Selected country:', polygon.properties.ADMIN || polygon.properties.NAME);
@@ -323,11 +301,11 @@ const World = () => {
       if (parentCountry) {
         setHoverD(parentCountry);
       }
-    } else if (polygon && getVal(polygon) > 0) {
-      // When hovering over a country with data, set hover normally
+    } else if (polygon) {
+      // When hovering over a country, set hover normally (no data requirement)
       setHoverD(polygon);
     } else {
-      // When hovering over a country without data or nothing, clear hover
+      // When hovering over nothing, clear hover
       setHoverD(null);
     }
   };

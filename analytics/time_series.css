@@ -1,0 +1,248 @@
+.time-series-analytics {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(0, 255, 231, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.analytics-header h3 {
+  margin: 0;
+  color: #00ffe7;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.control-select {
+  background: rgba(0, 255, 231, 0.1);
+  border: 1px solid rgba(0, 255, 231, 0.3);
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.control-select:hover {
+  border-color: rgba(0, 255, 231, 0.6);
+  background: rgba(0, 255, 231, 0.2);
+}
+
+.control-select:focus {
+  border-color: #00ffe7;
+  box-shadow: 0 0 0 2px rgba(0, 255, 231, 0.2);
+}
+
+.control-select option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.chart-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.chart-tabs button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.chart-tabs button:hover {
+  background: rgba(0, 255, 231, 0.1);
+  color: #ffffff;
+}
+
+.chart-tabs button.active {
+  background: rgba(0, 255, 231, 0.2);
+  color: #00ffe7;
+  box-shadow: 0 2px 8px rgba(0, 255, 231, 0.3);
+}
+
+.chart-container {
+  height: 350px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.statistical-insights {
+  margin-top: 20px;
+}
+
+.statistical-insights h4 {
+  margin: 0 0 15px 0;
+  color: #00ffe7;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.insight-card {
+  background: rgba(0, 255, 231, 0.05);
+  border: 1px solid rgba(0, 255, 231, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.insight-card:hover {
+  border-color: rgba(0, 255, 231, 0.4);
+  background: rgba(0, 255, 231, 0.1);
+  transform: translateY(-2px);
+}
+
+.insight-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.insight-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.insight-value.positive {
+  color: #4CAF50;
+}
+
+.insight-value.negative {
+  color: #f44336;
+}
+
+.insight-detail {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .analytics-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .controls {
+    justify-content: center;
+  }
+  
+  .chart-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  
+  .chart-container {
+    height: 280px;
+    padding: 10px;
+  }
+  
+  .insights-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .insight-card {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-series-analytics {
+    padding: 15px;
+    margin: 10px 0;
+  }
+  
+  .analytics-header h3 {
+    font-size: 1rem;
+  }
+  
+  .chart-tabs {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    height: 250px;
+    padding: 8px;
+  }
+  
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation for chart loading */
+.chart-container canvas {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for select elements */
+.control-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.control-select::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.control-select::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 231, 0.5);
+  border-radius: 4px;
+}
+
+.control-select::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 231, 0.7);
+}

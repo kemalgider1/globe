@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaArrowLeft } from 'react-icons/fa';
+import React, { useState, useMemo } from 'react';
+import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaArrowLeft, FaPlane, FaUsers, FaDollarSign, FaPercent } from 'react-icons/fa';
 import { CircleFlag } from 'react-circle-flags';
 import './Dashboard.css';
 
-const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
+const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlobal }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -14,12 +14,106 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
     return iso ? iso.toLowerCase() : null;
   };
 
-  // Always show the dashboard - it will show global or country-specific content
   const isGlobalView = !selectedCountry;
   const countryName = selectedCountry ? 
     (selectedCountry.properties.ADMIN || selectedCountry.properties.NAME) : 
     'Global View';
   const countryISO = getCountryISO(selectedCountry);
+
+  // Calculate comprehensive analytics based on airports data
+  const analytics = useMemo(() => {
+    if (!selectedCountryAirports?.length) {
+      // Global analytics from all airports data would go here
+      // Mock top nationalities for global view
+      const globalTopNationalities = [
+        ['China', { pax: 5200000, airports: 49, revenue: 45000000 }],
+        ['USA', { pax: 4800000, airports: 215, revenue: 42000000 }],
+        ['Japan', { pax: 3500000, airports: 32, revenue: 38000000 }],
+        ['Germany', { pax: 3200000, airports: 22, revenue: 35000000 }],
+        ['United Kingdom', { pax: 2900000, airports: 25, revenue: 32000000 }],
+        ['France', { pax: 2600000, airports: 18, revenue: 28000000 }],
+        ['Turkey', { pax: 2400000, airports: 17, revenue: 26000000 }],
+        ['India', { pax: 2200000, airports: 18, revenue: 24000000 }],
+        ['Spain', { pax: 2000000, airports: 27, revenue: 22000000 }]
+      ];
+
+      // Mock top airports for global view
+      const globalTopByPAX = [
+        { iata_code: 'ATL', airport_name: 'Hartsfield-Jackson Atlanta Intl', pax: 352131 },
+        { iata_code: 'DXB', airport_name: 'Dubai International', pax: 315478 },
+        { iata_code: 'HND', airport_name: 'Tokyo Haneda', pax: 271215 },
+        { iata_code: 'LHR', airport_name: 'London Heathrow', pax: 260432 },
+        { iata_code: 'CDG', airport_name: 'Charles de Gaulle', pax: 211616 },
+        { iata_code: 'DEN', airport_name: 'Denver International', pax: 189547 },
+        { iata_code: 'IST', airport_name: 'Istanbul Airport', pax: 186321 },
+        { iata_code: 'SIN', airport_name: 'Singapore Changi', pax: 188996 },
+        { iata_code: 'FRA', airport_name: 'Frankfurt am Main', pax: 175423 }
+      ];
+
+      return {
+        totalAirports: 1545,
+        totalCountries: 197,
+        totalPAX: 30000000,
+        totalRevenue: 6860000000,
+        pmiPenetration: 33.3,
+        avgSpendPerPAX: 8689.20,
+        avgProfitMargin: 93.7,
+        topNationalities: globalTopNationalities,
+        topByPAX: globalTopByPAX,
+        topByRevenue: globalTopByPAX // For simplicity, using same as PAX
+      };
+    }
+
+    // Country-specific analytics
+    const airports = selectedCountryAirports || [];
+    const totalPAX = airports.reduce((sum, airport) => sum + (airport.pax || 0), 0);
+    const totalRevenue = airports.reduce((sum, airport) => sum + ((airport.pax || 0) * (airport.spend_per_pax || 0)), 0);
+    const pmiAirports = airports.filter(airport => (airport.pmi_profit_pct || 0) > 0);
+    const avgSpendPerPAX = totalPAX > 0 ? totalRevenue / totalPAX : 0;
+    const avgProfitMargin = pmiAirports.length > 0 ? 
+      pmiAirports.reduce((sum, airport) => sum + (airport.pmi_profit_pct || 0), 0) / pmiAirports.length : 0;
+
+    // Top performers
+    const topByPAX = airports
+      .filter(airport => airport.pax > 0)
+      .sort((a, b) => (b.pax || 0) - (a.pax || 0))
+      .slice(0, 9);
+
+    const topByRevenue = airports
+      .filter(airport => (airport.pax || 0) * (airport.spend_per_pax || 0) > 0)
+      .sort((a, b) => ((b.pax || 0) * (b.spend_per_pax || 0)) - ((a.pax || 0) * (a.spend_per_pax || 0)))
+      .slice(0, 9);
+
+    // Nationality analysis
+    const nationalityStats = {};
+    airports.forEach(airport => {
+      if (airport.nationality && airport.pax > 0) {
+        if (!nationalityStats[airport.nationality]) {
+          nationalityStats[airport.nationality] = { pax: 0, airports: 0, revenue: 0 };
+        }
+        nationalityStats[airport.nationality].pax += airport.pax || 0;
+        nationalityStats[airport.nationality].airports += 1;
+        nationalityStats[airport.nationality].revenue += (airport.pax || 0) * (airport.spend_per_pax || 0);
+      }
+    });
+
+    const topNationalities = Object.entries(nationalityStats)
+      .sort((a, b) => b[1].pax - a[1].pax)
+      .slice(0, 9);
+
+    return {
+      totalAirports: airports.length,
+      totalPAX,
+      totalRevenue,
+      avgSpendPerPAX,
+      avgProfitMargin,
+      pmiPenetration: airports.length > 0 ? (pmiAirports.length / airports.length) * 100 : 0,
+      topByPAX,
+      topByRevenue,
+      topNationalities,
+      nationalityStats
+    };
+  }, [selectedCountryAirports]);
 
   // Circular progress chart component
   const CircularProgress = ({ percentage, title, color = '#00ffe7' }) => (
@@ -50,157 +144,260 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
         <div className="progress-text">
           <span className="progress-percentage">{percentage.toFixed(1)}%</span>
         </div>
-      </div>
+            </div>
       <div className="progress-title">{title}</div>
-    </div>
+              </div>
   );
 
   // Global Overview Section
   const GlobalOverview = () => (
-    <div className="global-overview">
-      <h4>Geographic Overview</h4>
-      <div className="overview-metrics">
-        <div className="overview-metric">
-          <span className="metric-label">Total Countries</span>
-          <span className="metric-value">{data?.totalCountries || 0}</span>
+    <div className="overview-section">
+      <h4>🌍 Global DF-MACASE Overview</h4>
+      
+      <div className="kpi-grid">
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaPlane /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">1,545</div>
+            <div className="kpi-label">Total Airports</div>
+          </div>
         </div>
-        <div className="overview-metric">
-          <span className="metric-label">Data Type</span>
-          <span className="metric-value">{data?.dataType || 'Geographic'}</span>
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaGlobe /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">197</div>
+            <div className="kpi-label">Countries</div>
+          </div>
         </div>
-        <div className="overview-metric">
-          <span className="metric-label">Airport Data</span>
-          <span className="metric-value">{data?.airportDataAvailable ? 'Available' : 'N/A'}</span>
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaUsers /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">30.0M</div>
+            <div className="kpi-label">Total PAX</div>
+          </div>
         </div>
-        <div className="overview-metric">
-          <span className="metric-label">Sales Data</span>
-          <span className="metric-value">{data?.salesDataRemoved ? 'Removed' : 'Present'}</span>
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaDollarSign /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">$6.86B</div>
+            <div className="kpi-label">Total Revenue</div>
+          </div>
+          </div>
+        </div>
+
+      <div className="summary-stats">
+        <div className="stat-item">
+          <span className="stat-label">PMI Market Penetration</span>
+          <span className="stat-value">33.3% (515 of 1,545 airports)</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Average Spend per PAX</span>
+          <span className="stat-value">$8,689.20</span>
+              </div>
+        <div className="stat-item">
+          <span className="stat-label">Average Profit Margin</span>
+          <span className="stat-value">93.7%</span>
+              </div>
+        <div className="stat-item">
+          <span className="stat-label">Data Quality</span>
+          <span className="stat-value">100% complete for financial metrics</span>
+              </div>
+            </div>
+
+      <div className="performance-indicators">
+        <CircularProgress 
+          percentage={33.3} 
+          title="PMI Penetration"
+          color="#4CAF50"
+        />
+        <CircularProgress 
+          percentage={93.7} 
+          title="Avg Profit Margin"
+          color="#2196F3"
+        />
+      </div>
+      </div>
+    );
+
+  // Country Overview Section
+  const CountryOverview = () => (
+    <div className="overview-section">
+      <h4>✈️ {countryName} Performance</h4>
+      
+      <div className="kpi-grid">
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaPlane /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">{analytics.totalAirports}</div>
+            <div className="kpi-label">Airports</div>
+          </div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaUsers /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">{(analytics.totalPAX || 0).toLocaleString()}</div>
+            <div className="kpi-label">Total PAX</div>
+          </div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaDollarSign /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">${(analytics.totalRevenue || 0).toLocaleString()}</div>
+            <div className="kpi-label">Total Revenue</div>
+          </div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-icon"><FaPercent /></div>
+          <div className="kpi-content">
+            <div className="kpi-value">{analytics.pmiPenetration.toFixed(1)}%</div>
+            <div className="kpi-label">PMI Penetration</div>
+          </div>
         </div>
       </div>
-      <div className="data-info">
-        <h5>📍 Geographic Display Mode</h5>
-        <div className="info-content">
-          <p>• Countries display in neutral colors</p>
-          <p>• No sales/PMI data on country level</p>
-          <p>• Airport-specific DF-MACASE data available</p>
-          <p>• Click countries to view airport analytics</p>
+
+      <div className="summary-stats">
+        <div className="stat-item">
+          <span className="stat-label">Average Spend per PAX</span>
+          <span className="stat-value">${analytics.avgSpendPerPAX.toLocaleString()}</span>
         </div>
+        <div className="stat-item">
+          <span className="stat-label">Average Profit Margin</span>
+          <span className="stat-value">{analytics.avgProfitMargin.toFixed(1)}%</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">PMI-Active Airports</span>
+          <span className="stat-value">{Math.round(analytics.totalAirports * analytics.pmiPenetration / 100)} of {analytics.totalAirports}</span>
+        </div>
+      </div>
+
+      <div className="performance-indicators">
+        <CircularProgress 
+          percentage={analytics.pmiPenetration} 
+          title="PMI Penetration"
+          color="#4CAF50"
+        />
+        <CircularProgress 
+          percentage={Math.min(100, analytics.avgProfitMargin)} 
+          title="Avg Profit Margin"
+          color="#2196F3"
+        />
       </div>
     </div>
   );
 
-  // Country-Specific Overview Section
-  const CountryOverview = () => {
-    const volume2024 = Number(selectedCountry?.properties?.volume_2024) || 0;
-    const volume2023 = Number(selectedCountry?.properties?.volume_2023) || 0;
-    const pmiPercentage = selectedCountry?.properties?.pmi_percentage || 0;
-    const growth = volume2023 > 0 ? ((volume2024 - volume2023) / volume2023) * 100 : 0;
-
-    return (
-      <div className="country-overview">
-        <h4>{countryName} Performance</h4>
-        <div className="overview-metrics">
-          <div className="overview-metric">
-                <span className="metric-label">2024 Volume</span>
-            <span className="metric-value">{volume2024.toLocaleString()}</span>
-              </div>
-          <div className="overview-metric">
-            <span className="metric-label">2023 Volume</span>
-            <span className="metric-value">{volume2023.toLocaleString()}</span>
-          </div>
-          <div className="overview-metric">
-            <span className="metric-label">PMI Performance</span>
-            <span className="metric-value">{pmiPercentage.toFixed(1)}%</span>
-          </div>
-          <div className="overview-metric">
-            <span className="metric-label">Growth Rate</span>
-            <span className="metric-value">{growth.toFixed(1)}%</span>
+  // Top Performers Section
+  const TopPerformers = () => {
+    const showNationalities = isGlobalView;
+    const performers = showNationalities ? analytics.topNationalities : analytics.topByPAX;
+    
+    // Safety check to ensure performers is an array
+    if (!performers || !Array.isArray(performers) || performers.length === 0) {
+      return (
+        <div className="top-performers">
+          <h4>{showNationalities ? 'Top 9 Nationalities' : 'Top 9 Airports'}</h4>
+          <div className="performers-table">
+            <div className="table-header">
+              <span>{showNationalities ? 'NATIONALITY' : 'AIRPORT'}</span>
+              <span>PAX</span>
+            </div>
+            <div className="table-row">
+              <span className="performer-name">No data available</span>
+              <span className="performer-value">-</span>
+            </div>
           </div>
         </div>
-        <div className="progress-charts">
-          <CircularProgress 
-            percentage={pmiPercentage} 
-            title="PMI Performance"
-            color="#4CAF50"
-          />
-          <CircularProgress 
-            percentage={Math.max(0, Math.min(100, growth + 50))} 
-            title="Growth Index"
-            color="#2196F3"
-          />
+      );
+    }
+    
+    return (
+      <div className="top-performers">
+        <h4>{showNationalities ? 'Top 9 Nationalities' : 'Top 9 Airports'}</h4>
+        
+        {showNationalities && (
+          <div className="total-stats">
+            <div className="total-stat">
+              <span className="total-label">PAX of selected Nationalities (of all Nationalities)</span>
+              <span className="total-value">4,857,149,929 (100.0%)</span>
             </div>
+          </div>
+        )}
+
+        <div className="performers-table">
+          <div className="table-header">
+            <span>{showNationalities ? 'NATIONALITY' : 'AIRPORT'}</span>
+            <span>PAX</span>
+          </div>
+          {performers.map((item, index) => {
+            if (showNationalities) {
+              const [nationality, stats] = item;
+              return (
+                <div key={nationality} className="table-row">
+                  <span className="performer-name">{nationality}</span>
+                  <span className="performer-value">{stats.pax.toLocaleString()}</span>
+                </div>
+              );
+            } else {
+              return (
+                <div key={item.iata_code || index} className="table-row">
+                  <span className="performer-name">{item.iata_code || item.airport_name}</span>
+                  <span className="performer-value">{(item.pax || 0).toLocaleString()}</span>
+                </div>
+              );
+            }
+          })}
+        </div>
       </div>
     );
   };
 
-  // Geographic Information
-  const GeographicInfo = () => (
-    <div className="geographic-info">
-      <h4>📍 Available Geographic Data</h4>
-      <div className="info-grid">
-        <div className="info-item">
-          <span className="info-label">Countries</span>
-          <span className="info-value">{data?.totalCountries || 0}</span>
-        </div>
-        <div className="info-item">
-          <span className="info-label">Display Mode</span>
-          <span className="info-value">Neutral Colors</span>
-        </div>
-        <div className="info-item">
-          <span className="info-label">Interaction</span>
-          <span className="info-value">Click for Airport Data</span>
-        </div>
-        <div className="info-item">
-          <span className="info-label">Focus</span>
-          <span className="info-value">DF-MACASE Analytics</span>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Market Analysis Section
-  const MarketAnalysis = () => (
-    <div className="market-analysis">
-      <div className="analysis-grid">
-        <div className="analysis-card">
-          <h5>Market Distribution</h5>
-          <div className="analysis-stats">
-            <div className="analysis-item">
-              <span className="analysis-label">Above Average PMI</span>
-              <span className="analysis-value">{data?.aboveAvg || 0} countries</span>
-            </div>
-            <div className="analysis-item">
-              <span className="analysis-label">Below Average PMI</span>
-              <span className="analysis-value">{data?.belowAvg || 0} countries</span>
-            </div>
-            <div className="analysis-item">
-              <span className="analysis-label">Total Coverage</span>
-              <span className="analysis-value">{data?.countriesWithData || 0} countries</span>
-            </div>
-          </div>
+  // Financial Overview Section
+  const FinancialOverview = () => (
+    <div className="financial-overview">
+      <h4>💰 Financial Overview</h4>
+      
+      <div className="financial-stats">
+        <div className="financial-item">
+          <span className="financial-label">PAX spent on PMI in sel. {isGlobalView ? 'Nationalities' : 'Airports'}</span>
+          <span className="financial-value">${(analytics.totalRevenue || 0).toLocaleString()} (100.0%)</span>
         </div>
         
-        <div className="analysis-card">
-          <h5>Volume Insights</h5>
-          <div className="analysis-stats">
-            <div className="analysis-item">
-              <span className="analysis-label">2024 Total Volume</span>
-              <span className="analysis-value">{(data?.total2024 || 0).toLocaleString()}</span>
+        {!isGlobalView && (
+          <>
+            <div className="financial-item">
+              <span className="financial-label">Selected Airports PMI DF NOR 2023</span>
+              <span className="financial-value">${(analytics.totalRevenue || 0).toLocaleString()}</span>
             </div>
-            <div className="analysis-item">
-              <span className="analysis-label">2023 Total Volume</span>
-              <span className="analysis-value">{(data?.total2023 || 0).toLocaleString()}</span>
+            
+            <div className="financial-item">
+              <span className="financial-label">Total Airports PMI DF NOR 2023</span>
+              <span className="financial-value">${(analytics.totalRevenue || 0).toLocaleString()}</span>
+            </div>
+          </>
+        )}
+        
+        <div className="financial-item">
+          <span className="financial-label">Total PAX travelled in DF 2023</span>
+          <span className="financial-value">{(analytics.totalPAX || 0).toLocaleString()}</span>
         </div>
-                           <div className="analysis-item">
-                 <span className="analysis-label">Year-over-Year Growth</span>
-                 <span className="analysis-value">
-                   {(data?.total2023 && data?.total2024) ? 
-                     (((data.total2024 - data.total2023) / data.total2023) * 100).toFixed(1) + '%' : 
-                     '0.0%'
-                   }
-                 </span>
+      </div>
+
+      <div className="financial-charts">
+        <div className="chart-container">
+          <div className="chart-title">% PAX CC users (vs all LANU)</div>
+          <CircularProgress 
+            percentage={96.6} 
+            title=""
+            color="#4CAF50"
+          />
         </div>
-        </div>
+        
+        <div className="chart-container">
+          <div className="chart-title">% PMIDF CC purchases (vs all Cat.)</div>
+          <CircularProgress 
+            percentage={82.6} 
+            title=""
+            color="#2196F3"
+          />
         </div>
       </div>
     </div>
@@ -213,39 +410,82 @@ const Dashboard = ({ data, selectedCountry, onBackToGlobal }) => {
         return (
           <div className="tab-content">
             {isGlobalView ? <GlobalOverview /> : <CountryOverview />}
-            {isGlobalView && <GeographicInfo />}
+            <TopPerformers />
+            <FinancialOverview />
           </div>
         );
       case 'details':
         return (
           <div className="tab-content">
             <div className="details-section">
-              <h4>{isGlobalView ? 'Global' : countryName} Details</h4>
-              <div className="details-grid">
-                <div className="detail-item">
-                  <span className="detail-label">View Type</span>
-                  <span className="detail-value">{isGlobalView ? 'Global Analysis' : 'Country Analysis'}</span>
+              <h4>📊 Detailed Analytics</h4>
+              
+              {analytics.topByRevenue?.length > 0 && (
+                <div className="revenue-table">
+                  <h5>Top Revenue Generators</h5>
+                  <div className="table-header">
+                    <span>Airport</span>
+                    <span>PAX</span>
+                    <span>Revenue</span>
+                    <span>$/PAX</span>
+                  </div>
+                  {analytics.topByRevenue.slice(0, 5).map((airport, index) => (
+                    <div key={airport.iata_code || index} className="table-row">
+                      <span>{airport.iata_code}</span>
+                      <span>{(airport.pax || 0).toLocaleString()}</span>
+                      <span>${((airport.pax || 0) * (airport.spend_per_pax || 0)).toLocaleString()}</span>
+                      <span>${(airport.spend_per_pax || 0).toLocaleString()}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="detail-item">
-                  <span className="detail-label">Data Points</span>
-                  <span className="detail-value">{data?.countriesWithData || 0}</span>
-                </div>
-                                 <div className="detail-item">
-                   <span className="detail-label">PMI Coverage</span>
-                   <span className="detail-value">{((data?.aboveAvg || 0) + (data?.belowAvg || 0))} countries</span>
-        </div>
-                <div className="detail-item">
-                  <span className="detail-label">Volume Range</span>
-                  <span className="detail-value">2023-2024</span>
-        </div>
-        </div>
+              )}
             </div>
           </div>
         );
       case 'analytics':
         return (
           <div className="tab-content">
-            <MarketAnalysis />
+            <div className="analytics-section">
+              <h4>📈 Advanced Analytics</h4>
+              
+              <div className="analytics-grid">
+                <div className="analytics-card">
+                  <h5>Market Penetration</h5>
+                  <div className="analytics-stats">
+                    <div className="analytics-item">
+                      <span>PMI Active</span>
+                      <span>{Math.round(analytics.totalAirports * analytics.pmiPenetration / 100)}</span>
+                    </div>
+                    <div className="analytics-item">
+                      <span>Total Airports</span>
+                      <span>{analytics.totalAirports}</span>
+                    </div>
+                    <div className="analytics-item">
+                      <span>Penetration Rate</span>
+                      <span>{analytics.pmiPenetration.toFixed(1)}%</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="analytics-card">
+                  <h5>Performance Metrics</h5>
+                  <div className="analytics-stats">
+                    <div className="analytics-item">
+                      <span>Avg Profit Margin</span>
+                      <span>{analytics.avgProfitMargin.toFixed(1)}%</span>
+                    </div>
+                    <div className="analytics-item">
+                      <span>Avg Spend/PAX</span>
+                      <span>${analytics.avgSpendPerPAX.toLocaleString()}</span>
+                    </div>
+                    <div className="analytics-item">
+                      <span>Total Revenue</span>
+                      <span>${(analytics.totalRevenue || 0).toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       default:

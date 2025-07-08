@@ -1,21 +1,285 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import Dashboard from './Dashboard';
 import AnalyticsPanel from './AnalyticsPanel';
 import './App.css';
 
 const World = () => {
+  const globeRef = useRef();
   const [countries, setCountries] = useState({ features: []});
   const [airports, setAirports] = useState([]);
   const [hoverD, setHoverD] = useState();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedAirport, setSelectedAirport] = useState(null);
+  const [pmiColorData, setPmiColorData] = useState(null);
 
   // Utility function to convert ISO country code to flag emoji
   const getCountryFlag = (countryCode) => {
     if (!countryCode) return '🏳️';
+    
+    // Handle special cases and invalid codes
+    const specialFlags = {
+      'XK': '🇽🇰', // Kosovo
+      'TW': '🇹🇼', // Taiwan
+      'PS': '🇵🇸', // Palestine
+      'HK': '🇭🇰', // Hong Kong
+      'MO': '🇲🇴', // Macau
+      'XX': '🏳️', // Unknown
+      'N/A': '🏳️', // Not available
+      '': '🏳️', // Empty
+      'UK': '🇬🇧', // United Kingdom alternative
+      'US': '🇺🇸', // United States alternative
+    };
+    
     const code = countryCode.toUpperCase();
-    return code.replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
+    
+    // Return special case if exists
+    if (specialFlags[code]) {
+      return specialFlags[code];
+    }
+    
+    // Validate ISO code (must be exactly 2 letters)
+    if (code.length !== 2 || !/^[A-Z]{2}$/.test(code)) {
+      return '🏳️'; // Default flag for invalid codes
+    }
+    
+    try {
+      return code.replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
+    } catch (error) {
+      console.warn('Invalid country code for flag:', code);
+      return '🏳️';
+    }
+  };
+
+  // Function to map globe country names to PMI data country names
+  const mapCountryName = (globeCountryName) => {
+    if (!globeCountryName) return null;
+    
+    // Direct mapping for countries with different names
+    const nameMapping = {
+      'United States of America': 'USA',
+      'Russian Federation': 'Russian Fed.',
+      'Republic of Korea': 'South Korea',
+      'Democratic People\'s Republic of Korea': 'North Korea',
+      'People\'s Republic of China': 'China',
+      'Iran (Islamic Republic of)': 'Iran',
+      'United Kingdom': 'United Kingdom',
+      'Bosnia and Herzegovina': 'Bosnia-Herz.',
+      'Dominican Republic': 'Dominican Rep.',
+      'Equatorial Guinea': 'Equatorial Gui.',
+      'French Polynesia': 'Frenc.Polynesia',
+      'British Virgin Islands': 'Brit.Virgin Is.',
+      'United States Virgin Islands': 'Amer.Virgin Is.',
+      'Northern Mariana Islands': 'N. Mariana Is.',
+      'Papua New Guinea': 'Papua Nw Guinea',
+      'Saint Vincent and the Grenadines': 'St. Vincent',
+      'Trinidad and Tobago': 'Trinidad,Tobago',
+      'Turks and Caicos Islands': 'Turks & Caicos',
+      'Saint Kitts and Nevis': 'St Kitts&Nevis',
+      'Côte d\'Ivoire': 'Ivory Coast',
+      'Republic of Serbia': 'Serbia',
+      'North Macedonia': 'North Macedonia',
+      'Czech Republic': 'Czech Republic',
+      'Republic of Lithuania': 'Lithuania',
+      'Republic of Latvia': 'Latvia',
+      'Republic of Estonia': 'Estonia',
+      'Slovak Republic': 'Slovakia',
+      'Republic of Slovenia': 'Slovenia',
+      'Republic of Croatia': 'Croatia',
+      'Republic of Albania': 'Albania',
+      'Republic of Moldova': 'Moldova',
+      'Republic of Belarus': 'Belarus',
+      'Ukraine': 'Ukraine',
+      'Republic of Bulgaria': 'Bulgaria',
+      'Romania': 'Romania',
+      'Republic of Poland': 'Poland',
+      'Hungary': 'Hungary',
+      'Republic of Austria': 'Austria',
+      'Swiss Confederation': 'Switzerland',
+      'Republic of Italy': 'Italy',
+      'French Republic': 'France',
+      'Kingdom of Spain': 'Spain',
+      'Portuguese Republic': 'Portugal',
+      'Kingdom of Belgium': 'Belgium',
+      'Kingdom of the Netherlands': 'Netherlands',
+      'Federal Republic of Germany': 'Germany',
+      'Republic of Ireland': 'Ireland',
+      'Republic of Iceland': 'Iceland',
+      'Kingdom of Norway': 'Norway',
+      'Kingdom of Sweden': 'Sweden',
+      'Republic of Finland': 'Finland',
+      'Kingdom of Denmark': 'Denmark',
+      'Hellenic Republic': 'Greece',
+      'Republic of Turkey': 'Turkey',
+      'Republic of Cyprus': 'Cyprus',
+      'Republic of Malta': 'Malta',
+      'Burkina Faso': 'Burkina Faso',
+      'Republic of Ghana': 'Ghana',
+      'Republic of Kenya': 'Kenya',
+      'United Republic of Tanzania': 'Tanzania',
+      'Republic of South Africa': 'South Africa',
+      'Arab Republic of Egypt': 'Egypt',
+      'State of Libya': 'Libya',
+      'Republic of Tunisia': 'Tunisia',
+      'People\'s Democratic Republic of Algeria': 'Algeria',
+      'Kingdom of Morocco': 'Morocco',
+      'Islamic Republic of Mauritania': 'Mauritania',
+      'Republic of Mali': 'Mali',
+      'Republic of Niger': 'Niger',
+      'Republic of Chad': 'Chad',
+      'Republic of Sudan': 'Sudan',
+      'State of Eritrea': 'Eritrea',
+      'Federal Democratic Republic of Ethiopia': 'Ethiopia',
+      'Republic of Djibouti': 'Djibouti',
+      'Somali Republic': 'Somalia',
+      'Republic of Uganda': 'Uganda',
+      'Republic of Rwanda': 'Rwanda',
+      'Republic of Burundi': 'Burundi',
+      'Central African Republic': 'Central African Republic',
+      'Republic of Cameroon': 'Cameroon',
+      'Republic of Equatorial Guinea': 'Equatorial Guinea',
+      'Gabonese Republic': 'Gabon',
+      'Republic of the Congo': 'Congo',
+      'Democratic Republic of the Congo': 'Dem. Rep. Congo',
+      'Republic of Angola': 'Angola',
+      'Republic of Zambia': 'Zambia',
+      'Republic of Zimbabwe': 'Zimbabwe',
+      'Republic of Botswana': 'Botswana',
+      'Republic of Namibia': 'Namibia',
+      'Kingdom of Lesotho': 'Lesotho',
+      'Kingdom of Swaziland': 'Swaziland',
+      'Republic of Mozambique': 'Mozambique',
+      'Republic of Malawi': 'Malawi',
+      'Republic of Madagascar': 'Madagascar',
+      'Republic of Mauritius': 'Mauritius',
+      'Republic of Seychelles': 'Seychelles',
+      'Union of the Comoros': 'Comoros',
+      'Republic of Cape Verde': 'Cape Verde',
+      'Republic of São Tomé and Príncipe': 'São Tomé and Príncipe',
+      'Republic of Guinea': 'Guinea',
+      'Republic of Guinea-Bissau': 'Guinea-Bissau',
+      'Republic of Sierra Leone': 'Sierra Leone',
+      'Republic of Liberia': 'Liberia',
+      'Republic of Togo': 'Togo',
+      'Republic of Benin': 'Benin',
+      'Federal Republic of Nigeria': 'Nigeria',
+      'Republic of Senegal': 'Senegal',
+      'Islamic Republic of The Gambia': 'Gambia',
+      'Republic of India': 'India',
+      'People\'s Republic of Bangladesh': 'Bangladesh',
+      'Islamic Republic of Pakistan': 'Pakistan',
+      'Islamic Republic of Afghanistan': 'Afghanistan',
+      'Republic of the Maldives': 'Maldives',
+      'Democratic Socialist Republic of Sri Lanka': 'Sri Lanka',
+      'Kingdom of Bhutan': 'Bhutan',
+      'Federal Democratic Republic of Nepal': 'Nepal',
+      'Republic of the Union of Myanmar': 'Myanmar',
+      'Kingdom of Thailand': 'Thailand',
+      'Lao People\'s Democratic Republic': 'Laos',
+      'Kingdom of Cambodia': 'Cambodia',
+      'Socialist Republic of Vietnam': 'Vietnam',
+      'Republic of the Philippines': 'Philippines',
+      'Malaysia': 'Malaysia',
+      'Brunei Darussalam': 'Brunei',
+      'Republic of Singapore': 'Singapore',
+      'Republic of Indonesia': 'Indonesia',
+      'Democratic Republic of Timor-Leste': 'Timor-Leste',
+      'Independent State of Papua New Guinea': 'Papua New Guinea',
+      'Solomon Islands': 'Solomon Islands',
+      'Republic of Vanuatu': 'Vanuatu',
+      'Republic of Fiji': 'Fiji',
+      'Independent State of Samoa': 'Samoa',
+      'Kingdom of Tonga': 'Tonga',
+      'Republic of Kiribati': 'Kiribati',
+      'Republic of Nauru': 'Nauru',
+      'Republic of Palau': 'Palau',
+      'Federated States of Micronesia': 'Micronesia',
+      'Republic of the Marshall Islands': 'Marshall Islands',
+      'Tuvalu': 'Tuvalu',
+      'Australia': 'Australia',
+      'New Zealand': 'New Zealand',
+      'Japan': 'Japan',
+      'Mongolia': 'Mongolia',
+      'Republic of China': 'Taiwan',
+      'Hong Kong Special Administrative Region': 'Hong Kong',
+      'Macao Special Administrative Region': 'Macau',
+      'Canada': 'Canada',
+      'United Mexican States': 'Mexico',
+      'Republic of Guatemala': 'Guatemala',
+      'Republic of Belize': 'Belize',
+      'Republic of El Salvador': 'El Salvador',
+      'Republic of Honduras': 'Honduras',
+      'Republic of Nicaragua': 'Nicaragua',
+      'Republic of Costa Rica': 'Costa Rica',
+      'Republic of Panama': 'Panama',
+      'Republic of Cuba': 'Cuba',
+      'Commonwealth of the Bahamas': 'Bahamas',
+      'Jamaica': 'Jamaica',
+      'Republic of Haiti': 'Haiti',
+      'Commonwealth of Puerto Rico': 'Puerto Rico',
+      'Anguilla': 'Anguilla',
+      'Saint Martin': 'Saint Martin',
+      'Saint Barthélemy': 'Saint Barthélemy',
+      'Antigua and Barbuda': 'Antigua/Barbuda',
+      'Montserrat': 'Montserrat',
+      'Guadeloupe': 'Guadeloupe',
+      'Dominica': 'Dominica',
+      'Martinique': 'Martinique',
+      'Saint Lucia': 'Saint Lucia',
+      'Barbados': 'Barbados',
+      'Grenada': 'Grenada',
+      'Aruba': 'Aruba',
+      'Curaçao': 'Curaçao',
+      'Bonaire, Sint Eustatius and Saba': 'Bonaire, Saba',
+      'Sint Maarten': 'Sint Maarten',
+      'Cayman Islands': 'Cayman Islands',
+      'Bermuda': 'Bermuda',
+      'Greenland': 'Greenland',
+      'Faroe Islands': 'Faroe Islands',
+      'Argentine Republic': 'Argentina',
+      'Plurinational State of Bolivia': 'Bolivia',
+      'Federative Republic of Brazil': 'Brazil',
+      'Republic of Chile': 'Chile',
+      'Republic of Colombia': 'Colombia',
+      'Republic of Ecuador': 'Ecuador',
+      'French Guiana': 'French Guiana',
+      'Co-operative Republic of Guyana': 'Guyana',
+      'Republic of Paraguay': 'Paraguay',
+      'Republic of Peru': 'Peru',
+      'Republic of Suriname': 'Suriname',
+      'Oriental Republic of Uruguay': 'Uruguay',
+      'Bolivarian Republic of Venezuela': 'Venezuela',
+      'Republic of Kazakhstan': 'Kazakhstan',
+      'Kyrgyz Republic': 'Kyrgyzstan',
+      'Republic of Tajikistan': 'Tajikstan',
+      'Turkmenistan': 'Turkmenistan',
+      'Republic of Uzbekistan': 'Uzbekistan',
+      'Islamic Republic of Iran': 'Iran',
+      'Republic of Iraq': 'Iraq',
+      'Syrian Arab Republic': 'Syria',
+      'Lebanese Republic': 'Lebanon',
+      'Hashemite Kingdom of Jordan': 'Jordan',
+      'State of Israel': 'Israel',
+      'State of Palestine': 'Palestine',
+      'Kingdom of Saudi Arabia': 'Saudi Arabia',
+      'Republic of Yemen': 'Yemen',
+      'Sultanate of Oman': 'Oman',
+      'United Arab Emirates': 'UAE',
+      'State of Qatar': 'Qatar',
+      'State of Bahrain': 'Bahrain',
+      'State of Kuwait': 'Kuwait',
+      'Republic of Armenia': 'Armenia',
+      'Republic of Azerbaijan': 'Azerbaijan',
+      'Georgia': 'Georgia'
+    };
+    
+    // Check direct mapping first
+    if (nameMapping[globeCountryName]) {
+      return nameMapping[globeCountryName];
+    }
+    
+    // Return the original name if no mapping found
+    return globeCountryName;
   };
 
   useEffect(() => {
@@ -44,6 +308,34 @@ const World = () => {
     };
     loadAirports();
   }, []);
+
+  // Load revenue color data
+  useEffect(() => {
+    const loadRevenueColorData = async () => {
+      try {
+        const response = await fetch('./datasets/revenue_color_data.json');
+        const colorData = await response.json();
+        console.log('🎨 REVENUE COLOR DATA LOADED:', Object.keys(colorData.country_colors).length, 'countries');
+        setPmiColorData(colorData);
+      } catch (error) {
+        console.error('Error loading revenue color data:', error);
+        setPmiColorData(null);
+      }
+    };
+    loadRevenueColorData();
+  }, []);
+
+  // Set camera zoom limits after globe is ready
+  useEffect(() => {
+    if (globeRef.current && countries.features?.length > 0) {
+      const controls = globeRef.current.controls();
+      if (controls) {
+        controls.minDistance = 110;  // Closest zoom (much closer inspection)
+        controls.maxDistance = 400;  // Furthest zoom (keeps globe substantial and visible)
+        console.log('🎥 Camera zoom limits set:', { minDistance: 110, maxDistance: 400 });
+      }
+    }
+  }, [countries.features, airports.length]); // Run after data loads to ensure globe is ready
 
   // Function to create a circular polygon for an airport
   const createAirportPolygon = (lat, lng, radiusKm = 10.0) => { // Larger size for better visibility
@@ -157,11 +449,17 @@ const World = () => {
       d.properties.ISO_A2 !== 'AQ'
     ) || [];
     
-    console.log(`🌍 Displaying ${countryPolygons.length} countries (all countries visible - sales data removed)`);
+    console.log(`🌍 Displaying ${countryPolygons.length} countries (all countries visible - revenue-based coloring)`);
     
-    // Add airport polygons to the list
-    return [...countryPolygons, ...selectedCountryAirports];
-  }, [countries.features, selectedCountryAirports]);
+    // Only add airport polygons when a country is selected (airports only interactive after country selection)
+    if (selectedCountry && selectedCountryAirports.length > 0) {
+      console.log(`✈️ Adding ${selectedCountryAirports.length} airport polygons for interaction`);
+      return [...countryPolygons, ...selectedCountryAirports];
+    }
+    
+    // Before country selection: only countries are interactive
+    return countryPolygons;
+  }, [countries.features, selectedCountryAirports, selectedCountry]);
 
   // Prepare airport labels data for displaying airport codes
   const airportLabels = useMemo(() => {
@@ -170,9 +468,8 @@ const World = () => {
     return selectedCountryAirports.map(airportPolygon => {
       const airport = airportPolygon.properties.airport_data;
       
-      // Check if the parent country is being hovered (same logic as airport polygons)
-      const parentCountry = airportPolygon.properties.parent_country;
-      const isParentCountryHovered = parentCountry === hoverD;
+      // Labels follow the parent country's hover state (selectedCountry)
+      const isParentCountryHovered = selectedCountry === hoverD;
       
       return {
         lat: airport.lat + 0.3, // Offset slightly north to avoid collision with airport point
@@ -180,48 +477,70 @@ const World = () => {
         text: airport.iata_code || airport.airport_code || 'N/A',
         color: '#ffffff', // White text for better visibility
         size: 0.18, // 30% of original size (0.6 * 0.3 = 0.18)
-        altitude: isParentCountryHovered ? 0.135 : 0.075, // Rise with airports: elevated when parent country hovered
+        altitude: isParentCountryHovered ? 0.135 : 0.075, // Rise with airports when parent country hovered
         airport: airport, // Store airport data for reference
         airportPolygon: airportPolygon // Store reference to the polygon for hover detection
       };
     });
   }, [selectedCountry, selectedCountryAirports, hoverD]);
 
-  // Get the value for coloring: PMI percentage
-  const getVal = (feat) => {
-    const pmiPercentage = feat.properties.pmi_percentage;
-    if (pmiPercentage === undefined || isNaN(pmiPercentage)) return 0;
-    return pmiPercentage;
-  };
+  // Remove unused getVal function since we're using revenue-based coloring now
 
-  // Simple color scale for geography-only display
+  // Revenue-based color scale for country coloring
   const { colorScale, globalData } = useMemo(() => {
-    if (!countries.features || countries.features.length === 0) {
+    if (!countries.features || countries.features.length === 0 || !pmiColorData) {
       return { 
         colorScale: () => '#666666', 
         globalData: {}
       };
     }
 
-    // Log the analysis - now purely geographic
-    console.log('🌍 GEOGRAPHIC DATA ANALYSIS:');
+    // Log the analysis
+    console.log('🌍 REVENUE COLOR ANALYSIS:');
     console.log(`📊 Total countries loaded: ${countries.features.length}`);
-    console.log(`🗺️  Sales data removed - countries display in neutral colors`);
+    console.log(`🎨 Revenue color data available for: ${Object.keys(pmiColorData.country_colors).length} countries`);
+    console.log(`🗺️  Countries colored by total revenue performance (9-bin percentile scheme)`);
+    console.log(`💰 Revenue range: $${pmiColorData.statistics?.revenue_range?.min?.toLocaleString()} - $${pmiColorData.statistics?.revenue_range?.max?.toLocaleString()}`);
     console.log(`✈️ Airport-specific DF-MACASE data available through country selection`);
 
-    // Simple neutral color for all countries
-    const colorScale = () => '#4a5568'; // Neutral dark grey
+    // Revenue-based color function
+    const colorScale = (countryName) => {
+      if (!countryName || !pmiColorData) return '#666666';
+      
+      // Map globe country name to revenue data country name
+      const mappedName = mapCountryName(countryName);
+      
+      // Get color from revenue data
+      const color = pmiColorData.country_colors[mappedName];
+      
+      if (color) {
+        return color;
+      }
+      
+      // Fallback to grey if no revenue data found
+      return '#666666';
+    };
+
+    // Count countries by color for analysis
+    const colorStats = {};
+    countries.features.forEach(feature => {
+      const countryName = feature.properties.ADMIN || feature.properties.NAME;
+      const color = colorScale(countryName);
+      colorStats[color] = (colorStats[color] || 0) + 1;
+    });
+
+    console.log('🎨 Country color distribution:', colorStats);
 
     return {
       colorScale,
       globalData: {
         totalCountries: countries.features.length,
-        dataType: 'Geographic Only',
-        salesDataRemoved: true,
-        airportDataAvailable: true
+        dataType: 'Revenue-Based Coloring',
+        revenueDataAvailable: true,
+        colorStats
       }
     };
-  }, [countries]);
+  }, [countries, pmiColorData]);
 
   // Polygon styling for both countries and airports
   const getPolygonColor = (polygon) => {
@@ -230,31 +549,26 @@ const World = () => {
       return '#00ffe7'; // Cyan for all airports
     }
     
-    // Country polygons - hover state (including when airport is hovered)
+    // Country polygons - hover state
     if (polygon === hoverD) {
       return 'steelblue'; // Hover state for countries
     }
     
-    // Selected country keeps its PMI color, no cyan conflict
-    const pmiPercentage = getVal(polygon);
-    if (pmiPercentage <= 0) {
-      return '#666666';
-    }
-    return colorScale(pmiPercentage);
+    // Country polygons - revenue-based coloring
+    const countryName = polygon.properties.ADMIN || polygon.properties.NAME;
+    return colorScale(countryName);
   };
 
   // Polygon altitude for both countries and airports
   const getPolygonAltitude = (polygon) => {
-    // Airport polygons - move with their parent country
+    // Airport polygons - always follow their parent country (selected country)
     if (polygon.properties.type === 'airport') {
-      // Check if the parent country is being hovered (grouped hover)
-      const parentCountry = polygon.properties.parent_country;
-      const isParentCountryHovered = parentCountry === hoverD;
-      
-      return isParentCountryHovered ? 0.125 : 0.065; // Closer to country layer
+      // Airports are elevated when their parent country (selectedCountry) is hovered
+      const isParentCountryHovered = selectedCountry === hoverD;
+      return isParentCountryHovered ? 0.125 : 0.065; // Slightly above country layer
     }
     
-    // Country polygons - elevated when hovered (including when airport is hovered)
+    // Country polygons - elevated when hovered
     return polygon === hoverD ? 0.12 : 0.06;
   };
 
@@ -269,6 +583,139 @@ const World = () => {
     return 'rgba(0, 0, 0, 0.0)';
   };
 
+  // Helper function to calculate country centroid and bounds
+  const calculateCountryCentroid = (countryFeature) => {
+    if (!countryFeature || !countryFeature.geometry) return { lat: 0, lng: 0, bounds: null };
+    
+    let totalLat = 0;
+    let totalLng = 0;
+    let pointCount = 0;
+    let minLat = Infinity, maxLat = -Infinity;
+    let minLng = Infinity, maxLng = -Infinity;
+    
+    const processCoordinates = (coords, depth = 0) => {
+      if (depth === 0 && Array.isArray(coords[0][0])) {
+        // MultiPolygon or Polygon with holes
+        coords.forEach(ring => processCoordinates(ring, depth + 1));
+      } else if (depth === 1 && Array.isArray(coords[0])) {
+        // Polygon ring
+        coords.forEach(point => {
+          if (Array.isArray(point) && point.length >= 2) {
+            const lng = point[0];
+            const lat = point[1];
+            
+            totalLng += lng;
+            totalLat += lat;
+            pointCount++;
+            
+            // Track bounds
+            minLat = Math.min(minLat, lat);
+            maxLat = Math.max(maxLat, lat);
+            minLng = Math.min(minLng, lng);
+            maxLng = Math.max(maxLng, lng);
+          }
+        });
+      }
+    };
+    
+    try {
+      if (countryFeature.geometry.type === 'Polygon') {
+        processCoordinates(countryFeature.geometry.coordinates);
+      } else if (countryFeature.geometry.type === 'MultiPolygon') {
+        countryFeature.geometry.coordinates.forEach(polygon => {
+          processCoordinates(polygon);
+        });
+      }
+      
+      if (pointCount > 0) {
+        return {
+          lat: totalLat / pointCount,
+          lng: totalLng / pointCount,
+          bounds: {
+            north: maxLat,
+            south: minLat,
+            east: maxLng,
+            west: minLng,
+            width: maxLng - minLng,
+            height: maxLat - minLat
+          }
+        };
+      }
+    } catch (error) {
+      console.warn('Error calculating centroid for country:', error);
+    }
+    
+    return { lat: 0, lng: 0, bounds: null };
+  };
+
+  // Smart zoom function that adapts to UI layout and elevation
+  const calculateOptimalZoom = (countryBounds) => {
+    if (!countryBounds) return 0.35; // fallback
+
+    // Detect UI panel states
+    const isDashboardVisible = selectedCountry !== null;
+    const isAnalyticsPanelVisible = selectedAirport !== null;
+    
+    // Calculate available screen percentage
+    let availableWidthPercent = 1.0; // 100% width available by default
+    
+    if (isDashboardVisible && isAnalyticsPanelVisible) {
+      // Both panels visible - middle space available
+      availableWidthPercent = 0.45; // Approximately 45% width available (accounting for both panels)
+    } else if (isDashboardVisible || isAnalyticsPanelVisible) {
+      // One panel visible - about 70% width available
+      availableWidthPercent = 0.70;
+    }
+    // If no panels visible, use full width (1.0)
+    
+    // Country size factors (flat coordinates)
+    const countryWidth = countryBounds.width;
+    const countryHeight = countryBounds.height;
+    
+    // ELEVATION COMPENSATION - Account for elevated cone size
+    // When elevated (0.12 vs 0.06), the country appears significantly larger on screen
+    const elevationMultiplier = 1.5; // Elevated countries appear ~50% larger visually
+    const elevatedWidth = countryWidth * elevationMultiplier;
+    const elevatedHeight = countryHeight * elevationMultiplier;
+    
+    // Base zoom calculation using ELEVATED size
+    let baseAltitude = 0.25;
+    
+    // Adjust based on ELEVATED country size (not flat size)
+    const elevatedSizeMultiplier = Math.max(elevatedWidth, elevatedHeight);
+    
+    if (elevatedSizeMultiplier > 75) {
+      // Very large countries when elevated (like Russia, Canada)
+      baseAltitude = 0.8;
+    } else if (elevatedSizeMultiplier > 45) {
+      // Large countries when elevated (like USA, China, Brazil)  
+      baseAltitude = 0.6;
+    } else if (elevatedSizeMultiplier > 22) {
+      // Medium countries when elevated (like Germany, France)
+      baseAltitude = 0.45;
+    } else if (elevatedSizeMultiplier > 12) {
+      // Small countries when elevated (like UK, Japan)
+      baseAltitude = 0.3;
+    } else {
+      // Very small countries when elevated (like Malta, Luxembourg)
+      baseAltitude = 0.2;
+    }
+    
+    // Adjust for available screen space
+    const uiConstraintMultiplier = 1 / availableWidthPercent;
+    const finalAltitude = baseAltitude * uiConstraintMultiplier * 0.85; // 0.85 for optimal fit
+    
+    console.log(`🎥 Smart Zoom Calculation (Elevation-Aware):
+      Flat Country: ${countryWidth.toFixed(1)}°×${countryHeight.toFixed(1)}°
+      Elevated Country: ${elevatedWidth.toFixed(1)}°×${elevatedHeight.toFixed(1)}°
+      UI Layout: Dashboard=${isDashboardVisible}, Analytics=${isAnalyticsPanelVisible}
+      Available Width: ${(availableWidthPercent * 100).toFixed(0)}%
+      Base Altitude: ${baseAltitude}
+      Final Altitude: ${finalAltitude.toFixed(2)}`);
+    
+    return Math.max(0.1, Math.min(1.2, finalAltitude)); // Allow up to 1.2 for very large elevated countries
+  };
+
   // Event handlers
   const handlePolygonClick = (polygon) => {
     if (polygon.properties.type === 'airport') {
@@ -277,13 +724,36 @@ const World = () => {
         const airportData = polygon.properties.airport_data;
         setSelectedAirport(airportData);
         console.log('Airport selected:', airportData?.iata_code, airportData?.airport_name);
+        
+        // Center camera on the selected airport
+        if (globeRef.current && airportData.lat && airportData.lng) {
+          globeRef.current.pointOfView(
+            { lat: airportData.lat, lng: airportData.lng, altitude: 0.5 },
+            1000 // 1 second smooth animation
+          );
+          console.log(`🎥 Centering on airport: ${airportData.iata_code} at ${airportData.lat}, ${airportData.lng}`);
+        }
       }
     } else {
-      // Countries are clickable when not already selected (no PMI data requirement)
+      // Countries are clickable when not already selected
       if (polygon !== selectedCountry) {
         setSelectedCountry(polygon);
         setSelectedAirport(null); // Clear airport selection when country changes
-        console.log('Selected country:', polygon.properties.ADMIN || polygon.properties.NAME);
+        
+        const countryName = polygon.properties.ADMIN || polygon.properties.NAME;
+        console.log('Selected country:', countryName);
+        
+        // Calculate and center on country centroid with smart zoom
+        const centroidData = calculateCountryCentroid(polygon);
+        if (globeRef.current && centroidData.lat !== 0 && centroidData.lng !== 0) {
+          const optimalAltitude = calculateOptimalZoom(centroidData.bounds);
+          
+          globeRef.current.pointOfView(
+            { lat: centroidData.lat, lng: centroidData.lng, altitude: optimalAltitude },
+            1500 // 1.5 seconds smooth animation for countries (slightly longer for larger areas)
+          );
+          console.log(`🎥 Smart centering on country: ${countryName} at ${centroidData.lat.toFixed(2)}, ${centroidData.lng.toFixed(2)} with altitude ${optimalAltitude.toFixed(2)}`);
+        }
       }
     }
   };
@@ -293,27 +763,31 @@ const World = () => {
     setSelectedAirport(null);
   };
 
-  // Custom hover handler for grouped hover behavior
+  // Custom hover handler for proper country-first interaction
   const handlePolygonHover = (polygon) => {
-    if (polygon && polygon.properties.type === 'airport') {
-      // When hovering over an airport, set hover to its parent country
-      const parentCountry = polygon.properties.parent_country;
-      if (parentCountry) {
-        setHoverD(parentCountry);
-      }
-    } else if (polygon) {
-      // When hovering over a country, set hover normally (no data requirement)
-      setHoverD(polygon);
-    } else {
+    if (!polygon) {
       // When hovering over nothing, clear hover
       setHoverD(null);
+      return;
+    }
+
+    if (polygon.properties.type === 'airport') {
+      // When hovering over an airport (only possible after country selection),
+      // keep the parent country elevated by setting hover to the selected country
+      if (selectedCountry) {
+        setHoverD(selectedCountry);
+      }
+    } else {
+      // When hovering over a country, set hover normally
+      setHoverD(polygon);
     }
   };
 
   return (
     <>
       <Globe
-        globeImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg"
+        ref={globeRef}
+        globeImageUrl="./earth-night.jpg"
         backgroundImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png"
         lineHoverPrecision={0}
 
@@ -346,6 +820,9 @@ const World = () => {
                 {airport.pax && <div>✈️ {airport.pax.toLocaleString()} PAX</div>}
                 {airport.pmi_profit_pct > 0 && (
                   <div>💰 PMI: {airport.pmi_profit_pct.toFixed(1)}%</div>
+                )}
+                {airport.spend_per_pax > 0 && (
+                  <div>💵 Revenue: ${(airport.pax * airport.spend_per_pax).toLocaleString()}</div>
                 )}
               </div>
             );

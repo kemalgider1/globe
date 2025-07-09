@@ -1,12 +1,11 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaPlane, FaUsers, FaDollarSign, FaPercent, FaTrophy, FaSpinner } from 'react-icons/fa';
+import React, { useState, useMemo } from 'react';
+import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaPlane, FaUsers, FaDollarSign, FaPercent, FaTrophy } from 'react-icons/fa';
 import { CircleFlag } from 'react-circle-flags';
 import './AnalyticsPanel.css';
 
 const AnalyticsPanel = ({ airports, selectedAirport }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isCalculating, setIsCalculating] = useState(false);
 
   // Utility function to get ISO code for flags from airport country data
   const getCountryISO = (airport) => {

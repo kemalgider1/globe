@@ -1,0 +1,4 @@
+#!/usr/bin/env groovy
+@Library("jenkins-libraries") _
+
+dockerPipeline([name:'ead/ds-project-selma/df-macase'])

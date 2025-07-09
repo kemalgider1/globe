@@ -1,0 +1,483 @@
+Market-TC,Location,GeoKey
+Afghanistan-Borders,"Spinboltak, Hairatan, Khost, Turkhem, Towaraghondi, Shir Khan","175-BO-1197, 175-BO-1044, 175-BO-1084, 175-BO-1214, 175-BO-1210, 175-BO-1194"
+Afghanistan-Diplomatic,Kabul,175-DI-1250
+Albania-Airports,Tirana,1-AI-718
+Algeria-Airlines,Algiers,2-AR-799
+Algeria-Airports,"Oran, Constantine, Algiers","2-AI-522, 2-AI-3634, 2-AI-27"
+Angola-Airports,Luanda,128-AI-406
+Angola-Shipchandling,Luanda,128-SH-3433
+Argentina-Airports,"Bariloche, Mendoza, Buenos Aires - Ezeiza, Buenos Aires Aeroparque, Cordoba, Rosario","3-AI-74, 3-AI-453, 3-AI-222, 3-AI-14, 3-AI-176, 3-AI-4165"
+Argentina-Borders,"Ushuaia, Iguazu","3-BO-1226, 3-BO-1152"
+Armenia-Airports,Yerevan,4-AI-782
+Armenia-Borders,"Armenia - Iran, Armenia - Georgia","4-BO-2717, 4-BO-3732"
+Aruba-Airports,Oranjestad,129-AI-52
+Aruba-Shipchandling,Oranjestad Port,129-SH-2051
+Australia-Airlines,Sydney,5-AR-936
+Australia-Airports,"Melbourne, Coolangatta, Perth, Brisbane, Cairns, Adelaide, Sydney, Darwin","5-AI-451, 5-AI-172, 5-AI-549, 5-AI-120, 5-AI-130, 5-AI-12, 5-AI-694, 5-AI-191"
+Australia-Diplomatic,"Sydney, Canberra","5-DI-1326, 5-DI-1271"
+Australia-Military,Sydney,5-MI-2929
+Australia-Shipchandling,"Sydney, Perth, Brisbane, Adelaide, Hobart, Darwin, Melbourne, Newcastle, Cairns","5-SH-2405, 5-SH-2312, 5-SH-2081, 5-SH-2037, 5-SH-2413, 5-SH-2117, 5-SH-2263, 5-SH-2284, 5-SH-2292"
+Austria-Airlines,Vienna,6-AR-946
+Austria-Airports,"Graz, Vienna, Linz, Salzburg","6-AI-261, 6-AI-755, 6-AI-399, 6-AI-619"
+Austria-Diplomatic,Vienna,6-DI-1336
+Azerbaijan-Airports,"Ganja, Baku","7-AI-243, 7-AI-62"
+Bahrain-Airports,Manama,8-AI-2966
+Bahrain-Shipchandling,"Salman Port, Manama","8-SH-2328, 8-SH-2967"
+Bangladesh-Airlines,Dhaka,9-AR-3444
+Bangladesh-Airports,Zia,9-AI-791
+Bangladesh-Borders,Dhaka,9-BO-3425
+Bangladesh-Diplomatic,Dhaka,9-DI-1278
+Barbados-Airports,Bridgetown,130-AI-119
+Barbados-Ferries,Bridgetown Port,130-FE-1404
+Belarus-Airlines,MInsk,10-AR-3937
+Belarus-Airports,Minsk,10-AI-458
+Belarus-Borders,"Belarus/Poland, Belarus/Lithuania, Belarus/Ukraine, Belarus/Latvia","10-BO-972, 10-BO-971, 10-BO-973, 10-BO-970"
+Belarus-Diplomatic,Minsk,10-DI-2713
+Belgium-Airlines,Brussels,11-AR-816
+Belgium-Airports,"Charleroi, Brussels, Liege Bierset","11-AI-2952, 11-AI-126, 11-AI-394"
+Belgium-Diplomatic,"Brussels, Antwerp","11-DI-1268, 11-DI-1255"
+Belgium-Military,"Oostende, Antwerp, Mons","11-MI-2859, 11-MI-3029, 11-MI-1961"
+Belgium-Shipchandling,"Oostende, Antwerp","11-SH-2295, 11-SH-2047"
+Belize-Airports,Belize City,12-AI-88
+Belize-Borders,Corozal,12-BO-1005
+Bermuda-Airports,Hamilton,131-AI-3640
+Bolivia-Airports,"La Paz El Alto, Santa Cruz Viru Viru","178-AI-376, 178-AI-631"
+Bosnia Herzegovinia-Airports,"Tuzla, Sarajevo","14-AI-3165, 14-AI-641"
+Botswana-Airports,Gaborone,213-AI-3646
+Brazil-Airports,"Natal, Florianopolis, Rio de Janeiro, Viracopos, Fortaleza, Salvador, Sao Paulo - Guarulhos, Uruguaiana, Curitiba, Recife, Porto Alegre, Brasilia, Belo Horizonte","15-AI-2941, 15-AI-229, 15-AI-604, 15-AI-759, 15-AI-231, 15-AI-618, 15-AI-625, 15-AI-3834, 15-AI-2940, 15-AI-595, 15-AI-567, 15-AI-113, 15-AI-89"
+Brazil-Borders,"Iguazu, Uruguaiana","15-BO-4012, 15-BO-4292"
+Bulgaria-Airlines,Bulgaria,18-AR-819
+Bulgaria-Airports,"Varna, Bourgas, Sofia, Plovdiv","18-AI-751, 18-AI-110, 18-AI-678, 18-AI-558"
+Bulgaria-Shipchandling,"Black Sea Port, Varna Port","18-SH-2070, 18-SH-2433"
+Burundi-Airports,Bujumbura,250-AI-3162
+Burundi-Diplomatic,Bujumbura,250-DI-3945
+Cambodia-Airports,"Phnom Penh, Sihanoukville, Siem Reap","19-AI-551, 19-AI-3894, 19-AI-668"
+Cambodia-Borders,"Poipet, Sihanoukville, Phnom Penh, Siem Reap","19-BO-1149, 19-BO-3459, 19-BO-1146, 19-BO-3196"
+Cameroon-Airports,"Douala, Yaounde","20-AI-3172, 20-AI-4180"
+Canada-Airlines,"Vancouver, Montreal","208-AR-948, 208-AR-842"
+Canada-Airports,"Montreal, Vancouver, Toronto, Victoria, Halifax, Edmonton, Ottawa, Kelowna, Saskatoon, Quebec City, Winnipeg, Calgary, St Johns, Regina","208-AI-2976, 208-AI-2981, 208-AI-2699, 208-AI-2982, 208-AI-2975, 208-AI-2974, 208-AI-2977, 208-AI-3015, 208-AI-2980, 208-AI-2978, 208-AI-2983, 208-AI-2973, 208-AI-3046, 208-AI-2979"
+Canada-Shipchandling,"Montreal Port, St Johns, Vancouver Port","208-SH-2131, 208-SH-3016, 208-SH-2447"
+Canary Islands-Airports,"Fuerteventura, Tenerife, Gran Canaria, Lanzarote, La Palma","133-AI-236, 133-AI-714, 133-AI-259, 133-AI-386, 133-AI-375"
+Canary Islands-Ferries,"Santa Cruz de Tenerife, Las Palmas De Gran Canaria","133-FE-3091, 133-FE-1588"
+Canary Islands-Shipchandling,"Las Palmas De Gran Canaria, Santa Cruz de Tenerife","133-SH-2232, 133-SH-2361"
+Cape Verde-Airports,"Espargos, Rabil, Praia","21-AI-2972, 21-AI-2971, 21-AI-138"
+Caribbean Other-Airports,"Providenciales (Turks and Caicos), Basseterre (Saint Kitts), Saint Lucia, Kralendijk (Bonaire), Antigua, Port-au-Prince (Haiti)","224-AI-576, 224-AI-3636, 224-AI-3692, 224-AI-3013, 224-AI-43, 224-AI-3014"
+Caribbean Other-Ferries,"Dominica Port, Antigua Port, Saint Lucia Port, Saint Kitts Port, Providenciales Port (Turks and Caicos), Saint Pierre et Miquelon","224-FE-1452, 224-FE-1360, 224-FE-1766, 224-FE-1804, 224-FE-1847, 224-FE-3571"
+Caribbean Other-Shipchandling,Saint Pierre et Miquelon,224-SH-3572
+Cayman Island-Airports,George Town,134-AI-253
+Central Africa-Airports,Bangui,135-AI-3206
+Central Africa-Military,"Kaga-Bandoro, Bangui, Bria, Bouar","135-MI-3175, 135-MI-3178, 135-MI-3174, 135-MI-3176"
+Chile-Airports,Santiago Arturo Merino Benitez,22-AI-633
+Chile-Shipchandling,Iquique Port,22-SH-2201
+China-Airlines,"Xiamen, Chongqing, Beijing, Shanghai, Guangzhou","23-AR-3540, 23-AR-4204, 23-AR-812, 23-AR-929, 23-AR-854"
+China-Airports,"Haikou Meilan, Shijiazhuang Zhengding, Nanchang Changbei, Qingdao Liuting, Wuxi Shuofang, Xiamen Gaoqi, Nanning Wuxu, Chengdu Shuangliu, Yancheng Nanyang, Chongqing Jiangbei, Wuhan Tianhe, Hohhot Baita, Harbin Taiping, Yantai Penglai, Sanya Fenghuang, Quanzhou Jinjiang, Yanji Zhaoyangchuan, Chengdu Tianfu, Dalian Zhoushuizi, Xian Xianyang, Hefei Xinqiao, Zhufeng, Tianjin Binhai, Weihai Dashuibo, Shandong, Shenyang Taoxian, Ningbo Lishe, Wenzhou Longwan, Shenzhen Bao'an, Guilin Liangjiang, Jinan Xiaoqiang, Zhengzhou Xinzheng, Changchun Longjia, Beijing, Changsha Huanghua, Shanghai Pudong, Fuzhou Changle, Yinchuan Hedong, Guiyang Longdongbao, Nanjing Lukou, Jieyang Chaoshan, Guangzhou Baiyun, Kunming Wujiaba, Mudanjiang Hailang, Huangshan Tunxi, Hangzhou Xiaoshan, Urumchi Diwobao, Taiyuan Wusu, Changzhou Benniu, Xuzhou Guanyin, Shanghai Hongqiao","23-AI-274, 23-AI-666, 23-AI-3067, 23-AI-587, 23-AI-2889, 23-AI-776, 23-AI-486, 23-AI-155, 23-AI-2891, 23-AI-160, 23-AI-775, 23-AI-291, 23-AI-282, 23-AI-780, 23-AI-639, 23-AI-3580, 23-AI-779, 23-AI-4269, 23-AI-187, 23-AI-777, 23-AI-2886, 23-AI-2893, 23-AI-717, 23-AI-769, 23-AI-4255, 23-AI-660, 23-AI-505, 23-AI-771, 23-AI-661, 23-AI-270, 23-AI-318, 23-AI-790, 23-AI-146, 23-AI-82, 23-AI-148, 23-AI-654, 23-AI-241, 23-AI-2892, 23-AI-271, 23-AI-485, 23-AI-2887, 23-AI-266, 23-AI-365, 23-AI-2888, 23-AI-3578, 23-AI-2885, 23-AI-747, 23-AI-699, 23-AI-3075, 23-AI-2890, 23-AI-653"
+China-Borders,"Mishan County, Huanggang, Jiayu, Ruili, Shatoujiao, Tianbao, Mohan, Ceke, Heihe, Lok Ma Chau (CN), Guangzhou, Wenjindu, Tongjiang, Jiayu, Changbai, Tengchong, Daluo, Dandong, Luobei County, Mengding, Shenzhen Shatoujiao, Hunchun, Zhuhai Gongbei, Manzhouli, Zhangfeng, Pingxiang, Shenzhen Wenjindu, Shenzhen Bay, Shenzhen Wen Jin Du, Black River, Raohe, Suifenhe, Dongxing, Ganqimaodu, Ji'an, Shenzhen Luohu, Dongning, Zhuhai, Erlianhot, Shenzhen, Fuyuan, Lowu (CN), Shenzhen Futian, Shenzhen Huanggang, Nansan, Beijing, Wanding, Shenzhen Shenzhen Bay, Shenzhen Bay, Longzhou, Menga, Tengchong, Tumen","23-BO-1112, 23-BO-3816, 23-BO-2898, 23-BO-1160, 23-BO-3817, 23-BO-1206, 23-BO-1114, 23-BO-2904, 23-BO-1046, 23-BO-3819, 23-BO-1036, 23-BO-1188, 23-BO-1209, 23-BO-4297, 23-BO-997, 23-BO-4304, 23-BO-2907, 23-BO-1009, 23-BO-1103, 23-BO-2900, 23-BO-4214, 23-BO-1058, 23-BO-4305, 23-BO-1107, 23-BO-2903, 23-BO-4311, 23-BO-4303, 23-BO-3818, 23-BO-4215, 23-BO-4328, 23-BO-1156, 23-BO-1198, 23-BO-1014, 23-BO-2896, 23-BO-4295, 23-BO-4299, 23-BO-1013, 23-BO-1239, 23-BO-1020, 23-BO-1184, 23-BO-2895, 23-BO-3820, 23-BO-4212, 23-BO-4211, 23-BO-2901, 23-BO-3663, 23-BO-1232, 23-BO-4302, 23-BO-4213, 23-BO-4329, 23-BO-2899, 23-BO-3069, 23-BO-1212"
+China-Diplomatic,"Beijing, Shanghai","23-DI-1259, 23-DI-4205"
+China-Ferries,"Jiangmen, Quanzhou, Zhongshan, Xiamen Port, Rizhao Port, Shanghai, Lianhuashan Port, Jiuzhou, Guangzhou, Shekou Port, Rongcheng, Tianjin Port, Dalian Port, Donggang Port, Taiping Port, Qingdao Port, Weihai","23-FE-1560, 23-FE-2908, 23-FE-1869, 23-FE-1865, 23-FE-1755, 23-FE-1787, 23-FE-1601, 23-FE-1562, 23-FE-1696, 23-FE-1789, 23-FE-1758, 23-FE-1835, 23-FE-1444, 23-FE-1454, 23-FE-1818, 23-FE-1746, 23-FE-1860"
+China-Shipchandling,"Tianjin Port, Ningde, Cangzhou, Xiamen Port, Shanghai, Caofeidian, Ningbo Port, Guangzhou Port, Shenzhen Chiwan Port, Long Kou Port, Zhoushan, Rongcheng, Qinhuangdao Port, Pingtan, Rizhao Port, Quanzhou Port, Shenzhen, Dalian Port, Tangshan, Yingkou City, Jinzhou, Yantai, Fuzhou Port, Lian Yun Gang Port, Qinzhou Port, Fangcheng Port, Wei Hai Port, Nanjing, Taizhou Port, Jiangsu","23-SH-2417, 23-SH-4210, 23-SH-4209, 23-SH-2452, 23-SH-2374, 23-SH-4208, 23-SH-2288, 23-SH-2167, 23-SH-2380, 23-SH-2246, 23-SH-2467, 23-SH-2351, 23-SH-2335, 23-SH-3579, 23-SH-2343, 23-SH-2337, 23-SH-4254, 23-SH-2115, 23-SH-2912, 23-SH-2455, 23-SH-2204, 23-SH-2453, 23-SH-2151, 23-SH-2238, 23-SH-2336, 23-SH-2138, 23-SH-2445, 23-SH-2278, 23-SH-2407, 23-SH-2913"
+Colombia-Airlines,Bogota,24-AR-827
+Colombia-Airports,"San Andres, Cali, Bogota, Medellin Jose Maria Cordova, Cartagena de Indias","24-AI-624, 24-AI-133, 24-AI-103, 24-AI-449, 24-AI-141"
+Colombia-Shipchandling,Cartagena de Indias,24-SH-4111
+Comoros-Airports,Moroni,136-AI-3470
+Comoros-Diplomatic,Moroni,136-DI-1273
+"Congo, Rep. Dem.-Airports","Lubumbashi, Kinshasa","161-AI-3806, 161-AI-348"
+"Congo, Rep. Dem.-Diplomatic",Kinshasa,161-DI-3025
+"Congo, Rep. Dem.-Military",Kinshasa,161-MI-1900
+Congo-Diplomatic,Brazzaville,25-DI-1295
+Congo-Ferries,Brazzaville,25-FE-3159
+Congo-Shipchandling,Pointe-Noire,25-SH-3072
+Costa Rica-Airports,"San Jose, Liberia","26-AI-180, 26-AI-3045"
+Croatia-Airports,"Dubrovnik, Split, Pula, Zagreb","27-AI-203, 27-AI-680, 27-AI-580, 27-AI-785"
+Croatia-Ferries,"Split, Dubrovnik","27-FE-1800, 27-FE-1461"
+Croatia-Military,Split,27-MI-2010
+Croatia-Shipchandling,"Rijeka, Split","27-SH-2347, 27-SH-2391"
+Curazao-Airports,Curacao,211-AI-183
+Curazao-Shipchandling,Willemstadt,211-SH-2113
+Cyprus-Diplomatic,Limassol,28-DI-1292
+Cyprus-Ferries,Limassol Port,28-FE-1605
+Cyprus-Military,Limassol,28-MI-1952
+Cyprus-Shipchandling,Limassol,28-SH-2241
+Czech Republic-Airlines,Prague,29-AR-914
+Czech Republic-Airports,"Ostrava, Prague, Brno, Karlovy Vary","29-AI-2719, 29-AI-570, 29-AI-3466, 29-AI-333"
+Czech Republic-Diplomatic,Prague,29-DI-1313
+Denmark-Airlines,Copenhagen,30-AR-829
+Denmark-Airports,"Billund, Copenhagen, Aarhus, Aalborg, Faroe Islands, Greenland","30-AI-100, 30-AI-175, 30-AI-3455, 30-AI-3, 30-AI-224, 30-AI-19"
+Denmark-Diplomatic,Copenhagen,30-DI-1274
+Denmark-Ferries,"Hirtshals, Ronne, Nynashamn, Copenhagen","30-FE-1531, 30-FE-1759, 30-FE-3857, 30-FE-1426"
+Denmark-Military,Karup,30-MI-1941
+Denmark-Shipchandling,"Hirtshals, Norresundby, Frederikshavn, Fredericia, Esbjerg, Copenhagen, Vejle, Nexo/Bornholm, Torshavn, Thyboron, Hanstholm, Faroe Islands","30-SH-2184, 30-SH-2290, 30-SH-2145, 30-SH-2144, 30-SH-2135, 30-SH-2109, 30-SH-2436, 30-SH-2286, 30-SH-2419, 30-SH-2416, 30-SH-2179, 30-SH-2139"
+Djibouti-Airports,Djibouti,31-AI-3074
+Djibouti-Diplomatic,Djibouti,31-DI-3979
+Djibouti-Military,Djibouti,31-MI-4294
+Djibouti-Shipchandling,Djibouti,31-SH-3163
+Dominican Republic-Airports,"Santo Domingo Las Americas, Puerto Plata, La Romana, Samana El Catey, Santiago Cibao, Punta Cana - Higuey","32-AI-388, 32-AI-578, 32-AI-2675, 32-AI-380, 32-AI-634, 32-AI-584"
+Dominican Republic-Borders,Punta Cana (Hotels),32-BO-1007
+Dominican Republic-Ferries,"La Romana Port, Puerto Plata Port, Santo Domingo Port","32-FE-1585, 32-FE-3557, 32-FE-1773"
+Dominican Republic-Shipchandling,Caucedo Port,32-SH-2946
+Ecuador-Airports,"Guayaquil, Quito","34-AI-268, 34-AI-589"
+Ecuador-Shipchandling,Manta,34-SH-4207
+Egypt-Airlines,Cairo,33-AR-820
+Egypt-Airports,"Luxor, Marsa Aalam, Alexandria, Hurgada, Cairo, Aswan, Sharm El Sheikh","33-AI-413, 33-AI-444, 33-AI-25, 33-AI-295, 33-AI-131, 33-AI-55, 33-AI-658"
+Egypt-Borders,"Taba, Saloum","33-BO-1201, 33-BO-1169"
+Egypt-Diplomatic,"Cairo, Aswan, Luxor, Nowebai, Safaga, Maadi, Nasr City, Hurgada, Sharm El Sheikh, Said Port, Damieta, Salah Salem, Alexandria, Obour, Sahl Hashish","33-DI-1270, 33-DI-1258, 33-DI-1296, 33-DI-1305, 33-DI-3689, 33-DI-1297, 33-DI-1302, 33-DI-1287, 33-DI-1322, 33-DI-1311, 33-DI-1276, 33-DI-1320, 33-DI-1251, 33-DI-1306, 33-DI-3986"
+Egypt-Shipchandling,"Alexandria, Said Port, Suez, Damietta","33-SH-2040, 33-SH-2327, 33-SH-2400, 33-SH-2116"
+El Salvador-Airports,San Salvador Comalapa,97-AI-628
+Eritrea-Airports,Asmara,35-AI-217
+Estonia-Diplomatic,Tallinn,36-DI-3672
+Estonia-Ferries,Tallinn (Estonia/Sweden/Finland - ferries,36-FE-4235
+Estonia-Shipchandling,"Tallinn, Parnu","36-SH-2409, 36-SH-2305"
+Ethiopia-Airlines,Addis Ababa,37-AR-843
+Ethiopia-Airports,Addis Ababa,37-AI-11
+Ethiopia-Diplomatic,Addis Ababa,37-DI-3880
+Finland DP-Airports,Helsinki-Vantaa,265-AI-4042
+Finland-Airports,Helsinki-Vantaa,38-AI-287
+Finland-Diplomatic,Helsinki,38-DI-1285
+Finland-Ferries,"Helsinki, Turku, Aland, Mariehamn, Naantali, Helsinki, Vuosaari, Helsinki","38-FE-1524, 38-FE-1848, 38-FE-4231, 38-FE-1465, 38-FE-4333, 38-FE-1809, 38-FE-4232, 38-FE-1484"
+Finland-Shipchandling,"Hanko, Helsinki, Hamina, Kotka, Rauma, Oulu","38-SH-2178, 38-SH-2183, 38-SH-2176, 38-SH-2219, 38-SH-2339, 38-SH-2298"
+France DP-Airports,"Strasbourg, Nice, Montpellier, Marseille, Grenoble, Paris Charles De Gaulle, Paris Orly, Chambery, Tarbes - Lourdes, Nantes, Toulouse, La Rochelle, Bordeaux, Beauvais, Lille, Lyon Saint Exupery","209-AI-687, 209-AI-501, 209-AI-468, 209-AI-445, 209-AI-262, 209-AI-150, 209-AI-523, 209-AI-144, 209-AI-705, 209-AI-487, 209-AI-727, 209-AI-377, 209-AI-107, 209-AI-80, 209-AI-395, 209-AI-616"
+France-Airlines,Paris Charles De Gaulle,39-AR-2671
+France-Airports,"Paris Charles De Gaulle, Toulouse, La Rochelle, Lyon Saint Exupery, Montpellier, Strasbourg, Tarbes - Lourdes, Beauvais, Grenoble, Lille, Marseille, Bordeaux, Nantes, Paris Orly, Chambery, Nice","39-AI-151, 39-AI-729, 39-AI-378, 39-AI-617, 39-AI-469, 39-AI-688, 39-AI-706, 39-AI-81, 39-AI-263, 39-AI-396, 39-AI-446, 39-AI-108, 39-AI-488, 39-AI-524, 39-AI-145, 39-AI-502"
+France-Diplomatic,Paris,39-DI-1308
+France-Ferries,"Granville, Marseille, Saint Malo","39-FE-3432, 39-FE-1627, 39-FE-4249"
+France-Military,"Brest, Toulon","39-MI-2838, 39-MI-3609"
+France-Shipchandling,"Brest, Toulon, Marseille, Lorient, Penmarch, Calais, Barentin, St. Herblain","39-SH-2079, 39-SH-2420, 39-SH-2259, 39-SH-2247, 39-SH-2310, 39-SH-2088, 39-SH-2063, 39-SH-2394"
+French Guyana-Airports,"Cayenne, Cayenne (REC)","226-AI-3685, 226-AI-15"
+Gabon-Airports,Gabon,42-AI-242
+Gabon-Diplomatic,Libreville,42-DI-3811
+Gambia-Airports,Banjul,139-AI-3441
+Georgia-Airports,"Kutaisi, Tbilisi, Batumi","43-AI-3662, 43-AI-708, 43-AI-77"
+Georgia-Borders,"Georgia/Azerbaijan, Georgia/Armenia, Georgia/Turkey, Georgia/Russia","43-BO-1026, 43-BO-1028, 43-BO-1027, 43-BO-2752"
+Georgia-Diplomatic,Tbilisi,43-DI-2715
+Georgia-Ferries,"Poti Sea Port, Batumi","43-FE-1731, 43-FE-1379"
+Germany-Airlines,"Hannover, Duesseldorf, Frankfurt, Berlin, Cologne","44-AR-857, 44-AR-841, 44-AR-847, 44-AR-813, 44-AR-2815"
+Germany-Airports,"Bremen, Munich, Memmingen, Nuernberg, Berlin Schoenefeld, Erfurt, Leipzig, Frankfurt, Cologne, Weeze, Munster-Osnabruck, Hamburg, Duesseldorf, Stuttgart, Karlsruhe Baden-Baden, Dresden, Berlin Brandenburg, Berlin Tegel, Friedrichshafen, Dortmund, Hannover, Rostock, Hahn, Paderborn","44-AI-116, 44-AI-475, 44-AI-3089, 44-AI-515, 44-AI-95, 44-AI-216, 44-AI-391, 44-AI-232, 44-AI-170, 44-AI-768, 44-AI-477, 44-AI-277, 44-AI-209, 44-AI-689, 44-AI-2817, 44-AI-200, 44-AI-3899, 44-AI-97, 44-AI-2702, 44-AI-199, 44-AI-280, 44-AI-611, 44-AI-273, 44-AI-539"
+Germany-Borders,Helgoland,44-BO-1048
+Germany-Diplomatic,"Cuxhaven, Bremen","44-DI-1275, 44-DI-1266"
+Germany-Ferries,"List, Romo, Passau, Heringsdorf, Deggendorf, Hoernum, Puttgarden, Kiel, Neumuenster, Luebeck, Rostock, Travemunde, Bremen, Hamburg, Rodby","44-FE-1606, 44-FE-1757, 44-FE-1708, 44-FE-1526, 44-FE-1446, 44-FE-1540, 44-FE-1744, 44-FE-2691, 44-FE-2861, 44-FE-4193, 44-FE-1762, 44-FE-1608, 44-FE-2864, 44-FE-2951, 44-FE-2693"
+Germany-Military,"Hameln, Mullheim, Dulmen, Emden, Sennelager, Detmold, Hamburg, Wesel, Gutersloh, Wegberg, Herford, Munster, Lotte, Osnabrueck, Fallingbostel, Niederkruchten, Sonthofen, Bergen Hohne, Celle, Neumuenster, Geilenkirchen, Bielefeld, Ramstein-Miesenbach","44-MI-1917, 44-MI-1963, 44-MI-1901, 44-MI-2694, 44-MI-2002, 44-MI-1897, 44-MI-4058, 44-MI-3985, 44-MI-1915, 44-MI-2030, 44-MI-1918, 44-MI-1967, 44-MI-1955, 44-MI-1987, 44-MI-1908, 44-MI-1985, 44-MI-2009, 44-MI-1876, 44-MI-1890, 44-MI-2863, 44-MI-1910, 44-MI-1877, 44-MI-1996"
+Germany-Shipchandling,"Busum, Cuxhaven, Hamburg, Rostock, Emden, Burg Auf Fehmarn, Bremerhaven, Neumuenster, Kiel, Schiffdorf, Bremen","44-SH-2085, 44-SH-2114, 44-SH-2175, 44-SH-2354, 44-SH-2133, 44-SH-2083, 44-SH-2077, 44-SH-2862, 44-SH-2213, 44-SH-3533, 44-SH-2076"
+Ghana-Airports,Accra,45-AI-9
+Ghana-Diplomatic,Accra,45-DI-1248
+Ghana-Military,Accra,45-MI-3041
+Ghana-Shipchandling,"Accra, Takoradi","45-SH-3054, 45-SH-3042"
+Gibraltar-Airports,Gibraltar,46-AI-254
+Gibraltar-Borders,Gibraltar,46-BO-1029
+Gibraltar-Shipchandling,Gibraltar,46-SH-3055
+Great Britain DP-Ferries,"Dover, Roscoff, Dieppe","210-FE-1458, 210-FE-1761, 210-FE-1449"
+Great Britain-Airlines,"London Gatwick, Guernsey, Manchester, Horley, London Heathrow, London Luton, London Stansted","118-AR-851, 118-AR-3643, 118-AR-891, 118-AR-867, 118-AR-882, 118-AR-883, 118-AR-3670"
+Great Britain-Airports,"Manchester, Cardiff, Birmingham, London Southend Airport, Doncaster, Southampton, Aberdeen, Glasgow Prestwick, Exeter, London Luton, Edinburgh, Guernsey, Humberside, London Heathrow, Newcastle, Leeds Bradford, London Stansted, Glasgow, Liverpool, Bristol, Norwich, Bournemouth, London City, East Midlands, Jersey, Belfast, London Gatwick","118-AI-437, 118-AI-139, 118-AI-101, 118-AI-3463, 118-AI-197, 118-AI-679, 118-AI-4, 118-AI-3613, 118-AI-221, 118-AI-404, 118-AI-211, 118-AI-269, 118-AI-294, 118-AI-284, 118-AI-499, 118-AI-390, 118-AI-402, 118-AI-255, 118-AI-401, 118-AI-122, 118-AI-3614, 118-AI-112, 118-AI-403, 118-AI-210, 118-AI-316, 118-AI-85, 118-AI-245"
+Great Britain-Borders,London,118-BO-3971
+Great Britain-Diplomatic,London,118-DI-1294
+Great Britain-Ferries,"Poole, Roscoff, Southampton, Folkstone, Portsmouth, Jersey, Dunkerque, Dover, Calais, Holyhead, Avonmouth","118-FE-1719, 118-FE-1760, 118-FE-4026, 118-FE-3582, 118-FE-1728, 118-FE-1559, 118-FE-4063, 118-FE-1457, 118-FE-3956, 118-FE-2762, 118-FE-4236"
+Great Britain-Military,London,118-MI-2579
+Great Britain-Shipchandling,"Peterhead, Aberdeen, Morecambe, Norfolk Harbour, Southampton, Hull, Avonmouth, Liverpool, Newport, Kent Port, Par Port, Jersey, Immingham","118-SH-2313, 118-SH-2036, 118-SH-2272, 118-SH-2289, 118-SH-2388, 118-SH-2192, 118-SH-2056, 118-SH-2243, 118-SH-2285, 118-SH-2211, 118-SH-2303, 118-SH-4166, 118-SH-2198"
+Greece-Airports,"Heraklion Airport, Kos, Athens, Alexandoupolis, Mitilini, Samos, Rhodes, Ioannina, Zakynthos, Corfu, Skiathos, Karpathos, Santorini, Aktio, Mykonos, Chania, Thessaloniki, Kavala","47-AI-288, 47-AI-355, 47-AI-56, 47-AI-24, 47-AI-460, 47-AI-621, 47-AI-598, 47-AI-4325, 47-AI-787, 47-AI-177, 47-AI-674, 47-AI-335, 47-AI-638, 47-AI-22, 47-AI-479, 47-AI-149, 47-AI-715, 47-AI-337"
+Greece-Borders,"Greece/Albania, Greece/FYROM, Greece/Turkey","47-BO-1033, 47-BO-1032, 47-BO-1034"
+Greece-Diplomatic,Piraeus,47-DI-1309
+Greece-Ferries,"Thessaloniki Port, Symi Port, Kastelorizo Port, Piraeus Port, Kos Port, Heraklion Port, Corfu Port, Igoumenitsa Port, Rhodes Port, Mykonos Port, Mitilini Port, Samos Port, Santorini Port, Katakolo Port","47-FE-1833, 47-FE-1816, 47-FE-1569, 47-FE-1714, 47-FE-3905, 47-FE-3906, 47-FE-1427, 47-FE-1548, 47-FE-1751, 47-FE-3796, 47-FE-1636, 47-FE-3066, 47-FE-1775, 47-FE-1570"
+Greece-Shipchandling,"Piraeus Port, Thessaloniki","47-SH-2315, 47-SH-2414"
+Grenada-Airports,St. George's Point Saline,141-AI-683
+Grenada-Ferries,St. George Port,141-FE-1803
+Guadalupe-Airports,Pointe-a-Pitre,142-AI-562
+Guadalupe-Ferries,Point-a-Pitre Port,142-FE-1716
+Guatemala-Airports,Guatemala City,48-AI-267
+Guinea DF-Airports,Conakry,248-AI-3076
+Haiti-Diplomatic,Port-au-Prince,263-DI-3889
+Honduras-Airports,Tegucigalpa,50-AI-710
+Honduras-Ferries,Roatan,50-FE-1756
+Hong Kong-Airlines,Hong Kong,51-AR-861
+Hong Kong-Airports,Hong Kong,51-AI-293
+Hong Kong-Borders,"Chek Lap Kok, Hom Hung, Lowu, West Kowloon, Lian Tang, Lok Ma Chau","51-BO-3655, 51-BO-1052, 51-BO-1055, 51-BO-3638, 51-BO-4263, 51-BO-1053"
+Hong Kong-Diplomatic,Hong Kong,51-DI-1286
+Hong Kong-Ferries,Hong Kong,51-FE-1418
+Hong Kong-Shipchandling,Hong Kong,51-SH-2187
+Hungary-Airlines,Budapest,52-AR-4185
+Hungary-Airports,Budapest,52-AI-128
+India-Airlines,Delhi,53-AR-3017
+India-Airports,"Lucknow, Cochin, Indira Gandhi, Jaipur, Chattrapati Shivaji, Bangalore, Goa, Kannur, Hyderabad, Mangalore, Amritsar, Sardar Vallabh Bhai Patel, Karipur, Trichy, Anna, Netaji Subhash Chandra Bose Int. Airport","53-AI-407, 53-AI-167, 53-AI-301, 53-AI-312, 53-AI-152, 53-AI-66, 53-AI-256, 53-AI-4151, 53-AI-296, 53-AI-439, 53-AI-34, 53-AI-642, 53-AI-332, 53-AI-735, 53-AI-38, 53-AI-494"
+India-Diplomatic,"Delhi, Mumbai, New Delhi","53-DI-1277, 53-DI-3445, 53-DI-1303"
+India-Ferries,"Paradip Port, Mangalore","53-FE-1707, 53-FE-1617"
+India-Shipchandling,"Mangalore, Kakinada, Visakhapatnam, Cochin, Mundra, Chennai, Gujarat, Kolkatta, Kandla, Tuticorin, Paradip Port, Haldia Port - Kolkatta, Vasco-Da-Gama, Goa, Blair Port, Mumbai","53-SH-2256, 53-SH-3439, 53-SH-2440, 53-SH-2103, 53-SH-2968, 53-SH-2097, 53-SH-3982, 53-SH-2217, 53-SH-2206, 53-SH-2427, 53-SH-3021, 53-SH-2969, 53-SH-2434, 53-SH-2161, 53-SH-2319, 53-SH-2274"
+Indonesia-Airports,"Soekarno Hatta, Kualanamu, Ngurah Rai","54-AI-677, 54-AI-3799, 54-AI-500"
+Iraq-Airports,"Basrah, Najaf, Baghdad, Suleymania Airport, Erbil International Airport","212-AI-3475, 212-AI-3584, 212-AI-60, 212-AI-3479, 212-AI-303"
+Iraq-Borders,"Trbeel, Zerbatia, Munzeria (Khanaqin), Haj Omran, Ibrahim Khalil","212-BO-4285, 212-BO-4284, 212-BO-3480, 212-BO-2736, 212-BO-1070"
+Iraq-Diplomatic,"Baghdad, Erbil Downtown","212-DI-4234, 212-DI-2733"
+Ireland-Airlines,Dublin,55-AR-839
+Ireland-Airports,"Shannon, Cork, Dublin","55-AI-655, 55-AI-178, 55-AI-202"
+Ireland-Shipchandling,"Dublin, Killybegs, Cork Port","55-SH-2127, 55-SH-4013, 55-SH-2110"
+Israel-Airlines,Tel-Aviv,56-AR-941
+Israel-Airports,"Ramon, Tel-Aviv","56-AI-3739, 56-AI-90"
+Israel-Borders,"Eilat (Israel-Egypt), Jordan River Crossing (Israel-Jordan), Arava (Israel-Jordan)","56-BO-1202, 56-BO-1074, 56-BO-2961"
+Israel-Diplomatic,"Tel-Aviv, Rishon Letsion","56-DI-1328, 56-DI-1318"
+Israel-Ferries,Haifa Port,56-FE-1513
+Israel-Military,Tel-Aviv,56-MI-2019
+Israel-Shipchandling,"Haifa Port, Eilat, Haifa, Ashdod Port","56-SH-2170, 56-SH-2962, 56-SH-2169, 56-SH-2052"
+Italy-Airlines,"Rome Fiumicino, Milan","57-AR-846, 57-AR-894"
+Italy-Airports,"Bologna, Torino, Pisa, Ciampino Airport, Verona, Milan - Linate, Milan - Malpensa, Rome Fiumicino, Catania, Palermo, Bari, Venice, Naples, Treviso, Genoa, Florence, Bergamo","57-AI-106, 57-AI-725, 57-AI-556, 57-AI-163, 57-AI-754, 57-AI-4027, 57-AI-434, 57-AI-610, 57-AI-143, 57-AI-3503, 57-AI-73, 57-AI-753, 57-AI-489, 57-AI-733, 57-AI-129, 57-AI-228, 57-AI-91"
+Italy-Borders,Livigno,57-BO-1100
+Italy-Diplomatic,"Rome, Trieste","57-DI-1319, 57-DI-1331"
+Italy-Ferries,"Venice, Naples, Palermo, Genoa, Ancona","57-FE-1855, 57-FE-1691, 57-FE-1705, 57-FE-1503, 57-FE-1358"
+Italy-Military,"Solbiate, Milano, Naples, Verona, Ferrara, Treviso, Livorno, Decimo, La Spezia, Rome","57-MI-2795, 57-MI-4004, 57-MI-2797, 57-MI-2799, 57-MI-1909, 57-MI-2803, 57-MI-2956, 57-MI-2798, 57-MI-2796, 57-MI-4003"
+Italy-Shipchandling,"Genoa, Bari, S. Benedetto del Tronto, Augusta, Naples, Piombino, Civitavecchia, Milazzo, Salerno, Ancona, Taranto, Venice, Livorno, La Spezia, Catania, Trieste, Cagliari, Rome, Ravenna, Trapani","57-SH-2155, 57-SH-2064, 57-SH-3038, 57-SH-2053, 57-SH-2280, 57-SH-2314, 57-SH-2102, 57-SH-2266, 57-SH-3160, 57-SH-2043, 57-SH-2410, 57-SH-2437, 57-SH-2244, 57-SH-2227, 57-SH-2094, 57-SH-2423, 57-SH-2087, 57-SH-2350, 57-SH-2340, 57-SH-2422"
+Ivory Coast-Airlines,Abidjan,58-AR-4025
+Ivory Coast-Airports,Abidjan,58-AI-5
+Ivory Coast-Diplomatic,Abidjan,58-DI-1247
+Ivory Coast-Military,Abidjan,58-MI-3071
+Jamaica-Airports,"Kingston, Montego Bay","145-AI-509, 145-AI-465"
+Jamaica-Ferries,Montego Bay Port,145-FE-1640
+Japan-Airlines,Tokyo,59-AR-942
+Japan-Airports,"Aomori, Fukushima, Fukuoka, Matsuyama, Oita, Okayama, Miyazaki, Niigata, Sendai, Hakodate, Tokyo - Narita, Saga, Toyama, Takamatsu, Chubu, Shizuoka, Naha, Hokkaido, Kagoshima, Hiroshima, Tokyo - Ginza, Osaka - Kansai, Tokyo - Shinjuku, Tokyo - Haneda, Yonago, Kumamoto, Nagasaki, Chitose, Ibaraki","59-AI-45, 59-AI-239, 59-AI-238, 59-AI-447, 59-AI-520, 59-AI-521, 59-AI-461, 59-AI-504, 59-AI-646, 59-AI-275, 59-AI-490, 59-AI-2761, 59-AI-730, 59-AI-700, 59-AI-162, 59-AI-667, 59-AI-482, 59-AI-292, 59-AI-325, 59-AI-289, 59-AI-4237, 59-AI-329, 59-AI-3481, 59-AI-279, 59-AI-783, 59-AI-364, 59-AI-481, 59-AI-159, 59-AI-297"
+Japan-Ferries,"Naha Okinawa, Hakata Port, Shimonoseki Port","59-FE-3629, 59-FE-1515, 59-FE-3812"
+Japan-Shipchandling,"Nagoya, Kobe Port, Yokohama Port","59-SH-2275, 59-SH-2216, 59-SH-2458"
+Jordan-Airports,"Aqaba, Marka, Amman","60-AI-46, 60-AI-442, 60-AI-33"
+Jordan-Borders,"Omari (Saudi border), Sheikh Hussein Bridge (Israel border), Mdawara (Saudi border), Karameh (Iraq border), Aqaba (Saudi border), King Hussein Bridge (Palestine border), Jaber (Syria border)","60-BO-1131, 60-BO-1179, 60-BO-1109, 60-BO-1081, 60-BO-963, 60-BO-1085, 60-BO-1072"
+Jordan-Diplomatic,"Aqaba, Amman","60-DI-3933, 60-DI-1253"
+Jordan-Ferries,Aqaba Port,60-FE-1362
+Jordan-Shipchandling,Aqaba Port,60-SH-3053
+Kaliningrad-Airports,Hrabrovo,245-AI-327
+Kaliningrad-Borders,"Baltijsk, Kaliningrad (Poland Border), Kaliningrad (Lithuania Border)","245-BO-966, 245-BO-1077, 245-BO-3832"
+Kaliningrad-Ferries,Baltijsk,245-FE-3898
+Kazakhstan-Airports,"Aktobe, Shymkent, Aktau, Astana, Atyrau, Karaganda, Turkestan, Almaty","61-AI-4024, 61-AI-3887, 61-AI-2876, 61-AI-2690, 61-AI-3675, 61-AI-3436, 61-AI-4035, 61-AI-30"
+Kazakhstan-Borders,"Kazakh./Uzbek., Khorgos, Maikapchagai","61-BO-1083, 61-BO-3605, 61-BO-3564"
+Kazakhstan-Diplomatic,Astana,61-DI-2760
+Kenya-Airlines,Nairobi,62-AR-3730
+Kenya-Airports,"Jomo Kenyatta, Moi","62-AI-322, 62-AI-463"
+Kenya-Diplomatic,Nairobi,62-DI-1334
+Kenya-Shipchandling,"Nairobi, Mombasa Port","62-SH-4283, 62-SH-2268"
+Kosovo-Airports,PRISTINA,246-AI-574
+Kuwait-Airlines,Kuwait,64-AR-4247
+Kuwait-Airports,Kuwait,64-AI-367
+Kuwait-Shipchandling,Kuwait FTZ,64-SH-2223
+Kyrgyzstan-Airports,Manas,65-AI-436
+Kyrgyzstan-Borders,"Torugart, Dostuk, Kayragach, Irkeshtam","65-BO-2784, 65-BO-2782, 65-BO-2785, 65-BO-3435"
+Kyrgyzstan-Diplomatic,Bishkek,65-DI-3606
+Laos-Airports,"Luang Prabang, Vientiane","66-AI-3102, 66-AI-757"
+Laos-Borders,"Savannaket, Boten, Vientiane","66-BO-1200, 66-BO-2869, 66-BO-1230"
+Latvia-Airports,Riga,67-AI-599
+Latvia-Diplomatic,Riga,67-DI-1315
+Latvia-Shipchandling,"Ventspils, Riga","67-SH-2438, 67-SH-2346"
+Lebanon-Airlines,Beirut,68-AR-917
+Lebanon-Airports,Beirut - Rafik Hariri,68-AI-592
+Lebanon-Diplomatic,Beirut,68-DI-1260
+Lebanon-Ferries,Beirut Port,68-FE-1381
+Lebanon-Military,Beirut,68-MI-3212
+Lebanon-Shipchandling,Beirut Port,68-SH-2065
+Liberia-Military,Monrovia,147-MI-3177
+Libya-Ferries,Misrata,230-FE-4227
+Libya-Shipchandling,Misrata,230-SH-4228
+Lithuania-Airlines,Kaunas,69-AR-4041
+Lithuania-Airports,"Vilnius, Kaunas","69-AI-758, 69-AI-3166"
+Lithuania-Diplomatic,Vilnius,69-DI-3671
+Lithuania-Shipchandling,Klaipeda,69-SH-2215
+Luxembourg-Airlines,Luxembourg,70-AR-886
+Luxembourg-Airports,Luxembourg,70-AI-412
+Macau-Airports,Macau,71-AI-416
+Macau-Borders,Hong Kong – Zhuhai – Macao Bridge (HZMB),71-BO-3895
+Macau-Ferries,Macau,71-FE-1614
+Macedonia-Airports,"Ohrid, Skopje","149-AI-519, 149-AI-675"
+Madagascar-Airports,"Antananarivo, Tulear","150-AI-42, 150-AI-3866"
+Madagascar-Diplomatic,"Tamatave, Madagascar","150-DI-1327, 150-DI-1298"
+Madagascar-Shipchandling,Antananarivo,150-SH-3465
+Malaysia-Airlines,Kuala Lumpur,72-AR-873
+Malaysia-Airports,"Kota Kinabalu, Penang, Johor Bahru, Kuala Lumpur, Kuching, W. P. Labuan","72-AI-356, 72-AI-548, 72-AI-321, 72-AI-361, 72-AI-363, 72-AI-764"
+Malaysia-Borders,"Bukit Kayu Hitam, Wang Kelian, Durian Burung, Johor Bahru, Pengkalan Hulu, Rantau Panjang, Padang Besar","72-BO-2764, 72-BO-3058, 72-BO-3813, 72-BO-2765, 72-BO-1142, 72-BO-1155, 72-BO-1134"
+Malaysia-Shipchandling,"Klang Port, Kuala Lumpur, Pasir Gudang","72-SH-2325, 72-SH-3057, 72-SH-2307"
+Maldives-Airports,Male,73-AI-431
+Mali-Airports,Bamako,152-AI-432
+Mali-Diplomatic,Bamako,152-DI-3648
+Mali-Military,"Mopti, Bamako, Timbuktu, Kidal, Gao","152-MI-3080, 152-MI-3078, 152-MI-3081, 152-MI-3209, 152-MI-3079"
+Malta-Airports,Luqa,74-AI-411
+Malta-Ferries,La Valletta,74-FE-1586
+Malta-Shipchandling,La Valletta,74-SH-2228
+Martinique-Airports,Fort-de-France,181-AI-230
+Martinique-Ferries,Fort-de-France Port,181-FE-1487
+Mauritania-Airports,Nouakchott,153-AI-3597
+Mauritius-Airlines,Port Louis,75-AR-3195
+Mauritius-Airports,Port Louis,75-AI-557
+Mauritius-Diplomatic,Port Louis,75-DI-1310
+Mauritius-Ferries,Port Louis,75-FE-1722
+Mauritius-Shipchandling,Port Louis,75-SH-2262
+Mayotte-Airports,Pamandzi,76-AI-542
+Mexico-Airports,"Guadalajara, Los Cabos, Puerto Vallarta, Ixtapa Zihuatanejo, Huatulco, Monterrey, Mazatlan, Mexico City, La Paz Manuel Marquez de Leon, Cancun, Cozumel, Acapulco, Queretaro","77-AI-265, 77-AI-405, 77-AI-579, 77-AI-309, 77-AI-3562, 77-AI-467, 77-AI-448, 77-AI-455, 77-AI-392, 77-AI-136, 77-AI-182, 77-AI-8, 77-AI-3472"
+Mexico-Borders,Tijuana,77-BO-1207
+Mexico-Ferries,"Puerto Progreso, Cozumel Port","77-FE-1743, 77-FE-1441"
+Moldova-Airlines,Chisinau,78-AR-3449
+Moldova-Airports,Chisinau,78-AI-158
+Moldova-Borders,"Moldova/Romania, Moldova/Ukraine","78-BO-1120, 78-BO-1121"
+Moldova-Diplomatic,Chisinau,78-DI-2716
+Mongolia-Airports,Ulaanbaatar,79-AI-745
+Mongolia-Borders,"Altanbulag FTZ, Mongolia/China","79-BO-960, 79-BO-1124"
+Mongolia-Diplomatic,Ulaanbaatar,79-DI-1333
+Montenegro-Airports,"Tivat, Podgorica","232-AI-721, 232-AI-560"
+Montenegro-Ferries,Bar,232-FE-1373
+Montenegro-Military,Podgorica,232-MI-3090
+Montenegro-Shipchandling,Bar,232-SH-2059
+Morocco-Airlines,Casablanca,80-AR-822
+Morocco-Airports,"Tangier, Fes, Essaouira, Marrakech, Agadir, Casablanca, Nador, Ouarzazate, Al Hoceima, Oujda, Rabat","80-AI-703, 80-AI-225, 80-AI-3095, 80-AI-443, 80-AI-18, 80-AI-142, 80-AI-3101, 80-AI-535, 80-AI-3431, 80-AI-536, 80-AI-590"
+Morocco-Diplomatic,Rabat,80-DI-3094
+Morocco-Ferries,Tangier,80-FE-1824
+Morocco-Shipchandling,Tangier,80-SH-4229
+Mozambique-Airports,"Beira, Maputo","154-AI-4028, 154-AI-2767"
+Mozambique-Shipchandling,Pemba,154-SH-3804
+Myanmar-Airports,"Nay Pyi Taw, Mandalay, Yangon","155-AI-2918, 155-AI-438, 155-AI-778"
+Myanmar-Borders,"Andaman Island, Tachileik, Myawaddy","155-BO-962, 155-BO-1203, 155-BO-3158"
+Namibia-Airports,"Katima Mulilo, Windhoek","156-AI-4029, 156-AI-772"
+Namibia-Borders,Katima Mulilo,156-BO-3999
+Namibia-Shipchandling,"Windhoek, Walvis Bay","156-SH-3738, 156-SH-2443"
+Netherlands-Airlines,Amsterdam - Schiphol,49-AR-924
+Netherlands-Airports,"Eindhoven, Amsterdam - Schiphol, Rotterdam","49-AI-212, 49-AI-643, 49-AI-613"
+Netherlands-Diplomatic,The Hague,49-DI-1329
+Netherlands-Ferries,"Barendrecht, Amsterdam, Hoek van Holland, Rotterdam","49-FE-1377, 49-FE-3583, 49-FE-1536, 49-FE-1734"
+Netherlands-Military,"Dordrecht, Brunssum, Eibergen, Rotterdam","49-MI-4057, 49-MI-1873, 49-MI-3493, 49-MI-2020"
+Netherlands-Shipchandling,"Delfzijl, Hoogvliet, Scheveningen, Vlaardingen, Breskens, Bergschenhoek, Rotterdam, Barendrecht, Harlingen, Schiedam, Spijkenisse, Pernis, Eemshaven, Ijmuiden, Den Helder, Vlissingen","49-SH-2118, 49-SH-2188, 49-SH-2367, 49-SH-2441, 49-SH-2078, 49-SH-2067, 49-SH-2355, 49-SH-2062, 49-SH-2180, 49-SH-2368, 49-SH-2390, 49-SH-2311, 49-SH-2132, 49-SH-2196, 49-SH-2120, 49-SH-2442"
+New Zealand-Airports,"Hamilton, Auckland, Wellington, Christchurch, Queenstown","158-AI-3450, 158-AI-57, 158-AI-770, 158-AI-161, 158-AI-2930"
+New Zealand-Diplomatic,Auckland,158-DI-4038
+New Zealand-Shipchandling,"Auckland, Christchurch","158-SH-2931, 158-SH-2932"
+Nicaragua-Airports,Managua,182-AI-435
+Nicaragua-Borders,"El Espino, Penas Blancas, Guasaule","182-BO-1017, 182-BO-1140, 182-BO-1037"
+Niger-Airports,Niamey,159-AI-503
+Nigeria-Airports,"Kano, Abuja, Lagos","82-AI-2769, 82-AI-3164, 82-AI-381"
+Nigeria-Shipchandling,Lagos,82-SH-3082
+Norway-Airports,"Harstad, Haugesund, Alesund, Svalbard, Sandefjord-Torp, Bergen, Molde, Tromso, Kristiansand, Bodo, Oslo, Stavanger, Kristiansund, Trondheim","83-AI-2823, 83-AI-2824, 83-AI-2821, 83-AI-2677, 83-AI-630, 83-AI-93, 83-AI-2827, 83-AI-2826, 83-AI-360, 83-AI-2822, 83-AI-527, 83-AI-686, 83-AI-3060, 83-AI-738"
+Norway-Ferries,"Langesund, Oslo, Sandefjord, Kristiansand, Larvik","83-FE-1533, 83-FE-1699, 83-FE-1771, 83-FE-1532, 83-FE-1534"
+Norway-Shipchandling,"Bergen, Tromso, Porsgrunn, Svalbard, Kirkenes, Haugesund, Alesund, Kristiansand, Stavanger, Hammerfest, Oslo","83-SH-2066, 83-SH-2424, 83-SH-2316, 83-SH-2403, 83-SH-2214, 83-SH-2181, 83-SH-2039, 83-SH-2221, 83-SH-2396, 83-SH-2177, 83-SH-2297"
+Oman-Airlines,Muscat,84-AR-3482
+Oman-Airports,"Salalah, Muscat","84-AI-3429, 84-AI-645"
+Oman-Shipchandling,"Seeb, Sohar Port","84-SH-2748, 84-SH-4194"
+Oth. Milit.-Lebanon-Military,Beirut,235-MI-1950
+Other Balkans-Military,Sarajevo,205-MI-2001
+PMIDF Canada New-Airlines,"Vancouver, Montreal","259-AR-3789, 259-AR-3764"
+PMIDF Canada New-Diplomatic,Montreal,259-DI-3901
+PMIDF Canada New-Shipchandling,"Montreal Port, Vancouver Port, St Johns","259-SH-3766, 259-SH-3791, 259-SH-3782"
+Pakistan-Airports,"Islamabad, Lahore","85-AI-305, 85-AI-382"
+Panama-Airports,Panama Tocumen,86-AI-723
+Panama-Ferries,Colon Port,86-FE-1423
+Panama-Shipchandling,Panama Port,86-SH-2302
+Paraguay-Airports,Asuncion Silvio Petterossi,87-AI-54
+Peru-Airlines,Lima,88-AR-910
+Peru-Airports,Lima,88-AI-397
+Philippines-Airports,"Manila Downtown Shop, Mactan, Iloilo, Manila - Ninoy Aquino, Kalibo","89-AI-440, 89-AI-417, 89-AI-4326, 89-AI-506, 89-AI-4306"
+Poland-Airlines,Warsaw,90-AR-947
+Poland-Airports,"Lodz, Lublin, Katowice, Krakow Balice, Szczecin, Rzeszow, Warsaw-Modlin, Gdansk, Olsztyn, Bydgoszcz, Poznan-Lawica, Radom, Warsaw, Wroclaw","90-AI-2730, 90-AI-2731, 90-AI-336, 90-AI-357, 90-AI-2747, 90-AI-3052, 90-AI-3499, 90-AI-248, 90-AI-3497, 90-AI-2741, 90-AI-569, 90-AI-4312, 90-AI-765, 90-AI-774"
+Poland-Diplomatic,Warsaw,90-DI-1339
+Poland-Military,"Elblag, Bydgoszcz, Sczcecin","90-MI-3930, 90-MI-1882, 90-MI-4051"
+Poland-Shipchandling,"Szczecin, Gdansk, Gdynia","90-SH-2406, 90-SH-2153, 90-SH-2154"
+Portugal-Airlines,"Porto, Lisbon","91-AR-912, 91-AR-881"
+Portugal-Airports,"Faro Airport, Lisbon, Porto, Madeira","91-AI-223, 91-AI-400, 91-AI-565, 91-AI-4334"
+Portugal-Diplomatic,"Porto, Lisbon","91-DI-1312, 91-DI-1293"
+Portugal-Ferries,Lisbon,91-FE-3489
+Portugal-Military,Lisbon,91-MI-1953
+Portugal-Shipchandling,"Peniche, Lisbon, Porto","91-SH-2309, 91-SH-2242, 91-SH-2329"
+Qatar-Airlines,Doha,92-AR-837
+Qatar-Airports,Doha,92-AI-195
+Qatar-Shipchandling,Doha Port,92-SH-3161
+Reunion-Airports,Roland Garros,93-AI-607
+Reunion-Shipchandling,Saint Denis Port,93-SH-2341
+Romania-Shipchandling,Constanta,94-SH-2108
+Russia-Airlines,Moscow - Sheremetyevo,95-AR-932
+Russia-Airports,"Zhukovsky, Moscow - Domodedovo, St. Petersburg Pulkovo, Chelyabinsk, Astrakhan, Khabarovsk, Arkhangelsk, Moscow - Vnukovo, Ufa, Irkutsk, Ekaterinburg, Kazan, Yuzhno-Sakhalinsk, Moscow - Sheremetyevo, Novosibirsk, Sochi, Belgorod, Krasnoyarsk, Rostov Don, Vladivostok, Samara, Tyumen, Voronezh, Volgograd, Min Vody, Krasnodar","95-AI-3486, 95-AI-470, 95-AI-682, 95-AI-153, 95-AI-3033, 95-AI-343, 95-AI-3031, 95-AI-474, 95-AI-744, 95-AI-304, 95-AI-213, 95-AI-339, 95-AI-3039, 95-AI-472, 95-AI-512, 95-AI-676, 95-AI-2866, 95-AI-2867, 95-AI-612, 95-AI-761, 95-AI-2753, 95-AI-3447, 95-AI-2965, 95-AI-2721, 95-AI-457, 95-AI-359"
+Russia-Borders,"Russia/Norway, Russian/Latvia, Russia/China, Russia/Ukraine, Russia/Estonia, Russian/Finland, Russian/Georgia, Russian/Azerbaijan, St. Petersburg","95-BO-1167, 95-BO-1166, 95-BO-1161, 95-BO-1168, 95-BO-1163, 95-BO-1164, 95-BO-1165, 95-BO-3568, 95-BO-3073"
+Russia-Ferries,St. Petersburg Sea Port,95-FE-2789
+Rwanda-Airports,Kigali,255-AI-2819
+Saint Helena-Military,Jamestown,260-MI-3740
+Saint Helena-Shipchandling,Jamestown,260-SH-3743
+Saint Marteen (NL)-Ferries,Philipsburg,264-FE-3959
+Samnaun-Borders,Samnaun,184-BO-1171
+Saudi Arabia-Airports,"Medina, Jeddah, DAMMAM, RIYADH","98-AI-4309, 98-AI-2710, 98-AI-4021, 98-AI-4022"
+Senegal-Airlines,Dakar,99-AR-833
+Senegal-Airports,Leopold Sedar Senghar,99-AI-393
+Senegal-Shipchandling,Dakar,99-SH-2369
+Serbia-Airlines,Belgrade,127-AR-3639
+Serbia-Airports,"Belgrade, Kraljevo, Nis","127-AI-87, 127-AI-3879, 127-AI-3504"
+Serbia-Diplomatic,Belgrade,127-DI-2950
+Serbia-Ferries,Belgrade,127-FE-2948
+Serbia-Shipchandling,Belgrade,127-SH-2949
+Seychelles-Airports,Victoria,100-AI-650
+Seychelles-Shipchandling,Mahe,100-SH-2373
+Sierra Leone-Airports,Sierra Leone,162-AI-2676
+Singapore-Airports,Singapore - Changi,101-AI-147
+Singapore-Ferries,Singapore,101-FE-1792
+Singapore-Shipchandling,Singapore,101-SH-2386
+Slovakia-Airports,Bratislava,102-AI-114
+Slovenia-Ferries,Koper,103-FE-1574
+Slovenia-Shipchandling,Koper Port,103-SH-2218
+South Africa-Airports,"Johannesburg, Cape Town, Durban","96-AI-319, 96-AI-137, 96-AI-206"
+South Africa-Diplomatic,"Brooklyn, Pretoria, Hatfield","96-DI-1267, 96-DI-3810, 96-DI-1284"
+South Africa-Shipchandling,"Port Elizabeth (ZA), Cape Town, Durban, Elizabeth Port, Richards Bay","96-SH-3805, 96-SH-2091, 96-SH-2130, 96-SH-2322, 96-SH-2344"
+South Korea-Airlines,"Jeju, Seoul, Incheon, Busan","63-AR-3443, 63-AR-3446, 63-AR-2775, 63-AR-3735"
+South Korea-Airports,"Cheongju, Jeju, Muan, Incheon (downtown), Daegu (downtown), Seoul (downtown), Seoul, Daegu, Busan - Kimhae (downtown), Incheon, Jeju (downtown), Yangyang, Busan - Kimhae","63-AI-2945, 63-AI-2779, 63-AI-3012, 63-AI-3037, 63-AI-3548, 63-AI-3545, 63-AI-647, 63-AI-3056, 63-AI-3549, 63-AI-300, 63-AI-3547, 63-AI-3011, 63-AI-347"
+South Korea-Diplomatic,Seoul (downtown),63-DI-4203
+South Korea-Ferries,"Pyeongtaek, Incheon, Gusan, Goseong, Busan","63-FE-1745, 63-FE-1550, 63-FE-1511, 63-FE-3427, 63-FE-1408"
+South Korea-Shipchandling,"Busan, Ulsan, Pyeongtaek, Incheon, Masan","63-SH-2084, 63-SH-2428, 63-SH-2333, 63-SH-2200, 63-SH-2261"
+South Sudan-Airports,Juba,257-AI-3600
+Spain DP-Airports,"Santander, A Coruna, Jerez De La Frontera, Malaga, Santiago De Compostela, Valencia, Mahon Airport, Murcia, Palma De Mallorca, Almeria, Madrid Barajas, Granada, Asturias, Sevilla, Reus, Gerona, Barcelona, Alicante, Ibiza, Bilbao","207-AI-3065, 207-AI-3061, 207-AI-315, 207-AI-430, 207-AI-637, 207-AI-750, 207-AI-425, 207-AI-3064, 207-AI-541, 207-AI-32, 207-AI-421, 207-AI-3063, 207-AI-3062, 207-AI-649, 207-AI-597, 207-AI-250, 207-AI-72, 207-AI-29, 207-AI-299, 207-AI-99"
+Spain-Airlines,Madrid,105-AR-2701
+Spain-Airports,"Malaga, Almeria, Reus, Jerez De La Frontera, Bilbao, Santander, Alicante, Barcelona, Sevilla, Santiago De Compostela, Gerona, A Coruna, Granada, Asturias, Valencia, Madrid Barajas, Palma De Mallorca, Mahon Airport, Murcia, Ibiza","105-AI-428, 105-AI-31, 105-AI-596, 105-AI-314, 105-AI-98, 105-AI-2745, 105-AI-28, 105-AI-70, 105-AI-648, 105-AI-636, 105-AI-249, 105-AI-2740, 105-AI-2743, 105-AI-2742, 105-AI-749, 105-AI-420, 105-AI-540, 105-AI-424, 105-AI-2744, 105-AI-298"
+Spain-Diplomatic,Madrid,105-DI-1299
+Spain-Ferries,"Cadiz, Malaga, Algeciras, Valencia, Palma De Mallorca, Tarifa, Madrid, Vigo, Alicante, Almeria, Barcelona, Motril","105-FE-3092, 105-FE-1616, 105-FE-1351, 105-FE-1852, 105-FE-1706, 105-FE-1826, 105-FE-4186, 105-FE-3205, 105-FE-1354, 105-FE-1355, 105-FE-1374, 105-FE-3617"
+Spain-Military,Madrid,105-MI-1956
+Spain-Shipchandling,"A Coruna, Cadiz, Vigo, Aviles, Bilbao, Celeiro, Valencia, Madrid, Gijon, Cartagena, Huelva, Algeciras, Barcelona, Pasajes - Lezo, Almeria","105-SH-2034, 105-SH-2086, 105-SH-2439, 105-SH-2055, 105-SH-2069, 105-SH-2095, 105-SH-2431, 105-SH-2583, 105-SH-2159, 105-SH-2092, 105-SH-2190, 105-SH-2041, 105-SH-2060, 105-SH-2306, 105-SH-2042"
+Sri Lanka-Airlines,Bandaranaike,106-AR-809
+Sri Lanka-Airports,"Bandaranaike, Colombo","106-AI-65, 106-AI-3881"
+Sri Lanka-Ferries,Colombo Port,106-FE-1422
+Sri Lanka-Shipchandling,Colombo,106-SH-2104
+Sudan-Airports,Juba (inactive),163-AI-3573
+Sudan-Military,Port Sudan,163-MI-3180
+Suriname-Airports,Paramaribo,164-AI-545
+Suriname-Borders,South Drain,164-BO-1199
+Sweden-Airlines,Stockholm Arlanda,107-AR-805
+Sweden-Airports,"Umea, Karlstad, Nykoping, Sundsvall, Gothenburg, Norrkoping, Jonkoping, Vaxjo, Kalmar, Lulea, Stockholm Arlanda, Malmo, Orebro","107-AI-746, 107-AI-334, 107-AI-3097, 107-AI-691, 107-AI-383, 107-AI-510, 107-AI-323, 107-AI-3098, 107-AI-328, 107-AI-410, 107-AI-50, 107-AI-433, 107-AI-3438"
+Sweden-Ferries,"Helsingborg, Fredrikshavn, Ystad, Vuosaari, Trelleborg, Stockholm, Stockholm, Nynashamn, Stockholm, Aland, Helsinki, Turku, Karlskrona, Stockholm, Varberg, Helsinki, Gothenburg, Gothenburg","107-FE-1519, 107-FE-1700, 107-FE-3625, 107-FE-3843, 107-FE-1842, 107-FE-3848, 107-FE-3842, 107-FE-3627, 107-FE-3043, 107-FE-3044, 107-FE-3839, 107-FE-3847, 107-FE-1568, 107-FE-3841, 107-FE-1853, 107-FE-3840, 107-FE-1509, 107-FE-1508"
+Sweden-Shipchandling,"Oskarhamn, Kalmar, Norrkoping, Stromstrad, Lysekil, Gothenburg, Vasteras","107-SH-2296, 107-SH-2205, 107-SH-2291, 107-SH-2399, 107-SH-2249, 107-SH-2163, 107-SH-2435"
+Switzerland-Airlines,"Basel, Zurich","108-AR-811, 108-AR-951"
+Switzerland-Airports,"Geneva, Zurich, Lugano, Basel","108-AI-169, 108-AI-352, 108-AI-409, 108-AI-76"
+Switzerland-Diplomatic,"Geneva, Bern","108-DI-1282, 108-DI-1262"
+Taiwan-Airlines,Taipei,111-AR-937
+Taiwan-Airports,"Kaohsiung, Taipei - Taoyuan, Taipei Songshan, Taichung, Everrich Downtown Kinmen","111-AI-330, 111-AI-698, 111-AI-2943, 111-AI-697, 111-AI-220"
+Taiwan-Shipchandling,Kaohsiung Port,111-SH-2207
+Tajikistan-Airports,Dushanbe,110-AI-208
+Tanzania-Airports,"Dar Es Salaam, Kilimanjaro, Zanzibar","112-AI-190, 112-AI-346, 112-AI-2818"
+Tanzania-Diplomatic,Dar Es Salaam,112-DI-1330
+Thailand-Airports,Bangkok Airport,113-AI-68
+Togo-Airlines,Togo,114-AR-4023
+Togo-Airports,Togo,114-AI-2678
+Togo-Diplomatic,Lome,114-DI-3077
+Togo-Shipchandling,Togo,114-SH-4244
+Trinidad and Tobago-Airports,Piarco,167-AI-554
+Trinidad and Tobago-Shipchandling,Port of Spain,167-SH-2959
+Tunisia-Airlines,Tunis,115-AR-943
+Tunisia-Airports,"Jerba, Sfax, Tunis, Enfidha, Tozeur, Monastir","115-AI-313, 115-AI-651, 115-AI-740, 115-AI-214, 115-AI-731, 115-AI-464"
+Tunisia-Borders,"Malloula, Ras Ejdir, Tunis","115-BO-4289, 115-BO-4290, 115-BO-1213"
+Tunisia-Diplomatic,Tunis,115-DI-1332
+Tunisia-Ferries,La Goulette Port,115-FE-1581
+Tunisia-Shipchandling,La Goulette Port,115-SH-2225
+Turkey-Airports,"Bodrum Airport, Antalya Gazipasa Airport, Antalya Airport, Adana Airport, Gaziantep Airport, Denizli Cardak Airport, Trabzon Airport, Istanbul Asia Airport, Istanbul Airport, Izmir Airport, Diyarbakir Airport, Kutahya Airport, Konya Airport, Ankara Airport, Hatay Airport, Samsun Airport, Isparta Airport, Dalaman Airport, Kayseri Airport","116-AI-102, 116-AI-2776, 116-AI-40, 116-AI-10, 116-AI-247, 116-AI-3637, 116-AI-732, 116-AI-306, 116-AI-3635, 116-AI-311, 116-AI-4167, 116-AI-3498, 116-AI-354, 116-AI-37, 116-AI-2681, 116-AI-622, 116-AI-2884, 116-AI-186, 116-AI-338"
+Turkey-Borders,"Van Setur Kapikoy Turkey Iran Border, Cildir Aktas Turkey Georgia Border, Kapikule Turkey Bulgaria Border, Dilucu Turkey Nakhchivan Border, Pazarkule Turkey Greece Border, Derekoy Turkey Bulgaria Border, Habur  Turkey Iraq Border, Gurbulak Turkey Iranian Border, Ipsala Turkey Greece Border, Hamzabeyli Turkey Bulgaria Border, Sarp Turkey Georgia Border, Esendere Turkey Iran Border, Turkgozu Turkey Georgia Border","116-BO-3737, 116-BO-3524, 116-BO-1079, 116-BO-3525, 116-BO-1139, 116-BO-1011, 116-BO-1043, 116-BO-1042, 116-BO-1068, 116-BO-1045, 116-BO-1173, 116-BO-3570, 116-BO-1150"
+Turkey-Diplomatic,Ankara Diplomatic,116-DI-1254
+Turkey-Ferries,"Kusadasi Port, Bodrum Icmeler Port, Bodrum Turgutreis Port, Bodrum Port, Bodrum Yalikavak Port, Cesme Port, Marmaris Port, Istanbul Port, Ayvalik Port, Fethiye Port, Izmir Ferries Setur Seferihisar","116-FE-1577, 116-FE-1396, 116-FE-1400, 116-FE-1399, 116-FE-2707, 116-FE-1415, 116-FE-1624, 116-FE-1553, 116-FE-2781, 116-FE-4279, 116-FE-3736"
+Turkey-Military,"Istanbul Military, Izmir Military","116-MI-1925, 116-MI-1935"
+Turkey-Shipchandling,"Canakkale Port, Istanbul Zeyport Port","116-SH-2089, 116-SH-2202"
+Uganda-Airports,Entebbe,168-AI-215
+Uganda-Military,Entebbe,168-MI-3179
+Ukraine-Airlines,Kyiv Airlines,120-AR-3502
+Ukraine-Airports,"Kyiv - Zhulyany, Dnipropetrovsk, Kherson, Lviv, Zaporizhya, Odessa, Kyiv, Kharkiv","120-AI-369, 120-AI-194, 120-AI-3957, 120-AI-414, 120-AI-788, 120-AI-518, 120-AI-368, 120-AI-344"
+Ukraine-Borders,"Ukraine/Russia, Ukraine/Belarus, Ukraine/Hungary, Ukraine/Poland, Ukraine/Slovakia, Ukraine/Romania, Ukraine/Moldova","120-BO-1223, 120-BO-1218, 120-BO-1219, 120-BO-1221, 120-BO-1224, 120-BO-1222, 120-BO-1220"
+Ukraine-Ferries,Chernomorsk,120-FE-3970
+United Arab Emirates-Airlines,"Sharjah, Abu Dhabi","121-AR-931, 121-AR-795"
+United Arab Emirates-Airports,"Dubai, Sharjah, Ras El Khaymah, Abu Dhabi","121-AI-201, 121-AI-657, 121-AI-594, 121-AI-6"
+United Arab Emirates-Borders,Dubai,121-BO-3198
+United Arab Emirates-Diplomatic,Dubai,121-DI-3440
+United Arab Emirates-Ferries,"Fujairah Port, Sharjah - Khaled Port, Khorfakan Port, Hamriyah Sharjah Port, Jebel Ali","121-FE-1499, 121-FE-1788, 121-FE-1572, 121-FE-1517, 121-FE-1558"
+United Arab Emirates-Shipchandling,"Dubai, Fujairah Port, Sharjah - Khaled Port, Sharjah, Jebel Ali","121-SH-2126, 121-SH-2148, 121-SH-2378, 121-SH-2377, 121-SH-2203"
+Uruguay-Airports,"Punta del Este, Montevideo","122-AI-586, 122-AI-140"
+Uruguay-Ferries,Colonia Port,122-FE-1424
+Uruguay-Shipchandling,Montevideo Port,122-SH-2270
+Uzbekistan-Airports,"Samarkand, Tashkent","123-AI-620, 123-AI-707"
+Vietnam-Airlines,"Ho Chi Minh, Hanoi","125-AR-3594, 125-AR-3676"
+Vietnam-Airports,"Danang, Hanoi, Cam Ranh, Haiphong, Phu Quok, Danang Downtown Shop, Ho Chi Minh","125-AI-189, 125-AI-281, 125-AI-2924, 125-AI-3534, 125-AI-3893, 125-AI-4250, 125-AI-290"
+Vietnam-Borders,"Ha Giang, Moc Bai, Langson, Mongcai, Quang Binh, Laocai","125-BO-3456, 125-BO-1113, 125-BO-1091, 125-BO-1123, 125-BO-3595, 125-BO-1095"
+Vietnam-Ferries,Halong Bay,125-FE-2778
+Vietnam-Shipchandling,"Saigon Port, Haiphong Port, Vung Tau Port","125-SH-2358, 125-SH-2171, 125-SH-3589"
+"Virgin Islands, Brit-Ferries",Tortola,170-FE-3040
+Zambia-Airports,Lusaka,171-AI-2768
+Zimbabwe-Airports,Harare,172-AI-792

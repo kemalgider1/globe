@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import Dashboard from './Dashboard';
 import AnalyticsPanel from './AnalyticsPanel';
-import AmChartsDashboard from './AmChartsDashboard';
 import './App.css';
 
 const World = () => {
@@ -879,12 +878,6 @@ const World = () => {
         selectedCountry={selectedCountry}
         selectedCountryAirports={selectedCountryAirports.map(p => p.properties.airport_data)}
         onBackToGlobal={handleBackToGlobal}
-      />
-      
-      <AmChartsDashboard
-        airports={airports}
-        selectedCountry={selectedCountry}
-        selectedAirport={selectedAirport}
       />
     </>
   );

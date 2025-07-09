@@ -1,0 +1,9 @@
+---
+description:"When communicating with me, use shortened component names: AnalyticsPanel as 'P', Dashboard as 'D'"
+globs:
+src/AnalyticsPanel.js
+src/Dashboard.js
+src/AnalyticsPanel.css
+src/Dashboard.css
+alwaysApply: false
+---

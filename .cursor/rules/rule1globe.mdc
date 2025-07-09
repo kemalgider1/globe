@@ -1,0 +1,9 @@
+---
+description:Description: "Use standardized data terminology: 'PAX data' for PAX_FACT_PAX_QUANTITY.csv, 'PNL data' for REVENUE_FACT_REVENUE_AMOUNT.csv, 'Airport data' for airport_points.json, 'Macase data' for df_macase.csv"
+globs:
+src/**/*.js
+src/**/*.jsx
+src/**/*.css
+public/datasets/**/*
+alwaysApply: false
+---

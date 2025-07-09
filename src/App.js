@@ -563,13 +563,16 @@ const World = () => {
   const getPolygonAltitude = (polygon) => {
     // Airport polygons - always follow their parent country (selected country)
     if (polygon.properties.type === 'airport') {
-      // Airports are elevated when their parent country (selectedCountry) is hovered
+      // Airports are elevated when their parent country (selectedCountry) is hovered OR selected
       const isParentCountryHovered = selectedCountry === hoverD;
-      return isParentCountryHovered ? 0.125 : 0.065; // Slightly above country layer
+      const isParentCountrySelected = selectedCountry !== null;
+      return (isParentCountryHovered || isParentCountrySelected) ? 0.125 : 0.065; // Slightly above country layer
     }
     
-    // Country polygons - elevated when hovered
-    return polygon === hoverD ? 0.12 : 0.06;
+    // Country polygons - elevated when hovered OR selected
+    const isHovered = polygon === hoverD;
+    const isSelected = polygon === selectedCountry;
+    return (isHovered || isSelected) ? 0.12 : 0.06;
   };
 
   // Polygon side color - TRANSPARENT FOR AIRPORTS
@@ -763,6 +766,16 @@ const World = () => {
     setSelectedAirport(null);
   };
 
+  // Handle clicks on globe background (outside countries)
+  const handleGlobeClick = (event) => {
+    // Only deselect if we actually have a selected country
+    if (selectedCountry) {
+      setSelectedCountry(null);
+      setSelectedAirport(null);
+      console.log('🌍 Clicked on globe background - deselecting country');
+    }
+  };
+
   // Custom hover handler for proper country-first interaction
   const handlePolygonHover = (polygon) => {
     if (!polygon) {
@@ -790,6 +803,9 @@ const World = () => {
         globeImageUrl="./earth-night.jpg"
         backgroundImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png"
         lineHoverPrecision={0}
+
+        // Globe click handler for clicking outside countries
+        onGlobeClick={handleGlobeClick}
 
         // ALL POLYGONS: Countries and airports rendered as cone polygons
         polygonsData={allPolygons}

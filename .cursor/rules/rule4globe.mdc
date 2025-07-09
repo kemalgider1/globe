@@ -1,0 +1,11 @@
+---
+description:"When communicating with me, Use tab numbers: Overview as '1', PAX & Product as '2', Analytics as '3'. Combine with component and geography codes (e.g., DC2 = Dashboard, Country level, PAX & Product tab)"
+globs:
+src/Dashboard.js
+src/AnalyticsPanel.js
+src/App.js
+src/App.css
+src/AnalyticsPanel.css
+src/Dashboard.css
+alwaysApply: false
+---

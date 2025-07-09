@@ -1,0 +1,8 @@
+---
+description:"When communicating with me, Use geographic layer codes: Global as 'G', Country as 'C', Airport as 'A' to refer to the layers.
+globs:
+src/App.js
+src/Dashboard.js
+src/AnalyticsPanel.js
+alwaysApply: false
+---

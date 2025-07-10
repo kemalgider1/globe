@@ -6,12 +6,14 @@ import './App.css';
 
 const World = () => {
   const globeRef = useRef();
+  const spotlightTimeoutRef = useRef();
   const [countries, setCountries] = useState({ features: []});
   const [airports, setAirports] = useState([]);
   const [hoverD, setHoverD] = useState();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedAirport, setSelectedAirport] = useState(null);
   const [pmiColorData, setPmiColorData] = useState(null);
+  const [spotlightActive, setSpotlightActive] = useState(false); // Delayed spotlight state
 
   // Utility function to convert ISO country code to flag emoji
   const getCountryFlag = (countryCode) => {
@@ -337,6 +339,15 @@ const World = () => {
     }
   }, [countries.features, airports.length]); // Run after data loads to ensure globe is ready
 
+  // Cleanup spotlight timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (spotlightTimeoutRef.current) {
+        clearTimeout(spotlightTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Function to create a circular polygon for an airport
   const createAirportPolygon = (lat, lng, radiusKm = 10.0) => { // Larger size for better visibility
     const points = 12; // More points for smoother circle
@@ -549,6 +560,11 @@ const World = () => {
       return '#00ffe7'; // Cyan for all airports
     }
     
+    // Spotlight effect: darken all countries except selected
+    if (spotlightActive && polygon !== selectedCountry) {
+      return 'rgba(40, 40, 40, 0.3)'; // Much darker for non-selected countries during spotlight
+    }
+    
     // Country polygons - hover state
     if (polygon === hoverD) {
       return 'steelblue'; // Hover state for countries
@@ -584,6 +600,21 @@ const World = () => {
     
     // Country polygons - keep original transparent
     return 'rgba(0, 0, 0, 0.0)';
+  };
+
+  // Enhanced border properties for spotlight effect
+  const getPolygonStrokeColor = (polygon) => {
+    if (spotlightActive && polygon === selectedCountry) {
+      return '#00ffe7'; // Bright cyan for selected country during spotlight
+    }
+    return '#111'; // Default dark border
+  };
+
+  const getPolygonStrokeWidth = (polygon) => {
+    if (spotlightActive && polygon === selectedCountry) {
+      return 3.0; // Much thicker border for selected country during spotlight
+    }
+    return 1.3; // Default border width
   };
 
   // Helper function to calculate country centroid and bounds
@@ -757,6 +788,16 @@ const World = () => {
           );
           console.log(`🎥 Smart centering on country: ${countryName} at ${centroidData.lat.toFixed(2)}, ${centroidData.lng.toFixed(2)} with altitude ${optimalAltitude.toFixed(2)}`);
         }
+        
+        // Clear any existing spotlight timeout
+        if (spotlightTimeoutRef.current) {
+          clearTimeout(spotlightTimeoutRef.current);
+        }
+        
+        // Activate spotlight effect after zoom animation completes
+        spotlightTimeoutRef.current = setTimeout(() => {
+          setSpotlightActive(true);
+        }, 1500); // Wait for zoom animation to complete
       }
     }
   };
@@ -764,6 +805,13 @@ const World = () => {
   const handleBackToGlobal = () => {
     setSelectedCountry(null);
     setSelectedAirport(null);
+    setSpotlightActive(false); // Clear spotlight effect
+    
+    // Clear any pending spotlight timeout
+    if (spotlightTimeoutRef.current) {
+      clearTimeout(spotlightTimeoutRef.current);
+      spotlightTimeoutRef.current = null;
+    }
   };
 
   // Handle clicks on globe background (outside countries)
@@ -772,6 +820,14 @@ const World = () => {
     if (selectedCountry) {
       setSelectedCountry(null);
       setSelectedAirport(null);
+      setSpotlightActive(false); // Clear spotlight effect
+      
+      // Clear any pending spotlight timeout
+      if (spotlightTimeoutRef.current) {
+        clearTimeout(spotlightTimeoutRef.current);
+        spotlightTimeoutRef.current = null;
+      }
+      
       console.log('🌍 Clicked on globe background - deselecting country');
     }
   };
@@ -804,6 +860,10 @@ const World = () => {
         backgroundImageUrl="//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png"
         lineHoverPrecision={0}
 
+        // Atmosphere settings for better visibility
+        atmosphereColor="lightskyblue"
+        atmosphereAltitude={0.25}
+
         // Globe click handler for clicking outside countries
         onGlobeClick={handleGlobeClick}
 
@@ -812,8 +872,8 @@ const World = () => {
         polygonAltitude={getPolygonAltitude}
         polygonCapColor={getPolygonColor}
         polygonSideColor={getPolygonSideColor} // Transparent sides for airports
-        polygonStrokeColor={() => '#111'}
-        polygonStrokeWidth={1.3} // 30% thicker borders
+        polygonStrokeColor={getPolygonStrokeColor}
+        polygonStrokeWidth={getPolygonStrokeWidth}
         polygonLabel={(polygon) => {
           const { properties: d } = polygon;
           

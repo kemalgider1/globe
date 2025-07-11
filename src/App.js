@@ -565,7 +565,13 @@ const World = () => {
       return 'rgba(40, 40, 40, 0.3)'; // Much darker for non-selected countries during spotlight
     }
     
-    // Country polygons - hover state
+    // Selected country always keeps its revenue color (no hover color change)
+    if (polygon === selectedCountry) {
+      const countryName = polygon.properties.ADMIN || polygon.properties.NAME;
+      return colorScale(countryName);
+    }
+    
+    // Country polygons - hover state (only for non-selected countries)
     if (polygon === hoverD) {
       return 'steelblue'; // Hover state for countries
     }

@@ -409,7 +409,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
         <div className="panel-content">
           <div className="error-state">
             <div className="error-message">
-              <h4>⚠️ Unable to Load Analytics</h4>
+              <h4>Unable to Load Analytics</h4>
               <p>There was an issue processing the airport data:</p>
               <code>{analyticsData.error || 'Unknown error occurred'}</code>
               <p>Please try selecting a different airport or refresh the page.</p>
@@ -457,7 +457,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
   // Airport Overview Section
   const AirportOverview = () => (
     <div className="overview-section">
-      <h4>✈️ {analyticsData.airport.airport_name} ({analyticsData.airport.iata_code})</h4>
+      <h4>{analyticsData.airport.airport_name} ({analyticsData.airport.iata_code})</h4>
       
       <div className="kpi-grid">
         <div className="kpi-card">
@@ -565,7 +565,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
   // Airport-specific financial overview
   const FinancialOverview = () => (
     <div className="financial-overview">
-      <h4>💰 Financial Overview</h4>
+                <h4>Financial Overview</h4>
       
       <div className="financial-stats">
         <div className="financial-item">
@@ -616,10 +616,10 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
     if (!analyticsData || !analyticsData.isDataValid) {
       return (
         <div className="analytics-section">
-          <h4>📈 Advanced Analytics</h4>
+                        <h4>Advanced Analytics</h4>
           <div className="error-state">
             <div className="error-message">
-              <h4>⚠️ Unable to Load Analytics</h4>
+              <h4>Unable to Load Analytics</h4>
               <p>Please select a valid airport to view advanced analytics.</p>
             </div>
           </div>
@@ -632,12 +632,12 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
     
     return (
       <div className="analytics-section">
-        <h4>📈 Advanced Analytics</h4>
+                      <h4>Advanced Analytics</h4>
         
         {/* Performance Overview Card */}
         <div className="analytics-grid">
           <div className="analytics-card highlight-card">
-            <h5>🎯 Performance Classification</h5>
+                          <h5>Performance Classification</h5>
             <div className="analytics-stats">
               <div className="analytics-item">
                 <span>Category</span>
@@ -657,7 +657,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
           </div>
           
           <div className="analytics-card">
-            <h5>📊 Performance Benchmarking</h5>
+                          <h5>Performance Benchmarking</h5>
             <div className="analytics-stats">
               <div className="analytics-item">
                 <span>vs Global Average</span>
@@ -678,7 +678,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
         {/* Enhanced Market Position Analysis */}
         <div className="analytics-grid">
           <div className="analytics-card">
-            <h5>🏆 Market Position Analysis</h5>
+                          <h5>Market Position Analysis</h5>
             <div className="analytics-stats">
               <div className="analytics-item">
                 <span>Global PAX Percentile</span>
@@ -696,7 +696,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
           </div>
           
           <div className="analytics-card">
-            <h5>💡 Revenue Efficiency</h5>
+                          <h5>Revenue Efficiency</h5>
             <div className="analytics-stats">
               <div className="analytics-item">
                 <span>vs Similar Airports</span>
@@ -716,7 +716,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
 
         {/* Key Performance Indicators */}
         <div className="kpi-insights">
-          <h5>🔍 Key Performance Insights</h5>
+                        <h5>Key Performance Insights</h5>
           <div className="insights-grid">
             <div className="insight-item">
               <span className="insight-label">Market Penetration</span>
@@ -764,7 +764,7 @@ const AnalyticsPanel = ({ airports, selectedAirport }) => {
         return (
           <div className="tab-content">
             <div className="details-section">
-              <h4>📊 {analyticsData.airport.airport_name} Details</h4>
+              <h4>{analyticsData.airport.airport_name} Details</h4>
               
               <div className="revenue-table">
                 <h5>Airport Metrics</h5>

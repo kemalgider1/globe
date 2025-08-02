@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Globe from 'react-globe.gl';
-import Dashboard from './Dashboard';
-import AnalyticsPanel from './AnalyticsPanel';
+import DashboardEnhanced from './DashboardEnhanced';
+import AnalyticsPanelEnhanced from './AnalyticsPanelEnhanced';
 import './App.css';
+import './NCPTStyles.css';
 
 const World = () => {
   const globeRef = useRef();
@@ -950,12 +951,12 @@ const World = () => {
         labelsTransitionDuration={300}
       />
       
-      <AnalyticsPanel
+      <AnalyticsPanelEnhanced
         airports={airports}
         selectedAirport={selectedAirport}
       />
       
-      <Dashboard
+      <DashboardEnhanced
         data={globalData}
         selectedCountry={selectedCountry}
         selectedCountryAirports={selectedCountryAirports.map(p => p.properties.airport_data)}

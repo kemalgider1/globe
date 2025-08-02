@@ -1,0 +1,599 @@
+/* NCPT Category Funnel Styles */
+
+/* Category Funnel Grid */
+.category-funnel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.category-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  background: rgba(0, 255, 231, 0.05);
+  border-color: rgba(0, 255, 231, 0.2);
+  transform: translateY(-2px);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
+}
+
+.category-header h5 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.conversion-rate {
+  font-size: 10px;
+  color: #00ffe7;
+  font-weight: 600;
+  background: rgba(0, 255, 231, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.category-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.metric-label {
+  font-size: 10px;
+  color: #b0b0d0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.metric-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Category-specific metric colors */
+.metric-value.awareness {
+  color: #4CAF50;
+}
+
+.metric-value.trial {
+  color: #2196F3;
+}
+
+.metric-value.p7d {
+  color: #FF9800;
+}
+
+.metric-value.growth {
+  color: #9C27B0;
+}
+
+/* NCPT Loading States */
+.ncpt-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #b0b0d0;
+  font-size: 14px;
+}
+
+.ncpt-loading::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 255, 231, 0.3);
+  border-top: 2px solid #00ffe7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+/* NCPT Error States */
+.ncpt-error {
+  background: rgba(255, 69, 69, 0.1);
+  border: 1px solid rgba(255, 69, 69, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.ncpt-error h4 {
+  color: #ff6b6b;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.ncpt-error p {
+  color: #e0e0ff;
+  margin: 0;
+  font-size: 12px;
+}
+
+/* Enhanced Category Performance Indicators */
+.category-performance-overview {
+  background: linear-gradient(135deg, rgba(0, 255, 231, 0.1), rgba(0, 255, 231, 0.05));
+  border: 1px solid rgba(0, 255, 231, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.category-performance-overview h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #00ffe7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Top Performers with NCPT Data */
+.ncpt-performers-table {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ncpt-performers-table .table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 10px;
+  font-weight: 600;
+  color: #b0b0d0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ncpt-performers-table .table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.ncpt-performers-table .table-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ncpt-performers-table .table-row:last-child {
+  border-bottom: none;
+}
+
+/* Nationality Breakdown Enhancements */
+.nationality-breakdown-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nationality-breakdown-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.nationality-breakdown-card:hover {
+  background: rgba(0, 255, 231, 0.05);
+  border-color: rgba(0, 255, 231, 0.2);
+}
+
+.nationality-breakdown-header {
+  background: rgba(0, 255, 231, 0.08);
+  border: 1px solid rgba(0, 255, 231, 0.2);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nationality-rank {
+  font-size: 14px;
+  font-weight: 700;
+  color: #00ffe7;
+  margin-right: 8px;
+}
+
+.nationality-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nationality-flag {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.nationality-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #00ffe7;
+}
+
+.nationality-metrics {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: #b0b0d0;
+}
+
+.nationality-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nationality-metric-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.nationality-metric-value {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Category Comparison Charts */
+.category-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.category-comparison-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.comparison-category-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #b0b0d0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comparison-metric {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.comparison-label {
+  font-size: 9px;
+  color: #b0b0d0;
+  text-transform: uppercase;
+}
+
+/* Funnel Visualization */
+.funnel-visualization {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.funnel-stage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.funnel-stage:hover {
+  background: rgba(0, 255, 231, 0.05);
+}
+
+.funnel-stage-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e0e0ff;
+}
+
+.funnel-stage-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #00ffe7;
+}
+
+.funnel-stage-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin: 0 12px;
+  overflow: hidden;
+}
+
+.funnel-stage-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #00ffe7, #0099cc);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .category-funnel-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .category-comparison-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .ncpt-performers-table .table-header,
+  .ncpt-performers-table .table-row {
+    grid-template-columns: 1fr 60px 60px;
+    font-size: 10px;
+  }
+  
+  .nationality-metrics {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nationality-breakdown-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+/* Professional Visualization Styles */
+.professional-viz-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.viz-section {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.viz-section h6 {
+  margin: 0 0 12px 0;
+  color: #00ffe7;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Heatmap Matrix Styles */
+.metrics-heatmap {
+  display: grid;
+  grid-template-columns: auto repeat(4, 1fr);
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 10px;
+}
+
+.heatmap-header {
+  display: contents;
+}
+
+.heatmap-corner {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.heatmap-metric-label {
+  background: rgba(0, 255, 231, 0.1);
+  color: #00ffe7;
+  text-align: center;
+  padding: 6px 4px;
+  font-weight: 600;
+  font-size: 9px;
+  border-radius: 3px;
+}
+
+.heatmap-row {
+  display: contents;
+}
+
+.heatmap-category-label {
+  background: rgba(0, 255, 231, 0.1);
+  color: #00ffe7;
+  padding: 6px 8px;
+  font-weight: 600;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.heatmap-cell {
+  position: relative;
+  padding: 6px 4px;
+  text-align: center;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.1);
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 255, 231, 0.3);
+}
+
+.heatmap-value {
+  color: #fff;
+  font-weight: 600;
+  font-size: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Radar Chart Styles */
+.radar-chart-container {
+  height: 200px;
+  width: 100%;
+  position: relative;
+}
+
+/* Compact Funnel Bars */
+.compact-funnel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.funnel-bar-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.funnel-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.funnel-category-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.funnel-conversion-rate {
+  color: #00ffe7;
+  font-weight: 700;
+  font-size: 10px;
+}
+
+.funnel-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.funnel-stage-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+}
+
+.funnel-stage-label {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 8px;
+  flex-shrink: 0;
+}
+
+.funnel-progress-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.funnel-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.funnel-progress-fill.awareness {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A);
+}
+
+.funnel-progress-fill.trial {
+  background: linear-gradient(90deg, #2196F3, #42A5F5);
+}
+
+.funnel-progress-fill.p7d {
+  background: linear-gradient(90deg, #FF9800, #FFA726);
+}
+
+.funnel-progress-fill.growth {
+  background: linear-gradient(90deg, #9C27B0, #AB47BC);
+}
+
+.funnel-value {
+  color: #fff;
+  font-weight: 600;
+  font-size: 9px;
+  min-width: 30px;
+  text-align: right;
+  flex-shrink: 0;
+}

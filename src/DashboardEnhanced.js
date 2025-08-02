@@ -1,11 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { FaGlobe, FaChartBar, FaTable, FaChevronDown, FaChevronUp, FaArrowLeft, FaPlane, FaUsers, FaDollarSign, FaPercent } from 'react-icons/fa';
 import { CircleFlag } from 'react-circle-flags';
+import { useNCPTData } from './ncptDataProcessor';
 import './Dashboard.css';
 
-const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlobal }) => {
+const DashboardEnhanced = ({ data, selectedCountry, selectedCountryAirports, onBackToGlobal }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isExpanded, setIsExpanded] = useState(true);
+  
+  // Load NCPT data
+  const { ncptData, loading: ncptLoading, error: ncptError } = useNCPTData();
 
   // Utility function to get ISO code for flags
   const getCountryISO = (country) => {
@@ -20,11 +24,38 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
     'Global View';
   const countryISO = getCountryISO(selectedCountry);
 
-  // Calculate comprehensive analytics based on airports data
+  // Get NCPT data for current context
+  const ncptAnalytics = useMemo(() => {
+    if (!ncptData) return null;
+
+    if (isGlobalView) {
+      return {
+        level: 'global',
+        data: ncptData.global,
+        topCountries: Object.entries(ncptData.countries)
+          .map(([country, data]) => ({
+            country,
+            totalPAX: parseFloat(data.totalPAX),
+            categories: data.categories
+          }))
+          .sort((a, b) => b.totalPAX - a.totalPAX)
+          .slice(0, 10)
+      };
+    } else {
+      // Country-specific NCPT data
+      const countryNCPTData = ncptData.countries[countryName];
+      return {
+        level: 'country',
+        data: countryNCPTData,
+        countryName
+      };
+    }
+  }, [ncptData, isGlobalView, countryName]);
+
+  // Calculate existing analytics (keeping original functionality)
   const analytics = useMemo(() => {
     if (!selectedCountryAirports?.length) {
       // Global analytics from all airports data would go here
-      // Mock top nationalities for global view
       const globalTopNationalities = [
         ['China', { pax: 5200000, airports: 49, revenue: 45000000 }],
         ['USA', { pax: 4800000, airports: 215, revenue: 42000000 }],
@@ -37,7 +68,6 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
         ['Spain', { pax: 2000000, airports: 27, revenue: 22000000 }]
       ];
 
-      // Mock top airports for global view
       const globalTopByPAX = [
         { iata_code: 'ATL', airport_name: 'Hartsfield-Jackson Atlanta Intl', pax: 352131 },
         { iata_code: 'DXB', airport_name: 'Dubai International', pax: 315478 },
@@ -60,11 +90,11 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
         avgProfitMargin: 93.7,
         topNationalities: globalTopNationalities,
         topByPAX: globalTopByPAX,
-        topByRevenue: globalTopByPAX // For simplicity, using same as PAX
+        topByRevenue: globalTopByPAX
       };
     }
 
-    // Country-specific analytics
+    // Country-specific analytics (existing logic)
     const airports = selectedCountryAirports || [];
     const totalPAX = airports.reduce((sum, airport) => sum + (airport.pax || 0), 0);
     const totalRevenue = airports.reduce((sum, airport) => sum + ((airport.pax || 0) * (airport.spend_per_pax || 0)), 0);
@@ -73,7 +103,6 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
     const avgProfitMargin = pmiAirports.length > 0 ? 
       pmiAirports.reduce((sum, airport) => sum + (airport.pmi_profit_pct || 0), 0) / pmiAirports.length : 0;
 
-    // Top performers
     const topByPAX = airports
       .filter(airport => airport.pax > 0)
       .sort((a, b) => (b.pax || 0) - (a.pax || 0))
@@ -84,7 +113,6 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
       .sort((a, b) => ((b.pax || 0) * (b.spend_per_pax || 0)) - ((a.pax || 0) * (a.spend_per_pax || 0)))
       .slice(0, 9);
 
-    // Nationality analysis
     const nationalityStats = {};
     airports.forEach(airport => {
       if (airport.nationality && airport.pax > 0) {
@@ -144,12 +172,186 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
         <div className="progress-text">
           <span className="progress-percentage">{percentage.toFixed(1)}%</span>
         </div>
-            </div>
+      </div>
       <div className="progress-title">{title}</div>
-              </div>
+    </div>
   );
 
-  // Global Overview Section
+  // NCPT Category Funnel Component
+  const CategoryFunnelOverview = () => {
+    if (ncptLoading) {
+      return (
+        <div className="overview-section">
+          <h4>🔄 Loading Category Funnel Data...</h4>
+        </div>
+      );
+    }
+
+    if (ncptError || !ncptAnalytics?.data) {
+      return (
+        <div className="overview-section">
+          <h4>Category Funnel Data Unavailable</h4>
+          <p style={{ fontSize: '12px', color: '#b0b0d0' }}>
+            NCPT data could not be loaded. Please check the data source.
+          </p>
+        </div>
+      );
+    }
+
+    const { data } = ncptAnalytics;
+
+    return (
+          <div className="overview-section">
+      <h4>Category Funnel Performance</h4>
+        
+        {/* Global PAX info if available */}
+        {data.totalPAX && (
+          <div className="summary-stats" style={{ marginBottom: '16px' }}>
+            <div className="stat-item">
+              <span className="stat-label">Total PAX Coverage</span>
+              <span className="stat-value">{data.totalPAX}M passengers</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Data Records</span>
+              <span className="stat-value">{data.totalRecords || 'N/A'} entries</span>
+            </div>
+          </div>
+        )}
+
+        {/* Category Performance Grid */}
+        <div className="category-funnel-grid">
+          {data.categories && Object.entries(data.categories).map(([categoryKey, metrics]) => {
+            const categoryName = categoryKey.replace('_', ' ');
+            const conversionRate = parseFloat(metrics.conversionRate) || 0;
+            
+            return (
+              <div key={categoryKey} className="category-card">
+                <div className="category-header">
+                  <h5>{categoryName}</h5>
+                  <span className="conversion-rate">{conversionRate}% conv.</span>
+                </div>
+                
+                <div className="category-metrics">
+                  <div className="metric-row">
+                    <span className="metric-label">Awareness</span>
+                    <span className="metric-value awareness">{(parseFloat(metrics.awareness) * 100).toFixed(1)}%</span>
+                  </div>
+                  <div className="metric-row">
+                    <span className="metric-label">Trial</span>
+                    <span className="metric-value trial">{(parseFloat(metrics.trial) * 100).toFixed(1)}%</span>
+                  </div>
+                  <div className="metric-row">
+                    <span className="metric-label">P7D</span>
+                    <span className="metric-value p7d">{(parseFloat(metrics.p7d) * 100).toFixed(1)}%</span>
+                  </div>
+                  <div className="metric-row">
+                    <span className="metric-label">Growth</span>
+                    <span className="metric-value growth">{(parseFloat(metrics.growth) * 100).toFixed(1)}%</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Conversion Progress Indicators */}
+        <div className="performance-indicators">
+          {data.categories && Object.entries(data.categories).slice(0, 3).map(([categoryKey, metrics]) => (
+            <CircularProgress 
+              key={categoryKey}
+              percentage={parseFloat(metrics.conversionRate) || 0}
+              title={`${categoryKey.replace('_', ' ')} Conv.`}
+              color={getCategoryColor(categoryKey)}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // Get color for category
+  const getCategoryColor = (categoryKey) => {
+    const colors = {
+      'P1': '#4CAF50',
+      'P4_Disposable': '#2196F3', 
+      'P4_Closed': '#FF9800',
+      'P5': '#9C27B0'
+    };
+    return colors[categoryKey] || '#00ffe7';
+  };
+
+  // Top Nationalities with NCPT Data
+  const TopNationalitiesNCPT = () => {
+    if (!ncptAnalytics?.data) return null;
+
+    const { data, level } = ncptAnalytics;
+    
+    if (level === 'global' && ncptAnalytics.topCountries) {
+      return (
+        <div className="top-performers">
+          <h4>Top 10 Countries by PAX Volume</h4>
+          
+          <div className="total-stats">
+            <div className="total-stat">
+              <span className="total-label">Total NCPT Coverage</span>
+              <span className="total-value">{data.totalPAX.toFixed(1)}M PAX</span>
+            </div>
+          </div>
+
+          <div className="performers-table">
+            <div className="table-header">
+              <span>COUNTRY</span>
+              <span>PAX (M)</span>
+              <span>P1 TRIAL</span>
+            </div>
+            {ncptAnalytics.topCountries.map((country) => (
+              <div key={country.country} className="table-row">
+                <span className="performer-name">{country.country}</span>
+                <span className="performer-value">{country.totalPAX.toFixed(1)}M</span>
+                <span className="performer-value">
+                  {country.categories?.P1?.trial ? (parseFloat(country.categories.P1.trial) * 100).toFixed(1) + '%' : 'N/A'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (level === 'country' && data?.topNationalities) {
+      return (
+        <div className="top-performers">
+          <h4>Top 10 Nationalities in {countryName}</h4>
+          
+          <div className="total-stats">
+            <div className="total-stat">
+              <span className="total-label">Country Total PAX</span>
+              <span className="total-value">{data.totalPAX}M</span>
+            </div>
+          </div>
+
+          <div className="performers-table">
+            <div className="table-header">
+              <span>NATIONALITY</span>
+              <span>PAX (M)</span>
+              <span>SHARE</span>
+            </div>
+            {data.topNationalities.map((nationality) => (
+              <div key={nationality.nationality} className="table-row">
+                <span className="performer-name">{nationality.nationality}</span>
+                <span className="performer-value">{nationality.pax.toFixed(1)}M</span>
+                <span className="performer-value">{nationality.share}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  // Existing components (Global/Country Overview)
   const GlobalOverview = () => (
     <div className="overview-section">
               <h4>Global DF-MACASE Overview</h4>
@@ -182,8 +384,8 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
             <div className="kpi-value">$6.86B</div>
             <div className="kpi-label">Total Revenue</div>
           </div>
-          </div>
         </div>
+      </div>
 
       <div className="summary-stats">
         <div className="stat-item">
@@ -193,16 +395,16 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
         <div className="stat-item">
           <span className="stat-label">Average Spend per PAX</span>
           <span className="stat-value">$8,689.20</span>
-              </div>
+        </div>
         <div className="stat-item">
           <span className="stat-label">Average Profit Margin</span>
           <span className="stat-value">93.7%</span>
-              </div>
+        </div>
         <div className="stat-item">
           <span className="stat-label">Data Quality</span>
           <span className="stat-value">100% complete for financial metrics</span>
-              </div>
-            </div>
+        </div>
+      </div>
 
       <div className="performance-indicators">
         <CircularProgress 
@@ -216,10 +418,9 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
           color="#2196F3"
         />
       </div>
-      </div>
-    );
+    </div>
+  );
 
-  // Country Overview Section
   const CountryOverview = () => (
     <div className="overview-section">
               <h4>{countryName} Performance</h4>
@@ -285,133 +486,15 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
     </div>
   );
 
-  // Top Performers Section
-  const TopPerformers = () => {
-    const showNationalities = isGlobalView;
-    const performers = showNationalities ? analytics.topNationalities : analytics.topByPAX;
-    
-    // Safety check to ensure performers is an array
-    if (!performers || !Array.isArray(performers) || performers.length === 0) {
-      return (
-        <div className="top-performers">
-          <h4>{showNationalities ? 'Top 9 Nationalities' : 'Top 9 Airports'}</h4>
-          <div className="performers-table">
-            <div className="table-header">
-              <span>{showNationalities ? 'NATIONALITY' : 'AIRPORT'}</span>
-              <span>PAX</span>
-            </div>
-            <div className="table-row">
-              <span className="performer-name">No data available</span>
-              <span className="performer-value">-</span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    
-    return (
-      <div className="top-performers">
-        <h4>{showNationalities ? 'Top 9 Nationalities' : 'Top 9 Airports'}</h4>
-        
-        {showNationalities && (
-          <div className="total-stats">
-            <div className="total-stat">
-              <span className="total-label">PAX of selected Nationalities (of all Nationalities)</span>
-              <span className="total-value">4,857,149,929 (100.0%)</span>
-            </div>
-          </div>
-        )}
-
-        <div className="performers-table">
-          <div className="table-header">
-            <span>{showNationalities ? 'NATIONALITY' : 'AIRPORT'}</span>
-            <span>PAX</span>
-          </div>
-          {performers.map((item, index) => {
-            if (showNationalities) {
-              const [nationality, stats] = item;
-              return (
-                <div key={nationality} className="table-row">
-                  <span className="performer-name">{nationality}</span>
-                  <span className="performer-value">{stats.pax.toLocaleString()}</span>
-                </div>
-              );
-            } else {
-              return (
-                <div key={item.iata_code || index} className="table-row">
-                  <span className="performer-name">{item.iata_code || item.airport_name}</span>
-                  <span className="performer-value">{(item.pax || 0).toLocaleString()}</span>
-                </div>
-              );
-            }
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  // Financial Overview Section
-  const FinancialOverview = () => (
-    <div className="financial-overview">
-                <h4>Financial Overview</h4>
-      
-      <div className="financial-stats">
-        <div className="financial-item">
-          <span className="financial-label">PAX spent on PMI in sel. {isGlobalView ? 'Nationalities' : 'Airports'}</span>
-          <span className="financial-value">${(analytics.totalRevenue || 0).toLocaleString()} (100.0%)</span>
-        </div>
-        
-        {!isGlobalView && (
-          <>
-            <div className="financial-item">
-              <span className="financial-label">Selected Airports PMI DF NOR 2023</span>
-              <span className="financial-value">${(analytics.totalRevenue || 0).toLocaleString()}</span>
-            </div>
-            
-            <div className="financial-item">
-              <span className="financial-label">Total Airports PMI DF NOR 2023</span>
-              <span className="financial-value">${(analytics.totalRevenue || 0).toLocaleString()}</span>
-            </div>
-          </>
-        )}
-        
-        <div className="financial-item">
-          <span className="financial-label">Total PAX travelled in DF 2023</span>
-          <span className="financial-value">{(analytics.totalPAX || 0).toLocaleString()}</span>
-        </div>
-      </div>
-
-      <div className="financial-charts">
-        <div className="chart-container">
-          <div className="chart-title">% PAX CC users (vs all LANU)</div>
-          <CircularProgress 
-            percentage={96.6} 
-            title=""
-            color="#4CAF50"
-          />
-        </div>
-        
-        <div className="chart-container">
-          <div className="chart-title">% PMIDF CC purchases (vs all Cat.)</div>
-          <CircularProgress 
-            percentage={82.6} 
-            title=""
-            color="#2196F3"
-          />
-        </div>
-      </div>
-    </div>
-  );
-
-  // Tab content renderer
+  // Enhanced tab content with NCPT integration
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
         return (
           <div className="tab-content">
             {isGlobalView ? <GlobalOverview /> : <CountryOverview />}
-            <TopPerformers />
-            <FinancialOverview />
+            <CategoryFunnelOverview />
+            <TopNationalitiesNCPT />
           </div>
         );
       case 'details':
@@ -566,9 +649,9 @@ const Dashboard = ({ data, selectedCountry, selectedCountryAirports, onBackToGlo
             <FaChevronDown />
           </div>
         </div>
-    )}
+      )}
     </div>
   );
 };
 
-export default Dashboard; 
+export default DashboardEnhanced;
